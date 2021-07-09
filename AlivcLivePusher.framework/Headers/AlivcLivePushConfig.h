@@ -109,7 +109,7 @@
 
 /**
  声道数
- * 默认 : AlivcLivePushAudioChannel_2 双声道
+ * 默认 : AlivcLivePushAudioChannel_1 单声道
  */
 @property (nonatomic, assign) AlivcLivePushAudioChannel audioChannel;
 

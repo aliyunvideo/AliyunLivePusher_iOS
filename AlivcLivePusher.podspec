@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/aliyunvideo/AliyunLivePusher_iOS.git", :tag => "#{s.version}" }
 
   s.subspec 'AlivcLivePusher' do |pushersdk|
-  pushersdk.vendored_frameworks = 'RtsSDK.framework','queen.framework','pixelai.framework','opencv2.framework','MNN.framework','FaceDetection.framework','Face3D.framework','AlivcLibArtp.framework','AlivcLivePusher.framework','AlivcLibRtmp.framework','AlivcLibBeauty.framework','AlivcLibFace.framework'
+  pushersdk.vendored_frameworks = 'AlivcLivePusher.framework','AlivcLibRtmp.framework','AlivcLibBeauty.framework','AlivcLibFace.framework'
   pushersdk.resource = 'AlivcLibFaceResource.bundle'
 # pushersdk.frameworks = 'MediaPlayer','CoreGraphics'
   end
