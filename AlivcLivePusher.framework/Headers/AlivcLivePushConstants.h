@@ -299,3 +299,13 @@ typedef NS_ENUM(NSInteger, AlivcPusherPreviewDisplayMode){
     ALIVC_LIVE_PUSHER_PREVIEW_ASPECT_FILL = 2, //剪切视频以适配窗口比例，视频比例和窗口比例不一致时会裁剪视频
 };
 
+/**
+ 推流协议
+
+ - AlivcLivePushPublishType_RTMP: RTMP协议推流
+ - AlivcLivePushPublishType_RTP: RTP协议推流
+ */
+typedef NS_ENUM(NSInteger, AlivcLivePushPublishType){
+    AlivcLivePushPublishType_RTMP = 1,
+    AlivcLivePushPublishType_RTP = 2,
+};

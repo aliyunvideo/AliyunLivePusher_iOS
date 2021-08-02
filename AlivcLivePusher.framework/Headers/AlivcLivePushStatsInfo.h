@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AlivcLivePushConstants.h"
 
 /**
  推流性能参数类
@@ -31,6 +32,16 @@
 
 
 #pragma mark - video capture
+
+/**
+ 视频宽度
+ */
+@property(nonatomic, assign) int videoWidth;
+
+/**
+ 视频高度
+ */
+@property(nonatomic, assign) NSUInteger videoHeight;
 
 /**
  视频采集FPS
@@ -86,6 +97,11 @@
  设置的音频声道数
  */
 @property (nonatomic, assign) int channel;
+
+/**
+ 设置的音频采样率
+ */
+@property (nonatomic, assign) int audioSampleRate;
 
 
 #pragma mark - video render
@@ -158,9 +174,18 @@
  */
 @property (nonatomic, assign) int videoEncoderMode;
 
+/**
+ 设置的视频GOP大小
+ */
+@property (nonatomic, assign) int videoGop;
 
 
 #pragma mark - pusher
+
+/**
+ 当前推流协议
+ */
+@property (nonatomic, assign) AlivcLivePushPublishType publishType;
 
 /**
  音频上传码率

@@ -46,6 +46,12 @@
  */
 @property (nonatomic, assign) bool enableAutoResolution;
 
+/**
+ 是否在抓屏推流场景下打开窄带高清(更低的带宽，更高的清晰度)开关
+ * 默认 : true
+ */
+@property (nonatomic, assign) bool enableNarrowbandAndHDForScreenPusher;
+
 
 /**
  视频采集帧率
@@ -196,12 +202,11 @@
  */
 @property (nonatomic, assign) bool autoFocus;
 
-
 /**
- 是否打开美颜
- * 默认 : true
+ 设置背景音乐使用阿里云播放器来播放，默认使用内置播放 内置播放支持大部分场景，若有需要特别的格式，可以切换至阿里云播放器，需要app添加阿里云播放器5.4.1及以上版本的依赖
+ * 默认：false
  */
-@property (nonatomic, assign) bool beautyOn;
+@property (nonatomic, assign) bool useAliyunPlayerForBGM;
 
 
 /**
@@ -214,69 +219,6 @@
  码率低图片
  */
 @property(nonatomic, retain) UIImage *networkPoorImg;
-
-
-/**
- 美颜模式
- * 默认 : AlivcLivePushBeautyModeProfessional 普通模式
- */
-@property (nonatomic, assign) AlivcLivePushBeautyMode beautyMode;
-
-
-/**
- 美颜 美白参数
- * 默认 : 70
- * 范围 : [0,100]
- */
-@property (nonatomic, assign) int beautyWhite;
-
-
-/**
- 美颜 磨皮参数
- * 默认 : 40
- * 范围 : [0,100]
- */
-@property (nonatomic, assign) int beautyBuffing;
-
-
-/**
- 美颜 红润参数
- * 默认 : 40
- * 范围 : [0,100]
- */
-@property (nonatomic, assign) int beautyRuddy;
-
-
-/**
- 美颜 腮红参数
- * 默认 : 15
- * 范围 : [0,100]
- */
-@property (nonatomic, assign) int beautyCheekPink;
-
-
-/**
- 美颜 瘦脸参数
- * 默认 : 40
- * 范围 : [0,100]
- */
-@property (nonatomic, assign) int beautyThinFace;
-
-
-/**
- 美颜 收下巴参数
- * 默认 : 50
- * 范围 : [0,100]
- */
-@property (nonatomic, assign) int beautyShortenFace;
-
-
-/**
- 美颜 大眼参数
- * 默认 : 30
- * 范围 : [0,100]
- */
-@property (nonatomic, assign) int beautyBigEye;
 
 
 /**
@@ -394,5 +336,82 @@
  @return 推流宽高Rect
  */
 - (CGSize)getPushResolution;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//      美颜参数设置，在v4.2.0版本已删除，推流SDK不再提供内置美颜功能，请使用阿里云Queen提供的美颜服务
+//      详见：https://help.aliyun.com/document_detail/211047.html?spm=a2c4g.11174283.6.736.79c5454ek41M8B
+//
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+
+/**
+ 是否打开美颜
+ * 默认 : true
+ */
+//@property (nonatomic, assign) bool beautyOn;
+
+/**
+ 美颜模式
+ * 默认 : AlivcLivePushBeautyModeProfessional 普通模式
+ */
+//@property (nonatomic, assign) AlivcLivePushBeautyMode beautyMode;
+
+
+/**
+ 美颜 美白参数
+ * 默认 : 70
+ * 范围 : [0,100]
+ */
+//@property (nonatomic, assign) int beautyWhite;
+
+
+/**
+ 美颜 磨皮参数
+ * 默认 : 40
+ * 范围 : [0,100]
+ */
+//@property (nonatomic, assign) int beautyBuffing;
+
+
+/**
+ 美颜 红润参数
+ * 默认 : 40
+ * 范围 : [0,100]
+ */
+//@property (nonatomic, assign) int beautyRuddy;
+
+
+/**
+ 美颜 腮红参数
+ * 默认 : 15
+ * 范围 : [0,100]
+ */
+//@property (nonatomic, assign) int beautyCheekPink;
+
+
+/**
+ 美颜 瘦脸参数
+ * 默认 : 40
+ * 范围 : [0,100]
+ */
+//@property (nonatomic, assign) int beautyThinFace;
+
+
+/**
+ 美颜 收下巴参数
+ * 默认 : 50
+ * 范围 : [0,100]
+ */
+//@property (nonatomic, assign) int beautyShortenFace;
+
+
+/**
+ 美颜 大眼参数
+ * 默认 : 30
+ * 范围 : [0,100]
+ */
+//@property (nonatomic, assign) int beautyBigEye;
+
 
 @end
