@@ -609,7 +609,7 @@ AlivcLivePusherSnapshotDelegate;
 
  @return 版本号
  */
-- (NSString *)getSDKVersion;
++ (NSString *)getSDKVersion;
 
 /**
   添加动态贴纸,最多支持添加5个贴纸
