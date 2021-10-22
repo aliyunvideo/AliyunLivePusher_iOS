@@ -267,19 +267,6 @@ typedef NS_ENUM(NSInteger, AlivcLivePushVideoEncodeGOP){
 
 
 /**
- 美颜模式
-
- - AlivcLivePushBeautyModeNormal: 普通版，不具备人脸识别功能
- - AlivcLivePushBeautyModeProfessional: 专业版，具备人脸识别功能。可以调节大眼瘦脸。
- */
-typedef NS_ENUM(NSInteger, AlivcLivePushBeautyMode){
-    AlivcLivePushBeautyModeNormal = 0,
-    AlivcLivePushBeautyModeProfessional,
-};
-
-
-
-/**
  接口返回值错误码
  */
 typedef NS_ENUM(NSInteger, AlivcPusherErrorCode){
@@ -308,4 +295,18 @@ typedef NS_ENUM(NSInteger, AlivcPusherPreviewDisplayMode){
 typedef NS_ENUM(NSInteger, AlivcLivePushPublishType){
     AlivcLivePushPublishType_RTMP = 1,
     AlivcLivePushPublishType_RTP = 2,
+};
+
+/**
+ 音频应用场景
+ 
+ - AlivcLivePusherAudioScenarioDefaultMode 默认场景，一般的直播场景推荐使用
+ - AlivcLivePusherAudioScenarioMediaMode 媒体场景，保真人声与音乐音质等 推荐使用
+ - AlivcLivePusherAudioScenarioMusicMode 音乐场景，高保真音乐音质，乐器教学等对音乐音质有要求的场景推荐使用
+ 
+ */
+typedef NS_ENUM(NSInteger, AlivcLivePusherAudioScenario) {
+    AlivcLivePusherAudioScenarioDefaultMode = 1,
+    AlivcLivePusherAudioScenarioMediaMode   = 2,
+    AlivcLivePusherAudioScenarioMusicMode   = 3
 };

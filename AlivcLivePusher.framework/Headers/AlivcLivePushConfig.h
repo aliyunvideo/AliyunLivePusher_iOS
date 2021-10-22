@@ -119,6 +119,11 @@
  */
 @property (nonatomic, assign) AlivcLivePushAudioChannel audioChannel;
 
+/**
+ 音频应用场景
+ * 默认：AlivcLivePusherAudioScenarioDefaultMode 默认模式
+ */
+@property (nonatomic, assign) AlivcLivePusherAudioScenario audioScene;
 
 /**
  关键帧间隔
@@ -269,6 +274,13 @@
 @property (nonatomic, assign) AlivcLivePushAudioFormat externAudioFormat;
 
 /**
+ 外部自定义数据是否包含音频
+ * 默认 : YES
+ * 注：在ios录屏推流中，可以降audioFromExtern设置成NO，这样音频由sdk负责，视频由插件负责
+ */
+@property (nonatomic, assign) BOOL audioFromExternal;
+
+/**
  预览显示模式
  * 默认 : fit
  */
@@ -343,75 +355,5 @@
 //      详见：https://help.aliyun.com/document_detail/211047.html?spm=a2c4g.11174283.6.736.79c5454ek41M8B
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///
-
-/**
- 是否打开美颜
- * 默认 : true
- */
-//@property (nonatomic, assign) bool beautyOn;
-
-/**
- 美颜模式
- * 默认 : AlivcLivePushBeautyModeProfessional 普通模式
- */
-//@property (nonatomic, assign) AlivcLivePushBeautyMode beautyMode;
-
-
-/**
- 美颜 美白参数
- * 默认 : 70
- * 范围 : [0,100]
- */
-//@property (nonatomic, assign) int beautyWhite;
-
-
-/**
- 美颜 磨皮参数
- * 默认 : 40
- * 范围 : [0,100]
- */
-//@property (nonatomic, assign) int beautyBuffing;
-
-
-/**
- 美颜 红润参数
- * 默认 : 40
- * 范围 : [0,100]
- */
-//@property (nonatomic, assign) int beautyRuddy;
-
-
-/**
- 美颜 腮红参数
- * 默认 : 15
- * 范围 : [0,100]
- */
-//@property (nonatomic, assign) int beautyCheekPink;
-
-
-/**
- 美颜 瘦脸参数
- * 默认 : 40
- * 范围 : [0,100]
- */
-//@property (nonatomic, assign) int beautyThinFace;
-
-
-/**
- 美颜 收下巴参数
- * 默认 : 50
- * 范围 : [0,100]
- */
-//@property (nonatomic, assign) int beautyShortenFace;
-
-
-/**
- 美颜 大眼参数
- * 默认 : 30
- * 范围 : [0,100]
- */
-//@property (nonatomic, assign) int beautyBigEye;
-
 
 @end

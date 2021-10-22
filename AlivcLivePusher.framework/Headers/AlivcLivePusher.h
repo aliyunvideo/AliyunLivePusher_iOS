@@ -437,7 +437,7 @@ AlivcLivePusherSnapshotDelegate;
 /**
  设置降噪开关
  
- @param isOpen 是否打开降噪 true:开启 false:关闭 默认:false
+ @param isOpen 是否打开降噪 true:开启 false:关闭 默认:true
  @return 0:success  非0:failure
  */
 - (int)setAudioDenoise:(bool)isOpen;
@@ -460,8 +460,18 @@ AlivcLivePusherSnapshotDelegate;
  */
 - (int)setCaptureVolume:(int)volume;
 
-/* ****************************************************** */
+/* **********************开启屏幕分享******************************** */
 
+/**
+ 开始屏幕分享（该接口支持 iOS 11.0 及以上的 iPhone 和 iPad）。
+
+ @note 该接口开始 iOS 系统的屏幕分享，可以实现录屏推流功能
+      该接口配合AlivcLibReplayKitExt.framework使用，在Extension进程中添加AlivcLibReplayKitExt.framework库完成屏幕采集和发送
+      在Host APP中接收音视频数据，完成推流。
+ 
+ @param appGroup App group ID 主 App 与 Extension 共享的 Application Group Identifier，当前接口仅支持主 App 与 Extension 属于同一个App     Group的情况，如果不存在App Group， 不可调用该接口。
+ */
+- (int)startScreenCapture:(NSString *)appGroup;
 
 /* ***********************外部数据*********************** */
 
@@ -643,82 +653,11 @@ AlivcLivePusherSnapshotDelegate;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//      以下是美颜相关api，在v4.2.0版本已删除，推流SDK不再提供内置美颜功能，请使用阿里云Queen提供的美颜服务
+//      美颜相关api，在v4.2.0版本已删除，推流SDK不再提供内置美颜功能，请使用阿里云Queen提供的美颜服务
 //      详见：https://help.aliyun.com/document_detail/211047.html?spm=a2c4g.11174283.6.736.79c5454ek41M8B
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///
-
-/**
- 设置美颜开关
-
- @param beautyOn true:打开美颜 false:关闭美颜
- */
-//- (void)setBeautyOn:(bool)beautyOn;
-
-
-/**
- 设置美颜 美白度
-
- @param value 美白度 范围0~100
- @return 0:success  非0:failure
- */
-//- (int)setBeautyWhite:(int)value;
-
-
-/**
- 设置美颜 磨皮度
-
- @param value 磨皮度 范围0~100
- @return 0:success  非0:failure
- */
-//- (int)setBeautyBuffing:(int)value;
-
-/**
- 设置美颜 红润度
- 
- @param value 红润度 范围0~100
- @return 0:success  非0:failure
- */
-//- (int)setBeautyRuddy:(int)value;
-
-/**
- 设置美颜 腮红度
- 
- @param value 腮红度 范围 0~100
- @return 0:success  非0:failure
- */
-//- (int)setBeautyCheekPink:(int)value;
-
-
-/**
- 设置美颜 瘦脸程度
- 
- @param value 瘦脸程度 范围 0~100
- @return 0:success  非0:failure
- */
-//- (int)setBeautyThinFace:(int)value;
-
-/**
- 设置美颜 收下巴程度
- 
- @param value 收下巴程度 范围 0~100
- @return 0:success  非0:failure
- */
-//- (int)setBeautyShortenFace:(int)value;
-
-/**
- 设置美颜 大眼程度
- 
- @param value 大眼程度 范围 0~100
- @return 0:success  非0:failure
- */
-//- (int)setBeautyBigEye:(int)value;
-
-
 @end
-
-
 
 @protocol AlivcLivePusherErrorDelegate <NSObject>
 
