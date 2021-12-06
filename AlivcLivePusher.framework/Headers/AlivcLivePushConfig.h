@@ -239,7 +239,17 @@
  */
 @property (nonatomic, assign) AlivcLivePushVideoEncoderMode videoEncoderMode;
 
+/**
+ 视频硬编码方式 （当videoEncoderMode设置为AlivcLivePushVideoEncoderModeHard时，有两种可选的视频硬件编码方式：H264和HEVC(H265)）
+ * 默认：AlivcLivePushVideoEncoderModeHardCodecH264，使用H264进行硬件编码
+ */
+@property (nonatomic, assign)AlivcLivePushVideoEncoderModeHardCodec videoHardEncoderCodec;
 
+/**
+ 视频硬编模式下是否开启B帧
+ * 默认：NO
+ */
+@property (nonatomic, assign) bool openBFrame;
 
 /**
  音频编码格式

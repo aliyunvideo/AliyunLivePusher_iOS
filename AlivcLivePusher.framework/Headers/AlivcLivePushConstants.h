@@ -71,6 +71,7 @@ typedef NS_ENUM(NSInteger, AlivcLivePushStatus){
  - AlivcLivePushResolution480P: 480P
  - AlivcLivePushResolution540P: 540P
  - AlivcLivePushResolution720P: 720P
+ - AlivcLivePushResolution1080P:1080P
  - AlivcLivePushResolutionPassThrough: pass through only used for external main video stream
  */
 typedef NS_ENUM(NSInteger, AlivcLivePushResolution){
@@ -80,6 +81,7 @@ typedef NS_ENUM(NSInteger, AlivcLivePushResolution){
     AlivcLivePushResolution480P,
     AlivcLivePushResolution540P,
     AlivcLivePushResolution720P,
+    AlivcLivePushResolution1080P,
     AlivcLivePushResolutionPassThrough,
 };
 
@@ -193,6 +195,16 @@ typedef NS_ENUM(NSInteger, AlivcLivePushScallingMode){
 typedef NS_ENUM(NSInteger, AlivcLivePushVideoEncoderMode){
     AlivcLivePushVideoEncoderModeHard = 0,
     AlivcLivePushVideoEncoderModeSoft,
+};
+
+/**
+ 硬编码方式
+ - AlivcLivePushVideoEncoderModeHardTypeH264: 使用H264硬编码
+ - AlivcLivePushVideoEncoderModeHardTypeHEVC: 使用H265硬编码
+ */
+typedef NS_ENUM(NSInteger, AlivcLivePushVideoEncoderModeHardCodec) {
+    AlivcLivePushVideoEncoderModeHardCodecH264 = 0,
+    AlivcLivePushVideoEncoderModeHardCodecHEVC
 };
 
 /**
