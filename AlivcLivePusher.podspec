@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "AlivcLivePusher"
-  s.version      = "4.3.2"
+  s.version      = "4.4.0"
   s.summary      = "AlivcLivePusher_iOS"
   s.description  = <<-DESC
                    It's an SDK for aliyun video vodplay, which implement by Objective-C.
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/aliyunvideo/AliyunLivePusher_iOS.git", :tag => "#{s.version}" }
 
   s.subspec 'AlivcLivePusher' do |pushersdk|
-  pushersdk.vendored_frameworks = 'AlivcLivePusher.framework','AlivcLibRtmp.framework','AlivcLibReplayKitExt.framework'
+  pushersdk.vendored_frameworks = 'AlivcLivePusher.framework','AlivcLibReplayKitExt.framework'
   pushersdk.frameworks = "CoreVideo","OpenGLES","AVFoundation","CoreMedia","VideoToolbox","AudioToolbox"
 # pushersdk.frameworks = 'MediaPlayer','CoreGraphics'
   end

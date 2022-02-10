@@ -610,9 +610,10 @@ AlivcLivePusherSnapshotDelegate;
  设置Log路径
 
  @param logPath Log路径
+ @param maxPartFileSizeInKB 每个分片最大大小。最终日志总体积是 5*最大分片大小
  @return 0:success  非0:failure
  */
-- (int)setLogPath:(NSString *)logPath;
+- (int)setLogPath:(NSString *)logPath maxPartFileSizeInKB:(int)maxPartFileSizeInKB;
 
 /**
  获取SDK版本号
