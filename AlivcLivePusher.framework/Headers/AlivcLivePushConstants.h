@@ -19,16 +19,16 @@
  - AlivcLivePushLogLevelInfo: 提示
  - AlivcLivePushLogLevelWarn: 警告
  - AlivcLivePushLogLevelError: 错误
- - AlivcLivePushLogLevelFatal: 阻塞错误
+ - AlivcLivePushLogLevelNone: 不输出日志
  */
 typedef NS_ENUM(NSInteger, AlivcLivePushLogLevel){
-    AlivcLivePushLogLevelAll = 1,
+    AlivcLivePushLogLevelAll = 0,
     AlivcLivePushLogLevelVerbose,
     AlivcLivePushLogLevelDebug,
     AlivcLivePushLogLevelInfo,
     AlivcLivePushLogLevelWarn,
     AlivcLivePushLogLevelError,
-    AlivcLivePushLogLevelFatal,
+    AlivcLivePushLogLevelNone,
 };
 
 /**
@@ -322,3 +322,54 @@ typedef NS_ENUM(NSInteger, AlivcLivePusherAudioScenario) {
     AlivcLivePusherAudioScenarioMediaMode   = 2,
     AlivcLivePusherAudioScenarioMusicMode   = 3
 };
+
+/**
+  SDK对Audio Session的控制权限
+ - AlivcLivePusherAudioSessionOperationRestrictionNone 默认，无限制，SDK完全控制AVAudioSession
+ - AlivcLivePusherAudioSessionOperationRestrictionSetCategory SDK不能修改AVAudioSession的Category
+ - AlivcLivePusherAudioSessionOperationRestrictionConfigureSession SDK不能修改AVAudioSession的配置，包括Category，Mode，CategoryOptions
+ - AlivcLivePusherAudioSessionOperationRestrictionDeactivateSession SDK不能关闭AVAudioSession的活动状态，离开频道时，AVAudioSession依然处于活动状态
+ */
+typedef NS_ENUM(NSInteger, AlivcLivePusherAudioSessionOperationRestriction) {
+    AlivcLivePusherAudioSessionOperationRestrictionNone              = 0,
+    AlivcLivePusherAudioSessionOperationRestrictionSetCategory       = 1 << 0,
+    AlivcLivePusherAudioSessionOperationRestrictionConfigureSession  = 1 << 1,
+    AlivcLivePusherAudioSessionOperationRestrictionDeactivateSession = 1 << 2,
+};
+/**
+ SDK License 校验枚举
+ - AlivcLiveLicenseCheckResultCodeSuccess SDK校验license成功，可使用SDK功能
+ - AlivcLiveLicenseCheckResultCodeCertInvalid licenseFile证书非法
+ - AlivcLiveLicenseCheckResultCodeCertExpired licenseFile证书过期
+ - AlivcLiveLicenseCheckResultCodeLicenseExpired licenseKey过期
+ - AlivcLiveLicenseCheckResultCodeAppIdInvalid   APPID非法
+ - AlivcLiveLicenseCheckResultCodeLicenseError license错误，license key或者 license file 非法
+ - AlivcLiveLicenseCheckResultCodeBusinessInvalid 无效的业务信息
+ - AlivcLiveLicenseCheckResultCodePlatformInvalid 该平台未购买
+ - AlivcLiveLicenseCheckResultCodeUninitialized 未初始化
+ */
+
+typedef NS_ENUM(NSInteger, AlivcLiveLicenseCheckResultCode) {
+    AlivcLiveLicenseCheckResultCodeSuccess = 0,
+    AlivcLiveLicenseCheckResultCodeCertInvalid = 1,
+    AlivcLiveLicenseCheckResultCodeCertExpired = 2,
+    AlivcLiveLicenseCheckResultCodeLicenseExpired = 3,
+    AlivcLiveLicenseCheckResultCodeAppIdInvalid   = 4,
+    AlivcLiveLicenseCheckResultCodeLicenseError = 5,
+    AlivcLiveLicenseCheckResultCodeBusinessInvalid = 6,
+    AlivcLiveLicenseCheckResultCodePlatformInvalid = 7,
+    AlivcLiveLicenseCheckResultCodeUninitialized = 8,
+};
+
+/**
+ * @brief 音频裸数据
+ */
+@interface AlivcLivePusherAudioDataSample : NSObject
+
+@property (nonatomic, assign) long dataPtr;//强制转换成(uint8_t*)dataPtr即为PCM数据buffer内存首地址
+@property (nonatomic, assign) int numOfSamples;//数据总大小为numOfSamples*bytesPerSample
+@property (nonatomic, assign) int bytesPerSample;
+@property (nonatomic, assign) int numOfChannels;
+@property (nonatomic, assign) int samplesPerSec;
+
+@end

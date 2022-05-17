@@ -10,6 +10,8 @@
 #import <UIKit/UIKit.h>
 #import "AlivcLivePushConstants.h"
 
+#define ALIVCLIVEPUSH_DEPRECAETD_WATERMARK_API __deprecated_msg("Use AlivcLivePusher->addWatermarkWithPath:watermarkCoordX:watermarkCoordY:watermarkWidth instead.")
+
 
 /**
  推流配置类
@@ -257,6 +259,12 @@
  */
 @property (nonatomic, assign) AlivcLivePushAudioEncoderProfile audioEncoderProfile;
 
+/**
+ 设置SDK对AVAudioSession的控制权限
+ * 默认: AlivcLivePusherAudioSessionOperationRestrictionNone
+ */
+@property (nonatomic, assign) AlivcLivePusherAudioSessionOperationRestriction audioSessionOperationRestriction;
+
 
 /**
  音频编码模式
@@ -286,7 +294,7 @@
 /**
  外部自定义数据是否包含音频
  * 默认 : YES
- * 注：在ios录屏推流中，可以降audioFromExtern设置成NO，这样音频由sdk负责，视频由插件负责
+ * 注：在ios录屏推流中，可以将audioFromExtern设置成NO，这样音频由sdk负责，视频由插件负责
  */
 @property (nonatomic, assign) BOOL audioFromExternal;
 
@@ -330,14 +338,14 @@
 - (void)addWatermarkWithPath:(NSString *)path
              watermarkCoordX:(CGFloat)coordX
              watermarkCoordY:(CGFloat)coordY
-              watermarkWidth:(CGFloat)width;
+              watermarkWidth:(CGFloat)width ALIVCLIVEPUSH_DEPRECAETD_WATERMARK_API;
 
 /**
  移除水印
  
  @param path 水印路径
  */
-- (void)removeWatermarkWithPath:(NSString *)path;
+- (void)removeWatermarkWithPath:(NSString *)path ALIVCLIVEPUSH_DEPRECAETD_WATERMARK_API;
 
 
 /**

@@ -6,14 +6,22 @@
 //  Copyright © 2017年 Alivc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
+//! Project version number for AlivcLivePusher.
+FOUNDATION_EXPORT double AlivcLivePusherVersionNumber;
 
-#import "AlivcLivePusher.h"
-#import "AlivcLivePushConfig.h"
-#import "AlivcLivePushStatsInfo.h"
-#import "AlivcLivePushError.h"
-#import "AlivcLivePushConstants.h"
+//! Project version string for AlivcLibReplayKitExt.
+FOUNDATION_EXPORT const unsigned char AlivcLivePusherVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <AlivcLivePusher/PublicHeader.h>
+
+#import <AlivcLivePusher/AlivcLiveBase.h>
+#import <AlivcLivePusher/AlivcLivePusher.h>
+#import <AlivcLivePusher/AlivcLivePushConfig.h>
+#import <AlivcLivePusher/AlivcLivePushStatsInfo.h>
+#import <AlivcLivePusher/AlivcLivePushError.h>
+#import <AlivcLivePusher/AlivcLivePushConstants.h>
 
 
 

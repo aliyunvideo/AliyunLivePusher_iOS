@@ -14,6 +14,12 @@
 #import "AlivcLivePushStatsInfo.h"
 #import "AlivcLivePushError.h"
 
+/// @note 阿里云直播推流SDK从4.4.2版本开始增加license管理，老版本升级到4.4.2及以后版本需要参照阿里云官网获取推流SDK license
+///  其SDK接入流程变化：
+///  1. 在Info.plist中配置licenseKey和licenseFile
+///  2.调用[AlivcLiveBase registerSDK]注册推流SDK
+///  3.监听onLicenceCheck回调，确保license校验通过
+///  4.创建推流对象，开始直播推流
 
 /**
  错误回调, 网络回调, 状态回调, BGM回调, 滤镜回调
@@ -24,7 +30,8 @@ AlivcLivePusherInfoDelegate,
 AlivcLivePusherBGMDelegate,
 AlivcLivePusherCustomFilterDelegate,
 AlivcLivePusherCustomDetectorDelegate,
-AlivcLivePusherSnapshotDelegate;
+AlivcLivePusherSnapshotDelegate,
+AlivcLivePusherAudioSampleDelegate;
 
 
 
@@ -102,6 +109,13 @@ AlivcLivePusherSnapshotDelegate;
  @param delegate AlivcLivePusherBGMDelegate
  */
 - (void)setBGMDelegate:(id<AlivcLivePusherBGMDelegate>)delegate;
+
+/**
+  设置音频裸数据回调
+     
+   @param delegate AlivcLivePusherAudioSampleDelegate
+ */
+- (void)setAudioSampleDelegate:(id<AlivcLivePusherAudioSampleDelegate>)delegate;
 
 
 /**
@@ -604,7 +618,7 @@ AlivcLivePusherSnapshotDelegate;
  @param level Log级别 default:AlivcLivePushLogLevelError
  @return 0:success  非0:failure
  */
-- (int)setLogLevel:(AlivcLivePushLogLevel)level;
+- (int)setLogLevel:(AlivcLivePushLogLevel)level __deprecated_msg("Use AlivcLiveBase->setLogLevel instead.");
 
 /**
  设置Log路径
@@ -613,14 +627,35 @@ AlivcLivePusherSnapshotDelegate;
  @param maxPartFileSizeInKB 每个分片最大大小。最终日志总体积是 5*最大分片大小
  @return 0:success  非0:failure
  */
-- (int)setLogPath:(NSString *)logPath maxPartFileSizeInKB:(int)maxPartFileSizeInKB;
+- (int)setLogPath:(NSString *)logPath maxPartFileSizeInKB:(int)maxPartFileSizeInKB __deprecated_msg("Use AlivcLiveBase->setLogPath:maxPartFileSizeInKB instead.");
 
 /**
  获取SDK版本号
 
  @return 版本号
  */
-+ (NSString *)getSDKVersion;
++ (NSString *)getSDKVersion __deprecated_msg("Use AlivcLiveBase->getSDKVersion instead.");
+
+/**
+ 添加水印 最多支持3个水印
+
+ @param path 水印路径
+ @param coordX 水印左上顶点x的相对坐标 [0,1]
+ @param coordY 水印左上顶点y的相对坐标 [0,1]
+ @param width 水印的相对宽度 (水印会根据水印图片实际大小和水印宽度等比缩放) (0,1]
+ @return 0:success  非0:failure
+ */
+- (int)addWatermarkWithPath:(NSString *)path
+             watermarkCoordX:(CGFloat)coordX
+             watermarkCoordY:(CGFloat)coordY
+              watermarkWidth:(CGFloat)width;
+
+/**
+ 设置水印显示和隐藏
+ 
+ @param visable true:显示水印，false:隐藏水印
+ */
+- (void)setWatermarkVisible:(bool) visable;
 
 /**
   添加动态贴纸,最多支持添加5个贴纸
@@ -988,4 +1023,13 @@ AlivcLivePusherSnapshotDelegate;
  @param error error
  */
 - (void)onSnapshot:(AlivcLivePusher *)pusher image:(UIImage *)image;
+@end
+
+@protocol AlivcLivePusherAudioSampleDelegate <NSObject>
+/**
+ 设备采集的原始音频数据，支持修改
+ */
+
+- (void)onAudioSampleCallback:(AlivcLivePusher *)pusher audioSample:(AlivcLivePusherAudioDataSample*)audioSample;
+
 @end

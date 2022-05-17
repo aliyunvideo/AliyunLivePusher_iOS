@@ -103,6 +103,10 @@
  */
 @property (nonatomic, assign) int audioSampleRate;
 
+/**
+ 音频采集音量
+ */
+@property (nonatomic, assign) int audioCaptureVolume;
 
 #pragma mark - video render
 
