@@ -299,6 +299,19 @@
 @property (nonatomic, assign) BOOL audioFromExternal;
 
 /**
+ 外部自定义数据时，针对不包含在AlivcLivePushResolution枚举中提供的通用长宽比，为了避免图像被裁剪，可以指定输入视频的长宽比为输出视频的长宽比
+ *注：该字段可以用在ios屏幕推流中，只有enableExternBufferSize设置为YES后，才将sampleBufferSize作为目标分辨率
+ */
+@property(nonatomic, assign) CGSize sampleBufferSize;
+
+/**
+ 外部自定义数据时，针对不包含在AlivcLivePushResolution枚举中提供通用的长宽比，为了避免图像被裁剪，开启enableExternSampleBufferSize开关，SDK将使用sampleBufferSize 输入的分辨率为目标分辨率
+ * 注：仅用于外部自定义数据推流，并且输入的视频不是通用长宽比，避免图像被裁剪，例如在ios录屏推流中可使用
+ * 默认值：NO
+ */
+@property(nonatomic, assign) BOOL enableExternSampleBufferSize;
+
+/**
  预览显示模式
  * 默认 : fit
  */
