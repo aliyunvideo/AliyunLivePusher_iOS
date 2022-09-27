@@ -18,6 +18,13 @@
  */
 @interface AlivcLivePushConfig : NSObject
 
+/**
+ * 默认：AlivcLivePushBasicMode 基础模式
+ * SDK 的工作模式，SDK提供基础模式和互动模式
+ * 基础模式不支持连麦、PK等实时互动需求，常规的RTMP推流、RTS推流使用次模式即可
+ * 互动模式，支持连麦、PK等实时互动，如果一场直播有互动需求，建议使用该模式
+ */
+@property (nonatomic, assign) AlivcLivePushMode livePushMode;
 
 /**
  分辨率
@@ -192,6 +199,7 @@
  纯音频推流，只有RTMP推流才支持纯音频推流，当前RTC不支持纯音频推流
  * 默认 : false
  * 注 : 与 videoOnly互斥
+ * 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下 设置audioOnly，AlivcLivePushInteractiveMode模式下暂时不支持纯音频推流
  */
 @property (nonatomic, assign) bool audioOnly;
 
@@ -200,6 +208,7 @@
  纯视频推流，只有RTMP推流才支持纯视频推流，当前RTC不支持纯视频推流
  * 默认 : false
  * 注 : 与 audioOnly互斥
+ * 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下 设置videoOnly，AlivcLivePushInteractiveMode模式下暂时不支持纯视频推流
  */
 @property (nonatomic, assign) bool videoOnly;
 
@@ -276,18 +285,21 @@
 /**
  是否外部自定义数据推流
  * 默认 : false
+ * 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下 设置externMainStream，AlivcLivePushInteractiveMode模式下暂时不支持外部音视频推流
  */
 @property (nonatomic, assign) bool externMainStream;
 
 /**
  外部自定义视频数据
  * 默认 : unknown
+ * 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下 设置externVideoFormat，AlivcLivePushInteractiveMode模式下暂时不支持外部音视频推流
  */
 @property (nonatomic, assign) AlivcLivePushVideoFormat externVideoFormat;
 
 /**
  外部自定义音频数据
  * 默认 : unknown
+ * 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下 设置externAudioFormat，AlivcLivePushInteractiveMode模式下暂时不支持外部音视频推流
  */
 @property (nonatomic, assign) AlivcLivePushAudioFormat externAudioFormat;
 
@@ -295,12 +307,14 @@
  外部自定义数据是否包含音频
  * 默认 : YES
  * 注：在ios录屏推流中，可以将audioFromExtern设置成NO，这样音频由sdk负责，视频由插件负责
+ * 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下 设置audioFromExternal，AlivcLivePushInteractiveMode模式下暂时不支持外部音视频推流
  */
 @property (nonatomic, assign) BOOL audioFromExternal;
 
 /**
  外部自定义数据时，针对不包含在AlivcLivePushResolution枚举中提供的通用长宽比，为了避免图像被裁剪，可以指定输入视频的长宽比为输出视频的长宽比
- *注：该字段可以用在ios屏幕推流中，只有enableExternBufferSize设置为YES后，才将sampleBufferSize作为目标分辨率
+ * 注：该字段可以用在ios屏幕推流中，只有enableExternBufferSize设置为YES后，才将sampleBufferSize作为目标分辨率
+ * 当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下 设置sampleBufferSize，AlivcLivePushInteractiveMode模式下暂时不支持外部音视频推流
  */
 @property(nonatomic, assign) CGSize sampleBufferSize;
 
@@ -308,6 +322,7 @@
  外部自定义数据时，针对不包含在AlivcLivePushResolution枚举中提供通用的长宽比，为了避免图像被裁剪，开启enableExternSampleBufferSize开关，SDK将使用sampleBufferSize 输入的分辨率为目标分辨率
  * 注：仅用于外部自定义数据推流，并且输入的视频不是通用长宽比，避免图像被裁剪，例如在ios录屏推流中可使用
  * 默认值：NO
+ * 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下 设置sampleBufferSize，AlivcLivePushInteractiveMode模式下暂时不支持外部音视频推流
  */
 @property(nonatomic, assign) BOOL enableExternSampleBufferSize;
 
@@ -347,6 +362,7 @@
  @param coordX 水印左上顶点x的相对坐标 [0,1]
  @param coordY 水印左上顶点y的相对坐标 [0,1]
  @param width 水印的相对宽度 (水印会根据水印图片实际大小和水印宽度等比缩放) (0,1]
+ 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下 设置水印相关接口，AlivcLivePushInteractiveMode模式下暂时不支持设置水印
  */
 - (void)addWatermarkWithPath:(NSString *)path
              watermarkCoordX:(CGFloat)coordX

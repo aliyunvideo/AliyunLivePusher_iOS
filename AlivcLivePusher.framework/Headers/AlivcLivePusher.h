@@ -13,6 +13,7 @@
 #import "AlivcLivePushConfig.h"
 #import "AlivcLivePushStatsInfo.h"
 #import "AlivcLivePushError.h"
+#import "AlivcLivePushDef.h"
 
 /// @note 阿里云直播推流SDK从4.4.2版本开始增加license管理，老版本升级到4.4.2及以后版本需要参照阿里云官网获取推流SDK license
 ///  其SDK接入流程变化：
@@ -20,6 +21,8 @@
 ///  2.调用[AlivcLiveBase registerSDK]注册推流SDK
 ///  3.监听onLicenceCheck回调，确保license校验通过
 ///  4.创建推流对象，开始直播推流
+///  其相关文档参考https://help.aliyun.com/document_detail/431730.html、
+///  https://help.aliyun.com/document_detail/94821.html、https://help.aliyun.com/document_detail/94828.html
 
 /**
  错误回调, 网络回调, 状态回调, BGM回调, 滤镜回调
@@ -161,8 +164,7 @@ AlivcLivePusherAudioSampleDelegate;
 
 
 /**
- 暂停推流
- 
+ 暂停摄像头推流，如果pushCongfig 中设置了pauseImg图片，将推设置的静态图片
  @return 0:success  非0:failure
  */
 - (int)pause;
@@ -170,8 +172,7 @@ AlivcLivePusherAudioSampleDelegate;
 
 
 /**
- 恢复推流 同步接口
-
+ 恢复摄像头推流 同步接口
  @return 0:success  非0:failure
  */
 - (int)resume;
@@ -227,7 +228,6 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  恢复推流 异步接口
- 
  @return 0:success  非0:failure
  */
 - (int)resumeAsync;
@@ -274,7 +274,6 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  获取支持的最大变焦值
- 
  @return 最大变焦值
  */
 - (float)getMaxZoom;
@@ -299,7 +298,6 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  设置曝光度
- 
  @param exposure 曝光度
  @return 0:success  非0:failure
  */
@@ -308,21 +306,18 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  获取当前曝光度
- 
  @return  曝光度
  */
 - (float)getCurrentExposure;
 
 /**
  获取支持最小曝光度
- 
  @return  最小曝光度
  */
 - (float)getSupportedMinExposure;
 
 /**
  获取支持最大曝光度
- 
  @return  最大曝光度
  */
 - (float)getSupportedMaxExposure;
@@ -484,6 +479,7 @@ AlivcLivePusherAudioSampleDelegate;
       在Host APP中接收音视频数据，完成推流。
  
  @param appGroup App group ID 主 App 与 Extension 共享的 Application Group Identifier，当前接口仅支持主 App 与 Extension 属于同一个App     Group的情况，如果不存在App Group， 不可调用该接口。
+ 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下开始屏幕分享（录屏推流），AlivcLivePushInteractiveMode模式下暂时不支持开始屏幕分享（录屏推流）
  */
 - (int)startScreenCapture:(NSString *)appGroup;
 
@@ -493,6 +489,7 @@ AlivcLivePusherAudioSampleDelegate;
  发送自定义video SampleBuffer
 
  @param sampleBuffer video sample buffer
+ 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下发送自定义video SampleBuffer，AlivcLivePushInteractiveMode模式下暂时不支持发送自定义video SampleBuffer
  */
 - (void)sendVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer;
 
@@ -502,6 +499,7 @@ AlivcLivePusherAudioSampleDelegate;
  
  @param sampleBuffer audio sample buffer
  @param sampleBufferType audio sample buffer type
+ 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下发送自定义的audio SampleBuffer，AlivcLivePushInteractiveMode模式下暂时不支持发送自定义的audio SampleBuffer
  */
 - (void)sendAudioSampleBuffer:(CMSampleBufferRef)sampleBuffer withType:(RPSampleBufferType)sampleBufferType;
 
@@ -514,6 +512,7 @@ AlivcLivePusherAudioSampleDelegate;
  @param size 数据大小
  @param pts 时间戳（单位微秒）
  @param rotation 旋转
+ 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下发送自定义视频数据，AlivcLivePushInteractiveMode模式下暂时不支持发送自定义视频数据
  */
 - (void)sendVideoData:(char *)data width:(int)width height:(int)height size:(int)size pts:(uint64_t)pts rotation:(int)rotation;
 
@@ -525,26 +524,31 @@ AlivcLivePusherAudioSampleDelegate;
  @param sampleRate 采样率
  @param channel 声道数
  @param pts 时间戳（单位微秒）
+ 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下发送自定义音频数据，AlivcLivePushInteractiveMode模式下暂时不支持发送自定义音频数据
  */
 - (void)sendPCMData:(char *)data size:(int)size sampleRate:(int)sampleRate channel:(int)channel pts:(uint64_t)pts;
 
 /**
  添加视频混流设置
+ 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下添加视频混流设置，AlivcLivePushInteractiveMode模式下暂时不支持添加视频混流设置
  */
 - (int)addMixVideo:(int)format width:(int)width height:(int)height rotation:(int)rotation displayX:(float)displayX displayY:(float)displayY displayW:(float)displayW displayH:(float)displayH adjustHeight:(bool)adjustHeight;
 
 /**
  改变视频混流位置
+ 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下改变视频混流位置，AlivcLivePushInteractiveMode模式下暂时不支持改变视频混流位置
  */
 - (void)changeMixVideoPosition:(int)handler displayX:(float)displayX displayY:(float)displayY displayW:(float)displayW displayH:(float)displayH;
 
 /**
  改变视频混流镜像
+ 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下改变视频混流镜像，AlivcLivePushInteractiveMode模式下暂时不支持改变视频混流镜像
  */
 - (void)setMixVideoMirror:(int)handler isMirror:(BOOL)isMirror;
 
 /**
  输入视频混流数据
+ 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下输入视频混流数据，AlivcLivePushInteractiveMode模式下暂时不支持输入视频混流数据
  */
 - (void)inputMixVideoData:(int)handler data:(long)dataptr width:(int)width height:(int)height stride:(int)stride size:(int)size pts:(long)pts rotation:(int)rotation;
 
@@ -555,16 +559,19 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  添加音频混流设置
+ 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下添加音频混流，AlivcLivePushInteractiveMode模式下暂时不支持添加音频混流
  */
 - (int)addMixAudio:(int)channels format:(int)format audioSample:(int)audioSample;
 
 /**
  输入音频混流数据
+ 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下输入音频混流数据，AlivcLivePushInteractiveMode模式下暂时不支持输入音频混流数据
  */
 - (bool)inputMixAudioData:(int)handler data:(long)dataptr size:(int)size pts:(long)pts;
 
 /**
  移除音频混流
+ 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下移除音频混流，AlivcLivePushInteractiveMode模式下暂时不支持移除音频混流
  */
 - (void)removeMixAudio:(int)handler;
 
@@ -578,6 +585,7 @@ AlivcLivePusherAudioSampleDelegate;
  @param time 延时时间，单位毫秒
  @param isKeyFrame 是否只发关键帧
  @return 0:success  非0:failure
+ 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下设置Message，AlivcLivePushInteractiveMode模式下暂时不支持设置Message
  */
 - (int)sendMessage:(NSString *)msg repeatCount:(int)count delayTime:(int)time KeyFrameOnly:(bool)isKeyFrame;
 
@@ -644,6 +652,7 @@ AlivcLivePusherAudioSampleDelegate;
  @param coordY 水印左上顶点y的相对坐标 [0,1]
  @param width 水印的相对宽度 (水印会根据水印图片实际大小和水印宽度等比缩放) (0,1]
  @return 0:success  非0:failure
+ 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下添加水印，AlivcLivePushInteractiveMode模式下暂时不支持添加水印
  */
 - (int)addWatermarkWithPath:(NSString *)path
              watermarkCoordX:(CGFloat)coordX
@@ -662,7 +671,7 @@ AlivcLivePusherAudioSampleDelegate;
   waterMarkDirPath：贴纸图片sequence目录
   x,y：显示屏幕位置（0~1.0f)
   w,h：显示屏幕长宽（0~1.0f)
- 
+  注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下添加动态贴纸，AlivcLivePushInteractiveMode模式下暂时不支持添加动态贴纸
   @return 返回动态贴纸的id号，删除贴纸传此id
  **/
 - (int)addDynamicWaterMarkImageDataWithPath:(NSString *)waterMarkDirPath x:(float)x y:(float)y w:(float)w h: (float)h;
@@ -687,6 +696,22 @@ AlivcLivePusherAudioSampleDelegate;
  **/
 - (void)setSnapshotDelegate:(id<AlivcLivePusherSnapshotDelegate>)delegate;
 
+/* **********************互动模式下特定API******************************** */
+// 以下API是只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
+// 非互动模式调用以下API将无任何效果，特定API包括：
+// setLiveMixTranscodingConfig
+
+/**
+ 设置云端的混流（转码）参数
+ 一个直播间中可能有不止一位主播，而且每个主播都有自己的画面和声音，但对于 CDN 观众来说，他们只需要一路直播流
+ 所以您需要将多路音视频流混成一路标准的直播流，这就需要混流转码
+ 在连麦场景下，需要将主播和连麦观众音视频流混成一路标准的直播流，供CDN观众观看
+ 在PK场景下，需要将进行PK的多个主播的音视频流混成一路标准的直播流，供CDN观众观看
+ @param config 参考AlivcLiveDef.h中关于AlivcLiveTranscodingConfig的介绍，如果传入nil，则取消云端混流转码
+ @note 若主播还在房间中但不再需要混流，请务必传入 nil 进行取消，因为当发起混流后，云端混流模块就会开始工作，
+ 不及时取消混流可能会引起不必要的计费损失
+ */
+- (int)setLiveMixTranscodingConfig:(AlivcLiveTranscodingConfig *)config;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //      美颜相关api，在v4.2.0版本已删除，推流SDK不再提供内置美颜功能，请使用阿里云Queen提供的美颜服务
@@ -891,6 +916,13 @@ AlivcLivePusherAudioSampleDelegate;
  * @param statistics 推流器统计数据
  */
 - (void)onPushStatistics:(AlivcLivePusher *)pusher statsInfo:(AlivcLivePushStatsInfo*)statistics;
+
+/**
+ * 设置云端的混流（转码）参数回调，对应于setLiveMixTranscodingConfig接口
+ * @param isSuccess YES表示成功，NO表示失败
+ * @param msg 具体错误原因
+ */
+- (void)onSetLiveMixTranscodingConfig:(AlivcLivePusher *)pusher status:(BOOL)isSuccess message:(NSString *)msg;
 @end
 
 
@@ -972,17 +1004,15 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (void)onCreate:(AlivcLivePusher *)pusher context:(void*)context;
 /**
- 通知外置滤镜设置参数
- */
-- (void)updateParam:(AlivcLivePusher *)pusher buffing:(float)buffing whiten:(float)whiten pink:(float)pink cheekpink:(float)cheekpink thinface:(float)thinface shortenface:(float)shortenface bigeye:(float)bigeye;
-/**
- 通知外置滤镜开馆
- */
-- (void)switchOn:(AlivcLivePusher *)pusher on:(bool)on;
-/**
- 通知外置滤镜处理回调
+ 通知外置滤镜处理回调，当前版本SDK在非互动模式下需要使用onProcess处理美颜
  */
 - (int)onProcess:(AlivcLivePusher *)pusher texture:(int)texture textureWidth:(int)width textureHeight:(int)height extra:(long)extra;
+/**
+ 通知外置滤镜处理回调，当前版本SDK在互动模式下需要使用onProcessVideoSampleBuffer处理美颜
+ - YES: 需要写回SDK
+ - NO: 不需要写回SDK
+ */
+- (BOOL)onProcessVideoSampleBuffer:(AlivcLivePusher *)pusher sampleBuffer:(AlivcLiveVideoDataSample *)sampleBuffer;
 
 /**
  通知外置滤镜销毁回调

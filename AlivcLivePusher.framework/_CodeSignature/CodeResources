@@ -10,11 +10,15 @@
 		</data>
 		<key>Headers/AlivcLivePushConfig.h</key>
 		<data>
-		PmcSQSXbk+ZbAPuy7IWnVLgbOrQ=
+		tkhu2c2e0I4njC9PCBztpCxhBhY=
 		</data>
 		<key>Headers/AlivcLivePushConstants.h</key>
 		<data>
-		I0ICUDO24yMcnNLZxnu8flJDof8=
+		cYt0kM1r4XIfXpa5ogipNoU2b7k=
+		</data>
+		<key>Headers/AlivcLivePushDef.h</key>
+		<data>
+		pmyMBTSptBar26ig2X3PSY+GBGo=
 		</data>
 		<key>Headers/AlivcLivePushError.h</key>
 		<data>
@@ -26,7 +30,7 @@
 		</data>
 		<key>Headers/AlivcLivePusher.h</key>
 		<data>
-		f+UjBr1NEQ4k3uTyUA8crm1qOFA=
+		dzvyGGikRZcu6tq2aAf+nZbb5Qo=
 		</data>
 		<key>Headers/AlivcLivePusherHeader.h</key>
 		<data>
@@ -34,7 +38,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		neemQqHs0Gm1L9TZE3BA2wjdyBM=
+		DfuTi8uB4MtWh60MeltN4oxUMTM=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -58,22 +62,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			PmcSQSXbk+ZbAPuy7IWnVLgbOrQ=
+			tkhu2c2e0I4njC9PCBztpCxhBhY=
 			</data>
 			<key>hash2</key>
 			<data>
-			FOtrNqA1VhFuCwDcO6xujzR+NohHPJeqwe6mOE2sb38=
+			8fG5lcZcPbZcLXO21sJ7QTGAU68nX20Nupb4bxLy2Xc=
 			</data>
 		</dict>
 		<key>Headers/AlivcLivePushConstants.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			I0ICUDO24yMcnNLZxnu8flJDof8=
+			cYt0kM1r4XIfXpa5ogipNoU2b7k=
 			</data>
 			<key>hash2</key>
 			<data>
-			2VlbQsEQabY6ayEyityxk13FhMF4J/Reca2BRAI49x4=
+			UecmXja9dr3QppuCCY5tsX2/dM1XShj/W/W5mjqxn6Q=
+			</data>
+		</dict>
+		<key>Headers/AlivcLivePushDef.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			pmyMBTSptBar26ig2X3PSY+GBGo=
+			</data>
+			<key>hash2</key>
+			<data>
+			7+SzP0EmmGWxiyW4maYDllfSgaMoo4m0MjU3y8aN8AA=
 			</data>
 		</dict>
 		<key>Headers/AlivcLivePushError.h</key>
@@ -102,11 +117,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			f+UjBr1NEQ4k3uTyUA8crm1qOFA=
+			dzvyGGikRZcu6tq2aAf+nZbb5Qo=
 			</data>
 			<key>hash2</key>
 			<data>
-			XRuR0zoXeATCBjk3OYQphKb5xwuSnNhxPgIZKor476I=
+			hu8Vp15lCJ6kjoSmWcWAZjRHmZi7z8h0mnY76nUSNVA=
 			</data>
 		</dict>
 		<key>Headers/AlivcLivePusherHeader.h</key>

@@ -8,7 +8,25 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ 支持模式
+ - AlivcLivePushBasicMode:基础模式，默认模式，常规的RTMP推流、RTS推流，不支持连麦、PK等实时互动，如果一场直播没有互动需求，建议使用该模式
+ -AlivcLivePushInteractiveMode:互动模式，支持连麦、PK等实时互动，如果一场直播有互动需求，建议使用该模式
+ */
+typedef NS_ENUM(NSInteger, AlivcLivePushMode) {
+    AlivcLivePushBasicMode    = 0,
+    AlivcLivePushInteractiveMode = 1
+};
 
+/**
+ 用户角色
+ - AliLiveRoomUserRoleAnchor:主播
+ -AliLiveRoomUserRoleInteractiveAudience:互动观众/连麦观众，和主播进行实时互动的观众
+ */
+typedef NS_ENUM(NSInteger, AlivcLivePushUserRole) {
+    AlivcLivePushUserRoleAnchor                 = 0, //主播
+    AlivcLivePushUserRoleInteractiveAudience     = 1, //互动观众/连麦观众
+};
 
 /**
  SDK log级别
@@ -287,6 +305,7 @@ typedef NS_ENUM(NSInteger, AlivcPusherErrorCode){
     ALIVC_LIVE_PUSHER_UNKNOW_ERROR      = -3, // 接口调用未知错误
     ALIVC_LIVE_PUSHER_SEQUENCE_ERROR    = -4, // 接口调用顺序错误
     ALIVC_LIVE_PUSHER_RTC_NOT_SUPPORT_AUDIO_OR_VIDEOONLY_PUSH = -5, //rtc协议暂不支持纯音频或纯视频推流
+    ALIVC_LIVE_PUSHER_API_NOT_SUPPORT_FOR_INTERACTIVEMODE = -6,//当前API在互动模式下不支持
 };
 
 /**
@@ -362,14 +381,60 @@ typedef NS_ENUM(NSInteger, AlivcLiveLicenseCheckResultCode) {
 };
 
 /**
- * @brief 音频裸数据
+ 视图显示模式
+ - AlivcLivePlayRenderModeAuto 自动模式
+ - AlivcLivePlayRenderModeStretch 延伸模式
+ - AlivcLivePlayRenderModeFill 填充模式
+ - AlivcLivePlayRenderModeCrop 裁剪模式
  */
-@interface AlivcLivePusherAudioDataSample : NSObject
+typedef NS_ENUM(NSUInteger, AlivcLivePlayRenderMode) {
+    AlivcLivePlayRenderModeAuto    = 0,
+    AlivcLivePlayRenderModeStretch = 1,
+    AlivcLivePlayRenderModeFill    = 2,
+    AlivcLivePlayRenderModeCrop    = 3,
+};
 
-@property (nonatomic, assign) long dataPtr;//强制转换成(uint8_t*)dataPtr即为PCM数据buffer内存首地址
-@property (nonatomic, assign) int numOfSamples;//数据总大小为numOfSamples*bytesPerSample
-@property (nonatomic, assign) int bytesPerSample;
-@property (nonatomic, assign) int numOfChannels;
-@property (nonatomic, assign) int samplesPerSec;
 
-@end
+/**
+ 视频旋转角度
+ - AlivcLivePlayRotationMode_0 视频旋转角度 - 0
+ - AlivcLivePlayRotationMode_90 视频旋转角度 - 90
+ - AlivcLivePlayRotationMode_180 视频旋转角度 - 180
+ - AlivcLivePlayRotationMode_270 视频旋转角度 - 270
+ */
+typedef NS_ENUM(NSInteger, AlivcLivePlayRotationMode) {
+    AlivcLivePlayRotationMode_0    = 0,
+    AlivcLivePlayRotationMode_90   = 90,
+    AlivcLivePlayRotationMode_180  = 180,
+    AlivcLivePlayRotationMode_270  = 270,
+};
+
+/**
+ 云端混流（转码）裁剪模式
+ - AlivcLiveTranscodingCropModeCrop 剪裁
+ - AlivcLiveTranscodingCropModeFill 填充
+*/
+typedef NS_ENUM(NSInteger, AlivcLiveTranscodingCropMode) {
+    AlivcLiveTranscodingCropModeCrop = 1,
+    AlivcLiveTranscodingCropModeFill = 2
+};
+
+/**
+ 互动模式拉流错误码
+ - AlivcLivePlayErrorStreamNotFound 播放URL指定的播放流不存在
+ - AlivcLivePlayErrorStreamStopped 播放URL指定的播放流已停止推流
+ */
+typedef NS_ENUM(NSInteger, AlivcLivePlayerError) {
+    AlivcLivePlayErrorStreamNotFound = 1,
+    AlivcLivePlayErrorStreamStopped = 2
+};
+
+/**
+ * @brief 视频数据类型
+ */
+typedef NS_ENUM(NSInteger, AlivcLiveBufferType) {
+    /** YUV裸数据 */
+    AlivcLiveBufferType_Raw_Data = 0,
+    /** CVPixelBuffer数据 */
+    AlivcLiveBufferType_CVPixelBuffer,
+};
