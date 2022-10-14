@@ -438,3 +438,13 @@ typedef NS_ENUM(NSInteger, AlivcLiveBufferType) {
     /** CVPixelBuffer数据 */
     AlivcLiveBufferType_CVPixelBuffer,
 };
+
+/**
+ * @brief SDK监控多个质量信息，针对嵌入式场景，可以指定精简的监控信息
+ * AlivcLivePushMonitorLevelAll 监控全量质量信息
+ * AlivcLivePushMonitorLevelCut 监控精简质量信息
+ */
+typedef NS_ENUM(NSInteger, AlivcLivePushMonitorLevel) {
+    AlivcLivePushMonitorLevelAll = 0,
+    AlivcLivePushMonitorLevelCut = 1,
+};

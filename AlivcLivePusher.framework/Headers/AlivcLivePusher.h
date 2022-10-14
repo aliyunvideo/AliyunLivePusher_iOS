@@ -879,7 +879,7 @@ AlivcLivePusherAudioSampleDelegate;
 
 
 /**
- 推流暂停回调
+ 摄像头推流暂停回调
  
  @param pusher 推流AlivcLivePusher
  */
@@ -887,7 +887,7 @@ AlivcLivePusherAudioSampleDelegate;
 
 
 /**
- 推流恢复回调
+ 摄像头推流恢复回调
  
  @param pusher 推流AlivcLivePusher
  */

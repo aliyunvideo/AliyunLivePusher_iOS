@@ -345,6 +345,10 @@
 
 @property (nonatomic, copy) NSDictionary *businessInfo;
 
+/**
+  SDK质量监控等级，针对嵌入式场景，可以指定精简的监控信息
+ */
+@property (nonatomic, assign) AlivcLivePushMonitorLevel monitorLevel;
 
 /**
  init 分辨率 其余值为默认值
