@@ -684,7 +684,8 @@ AlivcLivePusherAudioSampleDelegate;
 - (void)removeDynamicWaterMark:(int)vid;
 
 /**
- 截图
+ 截图，livePushMode = AlivcLivePushBasicMode 基础模式下可以指定count和interval，
+ AlivcLivePushInteractiveMode模式下暂时不支持指定count和interval，传递任何值都不做解析，每次只截图一张画面
  count:张数
  interval:每张间隔(ms)
  **/
