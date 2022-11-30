@@ -448,3 +448,72 @@ typedef NS_ENUM(NSInteger, AlivcLivePushMonitorLevel) {
     AlivcLivePushMonitorLevelAll = 0,
     AlivcLivePushMonitorLevelCut = 1,
 };
+
+/**
+ * @brief 变声音效模式
+ * AlivcLivePushAudioEffectvVoiceChange_OFF 关闭变声音效
+ * AlivcLivePushAudioEffectvVoiceChange_OLD_MAN 老人
+ * AlivcLivePushAudioEffectvVoiceChange_BABYBOY 男孩
+ * AlivcLivePushAudioEffectvVoiceChange_BABYGILR 女孩
+ * AlivcLivePushAudioEffectvVoiceChange_ROBOT 机器人
+ * AlivcLivePushAudioEffectvVoiceChange_DAIMO 大魔王
+ * AlivcLivePushAudioEffectvVoiceChange_KTV KTV
+ * AlivcLivePushAudioEffectvVoiceChangeR_ECHO 回声
+ * AlivcLivePushAudioEffectvVoiceChange_MAX 占位符
+ */
+typedef NS_ENUM(NSInteger, AlivcLivePushAudioEffectVoiceChangeMode) {
+    /** 关闭变声音效 */
+    AlivcLivePushAudioEffectvVoiceChange_OFF = 0,
+    /** 老人 */
+    AlivcLivePushAudioEffectvVoiceChange_OLD_MAN,
+    /** 男孩 */
+    AlivcLivePushAudioEffectvVoiceChange_BABYBOY,
+    /** 女孩 */
+    AlivcLivePushAudioEffectvVoiceChange_BABYGILR,
+    /** 机器人 */
+    AlivcLivePushAudioEffectvVoiceChange_ROBOT,
+    /** 大魔王 */
+    AlivcLivePushAudioEffectvVoiceChange_DAIMO,
+    /** KTV */
+    AlivcLivePushAudioEffectvVoiceChange_KTV,
+    /** 回声 */
+    AlivcLivePushAudioEffectvVoiceChangeR_ECHO,
+    /** 占位符 */
+    AlivcLivePushAudioEffectvVoiceChange_MAX,
+};
+
+/**
+ * @brief 音效混响模式
+ * AlivcLivePushAudioEffectReverb_Off 关闭混响
+ * AlivcLivePushAudioEffectReverb_Vocal_I 人声I
+ * AlivcLivePushAudioEffectReverb_Vocal_II 人声II
+ * AlivcLivePushAudioEffectReverb_Bathroom 澡堂
+ * AlivcLivePushAudioEffectReverb_Small_Room_Bright 明亮小房间
+ * AlivcLivePushAudioEffectReverb_Small_Room_Dark 黑暗小房间
+ * AlivcLivePushAudioEffectReverb_Medium_Room 中等房间
+ * AlivcLivePushAudioEffectReverb_Large_Room 大房间
+ * AlivcLivePushAudioEffectReverb_Church_Hall 教堂走廊
+ * AlivcLivePushAudioEffectReverb_Mode_Max 占位符 
+ */
+typedef NS_ENUM(NSInteger, AlivcLivePushAudioEffectReverbMode) {
+    /** 关闭混响 */
+    AlivcLivePushAudioEffectReverb_Off = 0,
+    /** 人声I */
+    AlivcLivePushAudioEffectReverb_Vocal_I,
+    /** 人声II */
+    AlivcLivePushAudioEffectReverb_Vocal_II,
+    /** 澡堂 */
+    AlivcLivePushAudioEffectReverb_Bathroom,
+    /** 明亮小房间 */
+    AlivcLivePushAudioEffectReverb_Small_Room_Bright,
+    /** 黑暗小房间 */
+    AlivcLivePushAudioEffectReverb_Small_Room_Dark,
+    /** 中等房间 */
+    AlivcLivePushAudioEffectReverb_Medium_Room,
+    /** 大房间 */
+    AlivcLivePushAudioEffectReverb_Large_Room,
+    /** 教堂走廊 */
+    AlivcLivePushAudioEffectReverb_Church_Hall,
+    /** 占位符 */
+    AlivcLivePushAudioEffectReverb_Mode_Max,
+};

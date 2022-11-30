@@ -451,6 +451,25 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (int)setAudioDenoise:(bool)isOpen;
 
+/**
+ * @brief 设置变声音效模式
+ * @param mode 参考 {@link AlivcLivePushAudioEffectVoiceChangerMode} 对应的变声音效模式值
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ * @note 推流前和推流过程中调用都生效
+ */
+- (int)setAudioEffectVoiceChangeMode:(AlivcLivePushAudioEffectVoiceChangeMode)mode;
+
+/**
+ * @brief 设置混响音效模式
+ * @param mode 参考 {@link AlivcLivePushAudioEffectReverbMode} 对应的混响模式
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ * @note 推流前和推流过程中调用都生效
+ */
+- (int)setAudioEffectReverbMode:(AlivcLivePushAudioEffectReverbMode)mode;
 
 /**
  设置背景音乐混音 音乐音量

@@ -14,7 +14,7 @@
 		</data>
 		<key>Headers/AlivcLivePushConstants.h</key>
 		<data>
-		s0OCikJWVi40SzD5hQJ3t3/XObI=
+		XlmP85OnFEi8yD+tSW1hoTEAr4Q=
 		</data>
 		<key>Headers/AlivcLivePushDef.h</key>
 		<data>
@@ -30,7 +30,7 @@
 		</data>
 		<key>Headers/AlivcLivePusher.h</key>
 		<data>
-		PE5XasCdR2VCQUb4XXAfvIzF1+E=
+		udH+qsVyTTIjlOJFTzSQdQQreuY=
 		</data>
 		<key>Headers/AlivcLivePusherHeader.h</key>
 		<data>
@@ -38,7 +38,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		DfuTi8uB4MtWh60MeltN4oxUMTM=
+		b9MycvZK6xvummCsk9PB3anOSbw=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -73,11 +73,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			s0OCikJWVi40SzD5hQJ3t3/XObI=
+			XlmP85OnFEi8yD+tSW1hoTEAr4Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			9Tlze1WV0VMRLVjMDDql7QEadLzdHquGOJZG/wVP0UY=
+			lbtLYwZoXzmLl4bEJ44fsEkYkxO2JmzzqL//wAwHSQ0=
 			</data>
 		</dict>
 		<key>Headers/AlivcLivePushDef.h</key>
@@ -117,11 +117,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			PE5XasCdR2VCQUb4XXAfvIzF1+E=
+			udH+qsVyTTIjlOJFTzSQdQQreuY=
 			</data>
 			<key>hash2</key>
 			<data>
-			TmAJK8Gjj4yyG7eGs11yqLBcOOHcVggY6Dcji82IC5g=
+			4Ur43hwlf3XCeG7FvnfIwCdSP8JN3AlpmyF1519kssI=
 			</data>
 		</dict>
 		<key>Headers/AlivcLivePusherHeader.h</key>
