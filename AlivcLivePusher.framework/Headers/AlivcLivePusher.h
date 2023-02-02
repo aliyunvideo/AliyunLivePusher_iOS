@@ -452,6 +452,25 @@ AlivcLivePusherAudioSampleDelegate;
 - (int)setAudioDenoise:(bool)isOpen;
 
 /**
+ * 开启智能降噪
+ * @return
+ * - 0: 成功
+ * - 非0: 返回错误码
+ * @note
+ * - 智能降噪功能以插件形式提供，直播SDK采用插件形式提供音视频增强能力，可通过[官网组件文档] 进行组建下载，参考插件集成文档集成进直播推流引擎
+ * - 调用该接口前，请确保已集成了直播官网提供的pulginAliDenoise.framework
+ * - 此接口可以通话过程中控制打开智能降噪功能，通话过程中可以支持开启和关闭智能降噪
+ * - 默认关闭，开启后可能导致功耗增加，智能降噪适合于会议，教育等语音通讯为主的场景，不适合有背景音乐的场景
+ */
+- (int)startIntelligentDenoise;
+
+/**
+* @brief 关闭智能降噪
+* @note 此接口可以通话过程中控制关闭智能降噪功能
+*/
+- (int)stopIntelligentDenoise;
+
+/**
  * @brief 设置变声音效模式
  * @param mode 参考 {@link AlivcLivePushAudioEffectVoiceChangerMode} 对应的变声音效模式值
  * @return
