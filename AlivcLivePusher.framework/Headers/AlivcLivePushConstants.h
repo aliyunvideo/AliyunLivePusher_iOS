@@ -304,7 +304,7 @@ typedef NS_ENUM(NSInteger, AlivcPusherErrorCode){
     ALIVC_LIVE_PUSHER_PARAM_ERROR       = -2, // 接口调用传入参数错误
     ALIVC_LIVE_PUSHER_UNKNOW_ERROR      = -3, // 接口调用未知错误
     ALIVC_LIVE_PUSHER_SEQUENCE_ERROR    = -4, // 接口调用顺序错误
-    ALIVC_LIVE_PUSHER_RTC_NOT_SUPPORT_AUDIO_OR_VIDEOONLY_PUSH = -5, //rtc协议暂不支持纯音频或纯视频推流
+    ALIVC_LIVE_PUSHER_RTC_NOT_SUPPORT_AUDIO_OR_VIDEOONLY_PUSH = -5, //RTS协议暂不支持纯音频或纯视频推流
     ALIVC_LIVE_PUSHER_API_NOT_SUPPORT_FOR_INTERACTIVEMODE = -6,//当前API在互动模式下不支持
 };
 

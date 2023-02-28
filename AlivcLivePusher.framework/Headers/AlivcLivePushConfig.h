@@ -196,10 +196,8 @@
 
 
 /**
- 纯音频推流，只有RTMP推流才支持纯音频推流，当前RTC不支持纯音频推流
+ 纯音频推流
  * 默认 : false
- * 注 : 与 videoOnly互斥
- * 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下 设置audioOnly，AlivcLivePushInteractiveMode模式下暂时不支持纯音频推流
  */
 @property (nonatomic, assign) bool audioOnly;
 

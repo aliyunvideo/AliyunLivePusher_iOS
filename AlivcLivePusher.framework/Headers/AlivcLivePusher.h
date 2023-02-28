@@ -458,6 +458,7 @@ AlivcLivePusherAudioSampleDelegate;
  * - 非0: 返回错误码
  * @note
  * - 智能降噪功能以插件形式提供，直播SDK采用插件形式提供音视频增强能力，可通过[官网组件文档] 进行组建下载，参考插件集成文档集成进直播推流引擎
+ * https://help.aliyun.com/document_detail/600551.html
  * - 调用该接口前，请确保已集成了直播官网提供的pulginAliDenoise.framework
  * - 此接口可以通话过程中控制打开智能降噪功能，通话过程中可以支持开启和关闭智能降噪
  * - 默认关闭，开启后可能导致功耗增加，智能降噪适合于会议，教育等语音通讯为主的场景，不适合有背景音乐的场景
@@ -751,6 +752,16 @@ AlivcLivePusherAudioSampleDelegate;
  不及时取消混流可能会引起不必要的计费损失
  */
 - (int)setLiveMixTranscodingConfig:(AlivcLiveTranscodingConfig *)config;
+
+/**
+ 关闭/打开视频（非互动模式暂不支持该API，调用无任何效果）
+ @param mute  YES表示不发送视频数据；NO表示恢复正常
+ @return
+ * - 0: 表示Success
+ * - 非0: 表示Failure
+ */
+- (int)muteLocalCamera:(BOOL)mute;
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //      美颜相关api，在v4.2.0版本已删除，推流SDK不再提供内置美颜功能，请使用阿里云Queen提供的美颜服务
@@ -910,6 +921,13 @@ AlivcLivePusherAudioSampleDelegate;
 
 
 /**
+ 发送第一帧音视频流回调
+ 
+ @param pusher 推流AlivcLivePusher
+ */
+- (void)onFirstFramePushed:(AlivcLivePusher *)pusher;
+
+/**
  推流开始回调
  
  @param pusher 推流AlivcLivePusher
@@ -958,10 +976,13 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  * 设置云端的混流（转码）参数回调，对应于setLiveMixTranscodingConfig接口
+ * 注：此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
  * @param isSuccess YES表示成功，NO表示失败
  * @param msg 具体错误原因
  */
 - (void)onSetLiveMixTranscodingConfig:(AlivcLivePusher *)pusher status:(BOOL)isSuccess message:(NSString *)msg;
+
+
 @end
 
 
