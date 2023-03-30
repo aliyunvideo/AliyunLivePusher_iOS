@@ -24,25 +24,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+/**
+ * @brief 直播连麦播放参数配置
+ */
 @interface AlivcLivePlayConfig : NSObject
 /**
- 渲染模式
- 默认：AlivcLivePlayRenderModeAuto
+ * @brief 渲染模式
+ * default：AlivcLivePlayRenderModeAuto
  */
 @property (nonatomic) AlivcLivePlayRenderMode renderMode;
 
 /**
- 播放是否镜像
- 默认：false，非镜像
+ * @brief 播放是否镜像
+ * default：false，非镜像
  */
 @property (nonatomic, assign) BOOL mirror;
 
 /**
- 旋转角度
- 默认： AlivcLivePlayRotationMode_0
+ * @brief 旋转角度 
+ * default： AlivcLivePlayRotationMode_0
  */
 @property (nonatomic, assign) AlivcLivePlayRotationMode rotationMode;
 @end
+
 
 /**
  * 云端混流（转码）中每一路子画面的位置信息
@@ -51,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  参与混流的 userId
- 备注：和推拉地址中userIdzi字端相同
+ 备注：和推拉地址中userId字端相同
  */
 @property (nonatomic, copy, nonnull) NSString *userId;
 
@@ -124,5 +128,65 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int encodeCostMs;
 
 @end
+
+@interface AlivcLivePlayerStatsInfo : NSObject
+
+#pragma mark - system
+/**
+ 用户ID
+ */
+@property (nonatomic, copy) NSString * _Nonnull userId;
+
+/**
+ 视频宽度
+ */
+@property(nonatomic, assign) int videoWidth;
+
+/**
+ 视频高度
+ */
+@property(nonatomic, assign) int videoHeight;
+
+/**
+ 视频解码FPS
+ * 单位 : Frames per Second
+ */
+@property (nonatomic, assign) int decodeFps;
+
+/**
+ 视频渲染FPS
+ * 单位 : Frames per Second
+ */
+@property (nonatomic, assign) int renderFps;
+
+/**
+ 视频码率（当前视频码率是所有接收的总码率）
+ * Kbps
+ */
+@property (nonatomic, assign) int videoBitrate;
+
+
+/**
+ 音频码率
+ * Kbps
+ */
+@property (nonatomic, assign) int audioBitrate;
+
+
+/**
+ 音频丢包率
+ * %
+ */
+@property (nonatomic, assign) int audioLossRate;;
+
+/**
+ 丢包率 (网络丢包率)
+ * %
+ */
+@property (nonatomic, assign) int lossRate;
+
+
+@end
+
 
 NS_ASSUME_NONNULL_END

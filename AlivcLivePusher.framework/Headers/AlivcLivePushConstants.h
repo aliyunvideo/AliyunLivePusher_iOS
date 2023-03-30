@@ -443,10 +443,12 @@ typedef NS_ENUM(NSInteger, AlivcLiveBufferType) {
  * @brief SDK监控多个质量信息，针对嵌入式场景，可以指定精简的监控信息
  * AlivcLivePushMonitorLevelAll 监控全量质量信息
  * AlivcLivePushMonitorLevelCut 监控精简质量信息
+ * AlivcLivePushMonitorLevelNone 不上传任何质量信息
  */
 typedef NS_ENUM(NSInteger, AlivcLivePushMonitorLevel) {
     AlivcLivePushMonitorLevelAll = 0,
     AlivcLivePushMonitorLevelCut = 1,
+    AlivcLivePushMonitorLevelNone = 2
 };
 
 /**
@@ -516,4 +518,31 @@ typedef NS_ENUM(NSInteger, AlivcLivePushAudioEffectReverbMode) {
     AlivcLivePushAudioEffectReverb_Church_Hall,
     /** 占位符 */
     AlivcLivePushAudioEffectReverb_Mode_Max,
+};
+
+/**
+ * @brief 网络质量
+ * AlivcLiveNetworkQualityExcellent 网络极好，流程度清晰度质量好
+ * AlivcLiveNetworkQualityGood 网络好，流畅度清晰度和极好差不多
+ * AlivcLiveNetworkQualityPoor 网络较差，音视频流畅度清晰度有瑕疵，不影响沟通
+ * AlivcLiveNetworkQualityBad 网络差，视频卡顿严重，音频能正常沟通
+ * AlivcLiveNetworkQualityVeryBad 网络极差，基本无法沟通
+ * AlivcLiveNetworkQualityDisconnect 网络中断
+ * AlivcLiveNetworkQualityUnknow 未知
+ */
+typedef NS_ENUM(NSUInteger, AlivcLiveNetworkQuality) {
+    /** 网络极好，流程度清晰度质量好 */
+    AlivcLiveNetworkQualityExcellent  = 0,
+    /** 网络好，流畅度清晰度和极好差不多 */
+    AlivcLiveNetworkQualityGood       = 1,
+    /** 网络较差，音视频流畅度清晰度有瑕疵，不影响沟通 */
+    AlivcLiveNetworkQualityPoor       = 2,
+    /** 网络差，视频卡顿严重，音频能正常沟通 */
+    AlivcLiveNetworkQualityBad        = 3,
+    /** 网络极差，基本无法沟通 */
+    AlivcLiveNetworkQualityVeryBad    = 4,
+    /** 网络中断 */
+    AlivcLiveNetworkQualityDisconnect = 5,
+    /** 未知 */
+    AlivcLiveNetworkQualityUnknow     = 6,
 };
