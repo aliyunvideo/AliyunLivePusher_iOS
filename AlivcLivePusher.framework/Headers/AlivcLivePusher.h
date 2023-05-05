@@ -24,9 +24,23 @@
 ///  其相关文档参考https://help.aliyun.com/document_detail/431730.html、
 ///  https://help.aliyun.com/document_detail/94821.html、https://help.aliyun.com/document_detail/94828.html
 
+/// @details From V4.4.2, Alibaba Cloud Push SDK adds the support for license management. If you upgrade Push SDK from a previous version to V4.4.2 or later,
+/// you need to obtain a license for the SDK, and there are some minor changes in the procedure of integrating the SDK.
+/// 1. Configure licenseKey and licenseFile in the Info.plist file
+/// 2. Call [AlivcLiveBase registerSDK] to register Push SDK
+/// 3. Listen to the onLicenceCheck callback to ensure that the license verification is passed
+/// 4. Create an object to start stream push
+/// For more information, see https://help.aliyun.com/document_detail/431730.html、
+///  https://help.aliyun.com/document_detail/94821.html、https://help.aliyun.com/document_detail/94828.html
+
 /**
  * @details 错误回调, 网络回调, 状态回调, BGM回调, 滤镜回调
  */
+
+/****
+ * @details Error callbacks, network callbacks, status callbacks, BGM callbacks, and filter callbacks
+ */
+
 @protocol AlivcLivePusherErrorDelegate,
 AlivcLivePusherNetworkDelegate,
 AlivcLivePusherInfoDelegate,
@@ -40,7 +54,15 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  * @defgroup AlivcLivePusher 直播推流引擎
+ * @ingroup live
  *  直播推流功能的主要接口类
+ *  @{
+ */
+
+/****
+ * @defgroup AlivcLivePusher Live  pusher engine
+ * @ingroup live
+ *  Major classes
  *  @{
  */
 @interface AlivcLivePusher : NSObject
@@ -51,12 +73,22 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 显示调试悬浮窗
  * @note 注意 ：Debug悬浮窗会占用一定的系统资源，只可用于APP研发的Debug阶段，Release版本请勿调用此接口
  */
+
+/****
+ * @brief Show the debugging window
+ * @note Note: The debugging window occupies certain system resources and can only be used in the Debug phase of app development.
+ *  Do not call this method in the released version of your app.
+ */
 + (void)showDebugView;
 
 
 
 /**
  * @brief 隐藏调试悬浮窗
+ */
+
+/****
+ * @brief Hide the debugging window
  */
 + (void)hideDebugView;
 
@@ -67,10 +99,22 @@ AlivcLivePusherAudioSampleDelegate;
  * @return self:success  nil:failure
  * @note 同一时间只会存在一个主推流引擎实例
  */
+
+/****
+ * @brief Create a live  pusher engine
+ * @param config Configure live pusher {@link AlivcLivePushConfig}
+ * @return self:success  nil:failure
+ * @note You can create only one primary live pusher engine
+ */
 - (instancetype)initWithConfig:(AlivcLivePushConfig *)config;
 
 /**
  * @brief 设置推流错误监听回调
+ * @param delegate {@link AlivcLivePusherErrorDelegate}
+ */
+
+/****
+ * @brief Set the callback for live pusher engine errors.
  * @param delegate {@link AlivcLivePusherErrorDelegate}
  */
 - (void)setErrorDelegate:(id<AlivcLivePusherErrorDelegate>)delegate;
@@ -80,16 +124,31 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 设置推流状态监听回调
  * @param delegate {@link AlivcLivePusherInfoDelegate}
  */
+
+/****
+ * @brief Set the callback for live pusher engine status.
+ * @param delegate {@link AlivcLivePusherInfoDelegate}
+ */
 - (void)setInfoDelegate:(id<AlivcLivePusherInfoDelegate>)delegate;
 
 /**
  * @brief 设置推流网络监听回调
  * @param delegate {@link AlivcLivePusherNetworkDelegate}
  */
+
+/****
+ * @brief Set the callback for the network status of live pusher engine
+ * @param delegate {@link AlivcLivePusherNetworkDelegate}
+ */
 - (void)setNetworkDelegate:(id<AlivcLivePusherNetworkDelegate>)delegate;
 
 /**
  * @brief 设置用户自定义滤镜回调
+ * @param delegate {@link AlivcLivePusherCustomFilterDelegate}
+ */
+
+/****
+ * @brief Set a custom filter callback
  * @param delegate {@link AlivcLivePusherCustomFilterDelegate}
  */
 - (void)setCustomFilterDelegate:(id<AlivcLivePusherCustomFilterDelegate>)delegate;
@@ -99,16 +158,31 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 设置用户自定义人脸识别回调
  * @param delegate {@link AlivcLivePusherCustomDetectorDelegate}
  */
+
+/****
+ * @brief Set a custom facial recognition callback
+ * @param delegate {@link AlivcLivePusherCustomDetectorDelegate}
+ */
 - (void)setCustomDetectorDelegate:(id<AlivcLivePusherCustomDetectorDelegate>)delegate;
 
 /**
  * @brief 设置背景音乐监听回调
  * @param delegate {@link AlivcLivePusherBGMDelegate}
  */
+
+/****
+ * @brief Set the callback for background music
+ * @param delegate {@link AlivcLivePusherBGMDelegate}
+ */
 - (void)setBGMDelegate:(id<AlivcLivePusherBGMDelegate>)delegate;
 
 /**
  * @brief 设置音频裸数据回调
+ * @param delegate {@link AlivcLivePusherAudioSampleDelegate}
+ */
+
+/****
+ * @brief Set the callback for raw audio data
  * @param delegate {@link AlivcLivePusherAudioSampleDelegate}
  */
 - (void)setAudioSampleDelegate:(id<AlivcLivePusherAudioSampleDelegate>)delegate;
@@ -118,12 +192,27 @@ AlivcLivePusherAudioSampleDelegate;
  * @param previewView 预览view
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Start preview. (This is a synchronous method.)
+ * @param previewView view
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)startPreview:(UIView *)previewView;
 
 
 /**
  * @brief 停止预览
  * @return 0:success  非0:failure
+ */
+
+/****
+ * @brief Stop preview
+ * @return
+ *  0:success
+ *  != 0:failure
  */
 - (int)stopPreview;
 
@@ -133,12 +222,27 @@ AlivcLivePusherAudioSampleDelegate;
  * @param pushURL 推流URL
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Start stream push. (This is a synchronous method.)
+ * @param pushURL push URL
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)startPushWithURL:(NSString *)pushURL;
 
 
 /**
  * @brief 停止推流
  * @return 0:success  非0:failure
+ */
+
+/****
+ * @brief Stop stream push
+ * @return
+ *  0:success
+ *  != 0:failure
  */
 - (int)stopPush;
 
@@ -147,12 +251,27 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 重新推流 同步接口
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Restart stream push. (This is a synchronous method.)
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)restartPush;
 
 
 /**
  * @brief 暂停摄像头推流，如果pushCongfig 中设置了pauseImg图片，将推设置的静态图片
  * @return 0:success  非0:failure
+ */
+
+/****
+ * @brief Pause stream push from the camera，If you have specified an image by using the pauseImg parameter of the pushConfig class,
+ * the specified image is pushed.
+ * @return
+ *  0:success
+ *  != 0:failure
  */
 - (int)pause;
 
@@ -162,6 +281,13 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 恢复摄像头推流 同步接口
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Resume stream push from the camera. (This is a synchronous method.)
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)resume;
 
 
@@ -169,16 +295,34 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 重连 异步接口
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Reconnect. (This is an asynchronous method.)
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)reconnectPushAsync;
 
 /**
  * @brief 推流URL的重连 异步接口
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Reconnect the push URL. (This is an asynchronous method.)
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)reconnectPushAsync:(NSString *)pushURL;
 
 /**
  * @brief 销毁推流引擎
+ */
+
+/****
+ * @brief Destroys the live pusher engine
  */
 - (void)destory;
 
@@ -190,6 +334,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @param preview 预览view
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Start preview. (This is an asynchronous method.)
+ * @param preview view
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)startPreviewAsync:(UIView *)preview;
 
 
@@ -198,6 +350,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @param pushURL 推流URL
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Start stream push. (This is an asynchronous method.)
+ * @param pushURL push URL
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)startPushWithURLAsync:(NSString *)pushURL;
 
 
@@ -205,12 +365,26 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 重新推流 异步接口
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Restart stream push. (This is an asynchronous method.)
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)restartPushAsync;
 
 
 /**
  * @brief 恢复推流 异步接口
  * @return 0:success  非0:failure
+ */
+
+/****
+ * @brief Resume stream push. (This is an asynchronous method.)
+ * @return
+ *  0:success
+ *  != 0:failure
  */
 - (int)resumeAsync;
 
@@ -222,6 +396,13 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 切换摄像头
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Switch between the front and rear cameras
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)switchCamera;
 
 
@@ -229,6 +410,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 设置自动对焦
  * @param autoFocus true:自动对焦 false:手动对焦
  * @return 0:success  非0:failure
+ */
+
+/****
+ * @brief Specify whether to enable autofocus
+ * @param autoFocus true:autofocus false:Manual focus
+ * @return
+ *  0:success
+ *  != 0:failure
  */
 - (int)setAutoFocus:(bool)autoFocus;
 
@@ -239,6 +428,15 @@ AlivcLivePusherAudioSampleDelegate;
  * @param autoFocus 是否自动对焦
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Configure focus
+ * @param point The focus point
+ * @param autoFocus Whether to enable autofocus
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)focusCameraAtAdjustedPoint:(CGPoint)point autoFocus:(bool)autoFocus;
 
 
@@ -247,6 +445,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @param zoom 缩放值[0:MaxZoom]
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Configure zoom
+ * @param zoom The zoom value.[0:MaxZoom]
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)setZoom:(float)zoom;
 
 
@@ -254,12 +460,22 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 获取支持的最大变焦值
  * @return 最大变焦值
  */
+
+/****
+ * @brief Query the maximum zoom value that is supported
+ * @return The maximum zoom value
+ */
 - (float)getMaxZoom;
 
 
 /**
  * @brief 获取当前变焦值
  * @return 当前变焦值
+ */
+
+/****
+ * @brief Query the current zoom value
+ * @return The current zoom value
  */
 - (float)getCurrentZoom;
 
@@ -269,6 +485,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @param flash true:打开闪光灯 false:关闭闪光灯
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Specify whether to turn on the flash
+ * @param flash true:Turn on the flash. false:Turn off the flash
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)setFlash:(bool)flash;
 
 
@@ -277,6 +501,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @param exposure 曝光度
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Specify the exposure level
+ * @param exposure The exposure level
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)setExposure:(float)exposure;
 
 
@@ -284,17 +516,32 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 获取当前曝光度
  * @return  曝光度
  */
+
+/****
+ * @brief Query the current exposure level
+ * @return  The exposure level
+ */
 - (float)getCurrentExposure;
 
 /**
  * @brief 获取支持最小曝光度
  * @return  最小曝光度
  */
+
+/****
+ * @brief Query the minimum exposure level that is supported
+ * @return  The minimum exposure level
+ */
 - (float)getSupportedMinExposure;
 
 /**
  * @brief 获取支持最大曝光度
  * @return  最大曝光度
+ */
+
+/****
+ * @brief Query the maximum exposure level that is supported
+ * @return  The maximum exposure level
  */
 - (float)getSupportedMaxExposure;
 
@@ -303,6 +550,11 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 推流镜像开关
  * @param mirror true:打开推流镜像 false:关闭推流镜像
  */
+
+/****
+ * @brief Specify whether to enable the mirroring mode for live pusher
+ * @param mirror true:Enable the mirroring mode for stream push. false:Disable the mirroring mode for stream push
+ */
 - (void)setPushMirror:(bool)mirror;
 
 
@@ -310,12 +562,22 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 预览镜像开关
  * @param mirror true:打开预览镜像 false:关闭预览镜像
  */
+
+/****
+ * @brief Specify whether to enable the mirroring mode for preview
+ * @param mirror true:Enable the mirroring mode for preview. false:Disable the mirroring mode for preview.
+ */
 - (void)setPreviewMirror:(bool)mirror;
 
 
 /**
  * @brief 静音推流
  * @param mute true:静音推流 false:正常推流
+ */
+
+/****
+ * @brief Mute the audio stream
+ * @param mute true:mute false:Normal
  */
 - (void)setMute:(bool)mute;
 
@@ -325,6 +587,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @param qualityMode 推流模式 : 选择 ResolutionFirst 模式时，SDK内部会优先保障推流视频的清晰度; 选择 FluencyFirst 模式时，SDK内部会优先保障推流视频的流畅度，此接口只支持这两种模式。设置后码率设置失效。
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Specify the quality mode
+ * @param qualityMode If you select the ResolutionFirst mode, the SDK prioritizes the quality of streams. If you select the FluencyFirst mode, the SDK prioritizes the smoothness of streams. This method supports only the two modes. The bitrate setting becomes invalid after you specify the quality mode.
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)setQualityMode:(AlivcLivePushQualityMode)qualityMode;
 
 
@@ -332,6 +602,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 设置目标码率
  * @param targetBitrate 目标码率 [100  5000](Kbps)
  * @return 0:success  非0:failure
+ */
+
+/****
+ * @brief Specify the target bitrate
+ * @param targetBitrate The target bitrate [100  5000](Kbps)
+ * @return
+ *  0:success
+ *  != 0:failure
  */
 - (int)setTargetVideoBitrate:(int)targetBitrate;
 
@@ -341,11 +619,24 @@ AlivcLivePusherAudioSampleDelegate;
  * @param minBitrate 最小码率 [100  5000](Kbps)
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Specify the minimum bitrate
+ * @param minBitrate The minimum bitrate. [100  5000](Kbps)
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)setMinVideoBitrate:(int)minBitrate;
 
 /**
  * @brief 设置预览显示模式
  * @param displayMode 预览显示模式
+ */
+
+/****
+ * @brief Specify the preview mode
+ * @param displayMode The preview mode
  */
 - (void)setpreviewDisplayMode:(AlivcPusherPreviewDisplayMode)displayMode;
 
@@ -353,6 +644,11 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * @brief 设置推流分辨率，只在预览模式下生效，推流中不能设置
  * @param resolution 推流分辨率
+ */
+
+/****
+ * @brief Specify the resolution, which takes effect only in preview mode. You cannot specify this parameter during stream push.
+ * @param resolution The resolution of the ingested stream
  */
 - (void)setResolution:(AlivcLivePushResolution)resolution;
 
@@ -365,12 +661,27 @@ AlivcLivePusherAudioSampleDelegate;
  * @param path 背景音乐路径
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Play background music
+ * @param path The path of the background music
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)startBGMWithMusicPathAsync:(NSString *)path;
 
 
 /**
  * @brief 停止播放背景音乐
  * @return 0:success  非0:failure
+ */
+
+/****
+ * @brief Stop the playback of background music
+ * @return
+ *  0:success
+ *  != 0:failure
  */
 - (int)stopBGMAsync;
 
@@ -379,12 +690,26 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 暂停播放背景音乐
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Pause the playback of background music
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)pauseBGM;
 
 
 /**
  * @brief 恢复播放背景音乐
  * @return 0:success  非0:failure
+ */
+
+/****
+ * @brief Resume the playback of background music
+ * @return
+ *  0:success
+ *  != 0:failure
  */
 - (int)resumeBGM;
 
@@ -394,6 +719,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @param isLoop 是否循环  true:循环 false:不循环
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Specify whether to enable loop playback of background music
+ * @param isLoop Whether to loop.  true:Loop false:No loop
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)setBGMLoop:(bool)isLoop;
 
 
@@ -402,6 +735,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @param isOpen 是否打开耳返  true:开启耳返 false:关闭耳返
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Specify whether to enable in-ear monitoring for background music
+ * @param isOpen Whether to enable in-ear monitoring.  true:Enabled false:Disabled
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)setBGMEarsBack:(bool)isOpen;
 
 
@@ -409,6 +750,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 设置降噪开关
  * @param isOpen 是否打开降噪 true:开启 false:关闭 默认:true
  * @return 0:success  非0:failure
+ */
+
+/****
+ * @brief Specify whether to enable noise reduction
+ * @param isOpen Whether to enable noise reduction. true:Enabled false:Disabled default:true
+ * @return
+ *  0:success
+ *  != 0:failure
  */
 - (int)setAudioDenoise:(bool)isOpen;
 
@@ -424,11 +773,31 @@ AlivcLivePusherAudioSampleDelegate;
  * - 此接口可以通话过程中控制打开智能降噪功能，通话过程中可以支持开启和关闭智能降噪
  * - 默认关闭，开启后可能导致功耗增加，智能降噪适合于会议，教育等语音通讯为主的场景，不适合有背景音乐的场景
  */
+
+/****
+ * @brief Enable intelligent noise reduction
+ * @return
+ *  0:success
+ *  != 0:failure
+ * @details
+ * - Push SDK provides audio and video enhancement by using various components. The intelligent noise reduction feature is provided in the form of a component.
+ *  You can learn about it in the ApsaraVideo Live documentation. For information about how to integrate the component into the stream ingest engine, see the following topic:
+ *  https://help.aliyun.com/document_detail/600551.html
+ * - Before you call this method, make sure that pulginAliDenoise.framework provided by ApsaraVideo Live is integrated.
+ * - You can call this method to enable intelligent noise reduction during a live pushing.
+ * - By default, the intelligent noise reduction feature is disabled. If you enabled this feature, power consumption increases. This feature is suitable for
+ *  voice communication scenarios such as conferences and educational activities, but not suitable for scenarios with background music.
+ */
 - (int)startIntelligentDenoise;
 
 /**
  * @brief 关闭智能降噪
  * @note 此接口可以通话过程中控制关闭智能降噪功能
+*/
+
+/****
+ * @brief Disable intelligent noise reduction
+ * @note You can call this method to disable intelligent noise reduction during a voice call.
 */
 - (int)stopIntelligentDenoise;
 
@@ -440,6 +809,15 @@ AlivcLivePusherAudioSampleDelegate;
  * - 非0：失败
  * @note 推流前和推流过程中调用都生效
  */
+
+/****
+ * @brief Set the voice change mode
+ * @param mode Reference {@link AlivcLivePushAudioEffectVoiceChangerMode} Values that specify the voice change effects.
+ * @return
+ *  0:success
+ *  != 0:failure
+ * @note You can call this method before or during live push.
+ */
 - (int)setAudioEffectVoiceChangeMode:(AlivcLivePushAudioEffectVoiceChangeMode)mode;
 
 /**
@@ -450,12 +828,29 @@ AlivcLivePusherAudioSampleDelegate;
  * - 非0：失败
  * @note 推流前和推流过程中调用都生效
  */
+
+/****
+ * @brief Set the reverberation mode
+ * @param mode Reference: {@link AlivcLivePushAudioEffectReverbMode} Values that specify the reverberation effects.
+ * @return
+ *  0:success
+ *  != 0:failure
+ * @note You can call this method before or during live push.
+ */
 - (int)setAudioEffectReverbMode:(AlivcLivePushAudioEffectReverbMode)mode;
 
 /**
  * @brief 设置背景音乐混音 音乐音量
  * @param volume 音乐音量大小 范围:[0 ~ 100] 默认:50
  * @return 0:success  非0:failure
+ */
+
+/****
+ * @brief Set the volume of music in mixed audio
+ * @param volume The music volume.:[0 ~ 100] default:50
+ * @return
+ *  0:success
+ *  != 0:failure
  */
 - (int)setBGMVolume:(int)volume;
 
@@ -464,6 +859,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 设置背景音乐混音 人声音量
  * @param volume 人声音量大小 范围:[0 ~ 100] 默认:50
  * @return 0:success  非0:failure
+ */
+
+/****
+ * @brief Set the volume of vocal in mixed audio
+ * @param volume The vocal volume.:[0 ~ 100] default:50
+ * @return
+ *  0:success
+ *  != 0:failure
  */
 - (int)setCaptureVolume:(int)volume;
 
@@ -480,6 +883,16 @@ AlivcLivePusherAudioSampleDelegate;
  * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode
  * 模式下开始屏幕分享（录屏推流），AlivcLivePushInteractiveMode模式下暂时不支持开始屏幕分享（录屏推流）
  */
+
+/****
+ * @brief Start screen sharing. (This method supports iPhones and iPads that run on iOS 11.0 or later.)
+ * @details This method is used with AlivcLibReplayKitExt.framework to add the AlivcLibReplayKitExt.framework library to an
+ * Extension to implement screen capture and data transmission. Audio and video data is received in the host app for stream pusher.
+ * @param appGroup App group ID The ID of the app group to which the host app and the Extension belong. In this case, the host app and the
+ *  Extension belong to the same app group. If no app group is available, you cannot call this method.
+ * @note ote: The SDK supports screen sharing (screen recording for stream ingest) when livePushMode is set to AlivcLivePushBasicMode,
+ *  but not when livePushMode is set to AlivcLivePushInteractiveMode.
+ */
 - (int)startScreenCapture:(NSString *)appGroup;
 
 /* ***********************外部数据*********************** */
@@ -491,6 +904,13 @@ AlivcLivePusherAudioSampleDelegate;
  * @note 当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下发送自定义video SampleBuffer，AlivcLivePushInteractiveMode模式下暂时不支持发送自定义video
  * SampleBuffer
  */
+
+/****
+ * @brief Send custom video SampleBuffer
+ * @param sampleBuffer video sample buffer
+ * @note The SDK allows you to send custom video SampleBuffer when livePushMode is set to AlivcLivePushBasicMode,
+ * but not when livePushMode is set to AlivcLivePushInteractiveMode.
+ */
 - (void)sendVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer;
 
 /**
@@ -501,6 +921,15 @@ AlivcLivePusherAudioSampleDelegate;
  * @param sampleBufferType audio sample buffer type
  * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下发送自定义的audio
  * SampleBuffer，AlivcLivePushInteractiveMode模式下暂时不支持发送自定义的audio SampleBuffer
+ */
+
+/****
+ * @brief Send custom audio SampleBuffer
+ * @details You can call this method only when you use replaykit to stream screen recordings
+ * @param sampleBuffer audio sample buffer
+ * @param sampleBufferType audio sample buffer type
+ * @note Note: The SDK allows you to send custom audio SampleBuffer when livePushMode is set to AlivcLivePushBasicMode,
+ * but not when livePushMode is set to AlivcLivePushInteractiveMode.
  */
 - (void)sendAudioSampleBuffer:(CMSampleBufferRef)sampleBuffer withType:(RPSampleBufferType)sampleBufferType;
 
@@ -514,6 +943,16 @@ AlivcLivePusherAudioSampleDelegate;
  * @param pts 时间戳（单位微秒）
  * @param rotation 旋转
  */
+
+/****
+ * @brief Send custom video data
+ * @param data The video data
+ * @param width The width of the video
+ * @param height The height of the video
+ * @param size The data size
+ * @param pts The presentation timestamp. Unit: microsecond
+ * @param rotation The rotation degree
+ */
 - (void)sendVideoData:(char *)data width:(int)width height:(int)height size:(int)size pts:(uint64_t)pts rotation:(int)rotation;
 
 /**
@@ -524,6 +963,15 @@ AlivcLivePusherAudioSampleDelegate;
  * @param sampleRate 采样率
  * @param channel 声道数
  * @param pts 时间戳（单位微秒）
+ */
+
+/****
+ * @brief Send custom audio data.
+ * @param data The audio data
+ * @param size The data size
+ * @param sampleRate The sample rate
+ * @param channel The number of sound channels
+ * @param pts The presentation timestamp. Unit: microsecond
  */
 - (void)sendPCMData:(char *)data size:(int)size sampleRate:(int)sampleRate channel:(int)channel pts:(uint64_t)pts;
 
@@ -541,6 +989,22 @@ AlivcLivePusherAudioSampleDelegate;
  * @return 返回对应视频混流标识ID
  * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下添加视频混流设置，AlivcLivePushInteractiveMode模式下暂时不支持添加视频混流设置
  */
+
+/****
+ * @brief Add video stream mixing settings
+ * @param format The format of the raw video data  {@link  AlivcLivePushVideoFormat}
+ * @param width The width of the video
+ * @param height The height of the video
+ * @param rotation The angle of the video
+ * @param displayX The coordinate value along the x-axis to place the video in the upper-left corner.
+ * @param displayY The coordinate value along the y-axis to place the video in the upper-left corner.
+ * @param displayW The display width of the video
+ * @param displayH The display height of the video
+ * @param adjustHeight The adaptive height of the video
+ * @return The ID of the mixed video stream
+ * @note Note: The SDK allows you to add video stream mixing settings when livePushMode is set to AlivcLivePushBasicMode,
+ * but not when livePushMode is set to AlivcLivePushInteractiveMode.
+ */
 - (int)addMixVideo:(int)format width:(int)width height:(int)height rotation:(int)rotation displayX:(float)displayX displayY:(float)displayY displayW:(float)displayW displayH:(float)displayH adjustHeight:(bool)adjustHeight;
 
 /**
@@ -552,6 +1016,17 @@ AlivcLivePusherAudioSampleDelegate;
  * @param displayH 图像显示的高度
  * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下改变视频混流位置，AlivcLivePushInteractiveMode模式下暂时不支持改变视频混流位置
  */
+
+/****
+ * @brief Modify the position of the mixed video stream
+ * @param handler The ID of the mixed video stream. You can obtain the ID from the addMixVideo request
+ * @param displayX The coordinate value along the x-axis to place the video in the upper-left corner.
+ * @param displayY The coordinate value along the y-axis to place the video in the upper-left corner.
+ * @param displayW The display width of the video
+ * @param displayHThe display height of the video
+ * @note Note: The SDK allows you to modify the position of the mixed video stream when livePushMode is set to AlivcLivePushBasicMode,
+ *  but not when livePushMode is set to AlivcLivePushInteractiveMode.
+ */
 - (void)changeMixVideoPosition:(int)handler displayX:(float)displayX displayY:(float)displayY displayW:(float)displayW displayH:(float)displayH;
 
 /**
@@ -559,6 +1034,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @param handler 视频混流标识ID，通过addMixVideo接口获得
  * @param isMirror 是否镜像
  * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下改变视频混流镜像，AlivcLivePushInteractiveMode模式下暂时不支持改变视频混流镜像
+ */
+
+/****
+ * @brief Modify the mirroring settings for the mixed video stream
+ * @param handler The ID of the mixed video stream. You can obtain the ID from the addMixVideo request.
+ * @param isMirror Whether to enable mirroring
+ * @note Note: The SDK allows you to modify the mirroring settings for the mixed video stream when livePushMode is set to AlivcLivePushBasicMode,
+ * but not when livePushMode is set to AlivcLivePushInteractiveMode.
  */
 - (void)setMixVideoMirror:(int)handler isMirror:(BOOL)isMirror;
 
@@ -574,11 +1057,30 @@ AlivcLivePusherAudioSampleDelegate;
  * @param rotation 图像角度
  * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下输入视频混流数据，AlivcLivePushInteractiveMode模式下暂时不支持输入视频混流数据
  */
+
+/****
+ * @brief Import video stream mixing data
+ * @param handler The ID of the mixed video stream. You can obtain the ID from the addMixVideo request
+ * @param dataptr The address of the data buffer
+ * @param width The width of the video
+ * @param height The height of the video
+ * @param stride stride
+ * @param size The space occupied by each row of pixels in memory when the video is stored
+ * @param pts The presentation timestamp. Unit: microsecond
+ * @param rotationThe angle of the video
+ * @note Note: The SDK allows you to import video stream mixing data when livePushMode is set to AlivcLivePushBasicMode,
+ * but not when livePushMode is set to AlivcLivePushInteractiveMode
+ */
 - (void)inputMixVideoData:(int)handler data:(long)dataptr width:(int)width height:(int)height stride:(int)stride size:(int)size pts:(long)pts rotation:(int)rotation;
 
 /**
  * @brief 移除视频混流设置
  * @param handler 视频混流标识ID，通过addMixVideo接口获得
+ */
+
+/****
+ * @brief Delete video stream mixing settings
+ * @param handler The ID of the mixed video stream. You can obtain the ID from the addMixVideo request.
  */
 - (void)removeMixVideo:(int) handler;
 
@@ -589,6 +1091,16 @@ AlivcLivePusherAudioSampleDelegate;
  * @param audioSample 音频采样率
  * @return 返回对应音频混流标识ID
  注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下添加音频混流，AlivcLivePushInteractiveMode模式下暂时不支持添加音频混流
+ */
+
+/****
+ * @brief Add audio stream mixing settings
+ * @param channels The number of sound channels
+ * @param format The format of the audio {@link AlivcLivePushAudioFormat}
+ * @param audioSample The audio sample rate
+ * @return The ID of the mixed audio stream is returned
+ * Note: The SDK allows you to add audio stream mixing settings when livePushMode is set to AlivcLivePushBasicMode,
+ *  but not when livePushMode is set to AlivcLivePushInteractiveMode.
  */
 - (int)addMixAudio:(int)channels format:(int)format audioSample:(int)audioSample;
 
@@ -601,12 +1113,30 @@ AlivcLivePusherAudioSampleDelegate;
  * @return success:true, failed:false
  * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下输入音频混流数据，AlivcLivePushInteractiveMode模式下暂时不支持输入音频混流数据
  */
+
+/****
+ * @brief Import audio stream mixing data
+ * @param handler The ID of the mixed audio stream. You can obtain the ID from the addMixAudio request
+ * @param dataptr The address of the data buffer
+ * @param size The size of the audio data
+ * @param pts The presentation timestamp. Unit: microsecond
+ * @return success:true, failed:false
+ * @note Note: The SDK allows you to import audio stream mixing data when livePushMode is set to AlivcLivePushBasicMode,
+ * but not when livePushMode is set to AlivcLivePushInteractiveMode.
+ */
 - (bool)inputMixAudioData:(int)handler data:(long)dataptr size:(int)size pts:(long)pts;
 
 /**
  * @brief 移除音频混流
  * @param handler 音频混流标识ID，通过addMixAudio接口获得
  * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下移除音频混流，AlivcLivePushInteractiveMode模式下暂时不支持移除音频混流
+ */
+
+/****
+ * @brief Delete audio stream mixing settings
+ * @param handler The ID of the mixed audio stream. You can obtain the ID from the addMixAudio request
+ * @note Note: The SDK allows you to delete audio stream mixing settings when livePushMode is set to AlivcLivePushBasicMode,
+ * but not when livePushMode is set to AlivcLivePushInteractiveMode.
  */
 - (void)removeMixAudio:(int)handler;
 
@@ -621,12 +1151,30 @@ AlivcLivePusherAudioSampleDelegate;
  * @return 0:success  非0:failure
  * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下设置Message，AlivcLivePushInteractiveMode模式下暂时不支持设置Message
  */
+
+/****
+ * @brief Set a custom SEI message
+ * @param msg The message
+ * @param count The number of repetitions
+ * @param time The latency. Unit: millisecond
+ * @param isKeyFrame Whether to send only keyframes
+ * @return
+ *  0:success
+ *  != 0:failure
+ * @noteNote: The SDK allows you to set a custom SEI message when livePushMode is set to AlivcLivePushBasicMode,
+ * but not when livePushMode is set to AlivcLivePushInteractiveMode.
+ */
 - (int)sendMessage:(NSString *)msg repeatCount:(int)count delayTime:(int)time KeyFrameOnly:(bool)isKeyFrame;
 
 
 /**
  * @brief 获取是否正在推流
  * @return YES:正在推流 NO:未推流
+ */
+
+/****
+ * @brief Query whether the stream is pushing
+ * @return YES:pushing NO:not pushing
  */
 - (BOOL)isPushing;
 
@@ -635,17 +1183,32 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 获取当前推流URL
  * @return 推流URL
  */
+
+/****
+ * @brief Query the push URL
+ * @return The push URL
+ */
 - (NSString *)getPushURL;
 
 /**
  * @brief 获取当前推流状态
  * @return 推流状态 {@link AlivcLivePushStatus}
  */
+
+/****
+ * @brief Query the live push status
+ * @return The live push status. {@link AlivcLivePushStatus}
+ */
 - (AlivcLivePushStatus)getLiveStatus;
 
 /**
  * @brief 获取推流数据统计
  * @return 推流数据 {@link AlivcLivePushStatsInfo}
+ */
+
+/****
+ * @brief Query the statistics on live pusher
+ * @return The stream  data. {@link AlivcLivePushStatsInfo}
  */
 - (AlivcLivePushStatsInfo *)getLivePushStatusInfo;
 
@@ -655,6 +1218,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @param level Log级别 default:AlivcLivePushLogLevelError
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Set the log level
+ * @param level Log default:AlivcLivePushLogLevelError
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)setLogLevel:(AlivcLivePushLogLevel)level __deprecated_msg("Use AlivcLiveBase->setLogLevel instead.");
 
 /**
@@ -663,11 +1234,25 @@ AlivcLivePusherAudioSampleDelegate;
  * @param maxPartFileSizeInKB 每个分片最大大小。最终日志总体积是 5*最大分片大小
  * @return 0:success  非0:failure
  */
+
+/****
+ * @brief Set the log path
+ * @param logPath Log path
+ * @param maxPartFileSizeInKB The maximum size of each part. The total volume of logs is five times the maximum part size.
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)setLogPath:(NSString *)logPath maxPartFileSizeInKB:(int)maxPartFileSizeInKB __deprecated_msg("Use AlivcLiveBase->setLogPath:maxPartFileSizeInKB instead.");
 
 /**
  * @brief 获取SDK版本号
  * @return 版本号
+ */
+
+/****
+ * @brief Query the version number of the SDK
+ * @return The version number
  */
 + (NSString *)getSDKVersion __deprecated_msg("Use AlivcLiveBase->getSDKVersion instead.");
 
@@ -680,6 +1265,19 @@ AlivcLivePusherAudioSampleDelegate;
  * @return 0:success  非0:failure
  * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下添加水印，AlivcLivePushInteractiveMode模式下暂时不支持添加水印
  */
+
+/****
+ * @brief Add watermarks. You can add up to three watermarks
+ * @param path The path of the watermark
+ * @param coordX The coordinate of the watermark along the x-axis relative to the vertex in the upper-left corner
+ * @param coordY The coordinate of the watermark along the y-axis relative to the vertex in the upper-left corner
+ * @param width The relative width of the watermark. (The watermark is proportionally scaled based on the actual width of the watermark image.) (0,1]
+ * @return
+ *  0:success
+ *  != 0:failure
+ * @note Note: The SDK allows you to add watermarks when livePushMode is set to AlivcLivePushBasicMode,
+ * but not when livePushMode is set to AlivcLivePushInteractiveMode.
+ */
 - (int)addWatermarkWithPath:(NSString *)path
              watermarkCoordX:(CGFloat)coordX
              watermarkCoordY:(CGFloat)coordY
@@ -688,6 +1286,11 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * @brief 设置水印显示和隐藏
  * @param visable true:显示水印，false:隐藏水印
+ */
+
+/****
+ * @brief Specify whether to show or hide watermarks
+ * @param visable true:Show watermarks.，false:Hide watermarks.
  */
 - (void)setWatermarkVisible:(bool) visable;
 
@@ -701,11 +1304,28 @@ AlivcLivePusherAudioSampleDelegate;
  * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下添加动态贴纸，AlivcLivePushInteractiveMode模式下暂时不支持添加动态贴纸
  * @return 返回动态贴纸的id号，删除贴纸传此id
  */
+
+/****
+ * @brief Add animated stickers. You can add up to five animated stickers.
+ * @param waterMarkDirPath：The sequence path of the animated sticker.
+ * @param The position x of the display screen.（0~1.0f)
+ * @param The position y of the display screen.（0~1.0f)
+ * @param The width of the display screen
+ * @param The height of the display screen
+ * @note Note: The SDK allows you to add animated stickers when livePushMode is set to AlivcLivePushBasicMode,
+ *  but not when livePushMode is set to AlivcLivePushInteractiveMode.
+ * @return The ID of the animated sticker is returned. If you want to delete this animated sticker, specify this ID in the corresponding request.
+ */
 - (int)addDynamicWaterMarkImageDataWithPath:(NSString *)waterMarkDirPath x:(float)x y:(float)y w:(float)w h: (float)h;
 
 /**
  * @brief 删除动态贴纸
  * @param vid:贴纸id，addDynamicWaterMarkImageDataWithPath时返回
+ */
+
+/****
+ * @brief Remove an animated sticker
+ * @param vid:The animated sticker id，addDynamicWaterMarkImageDataWithPath return
  */
 - (void)removeDynamicWaterMark:(int)vid;
 
@@ -716,6 +1336,15 @@ AlivcLivePusherAudioSampleDelegate;
  * @note livePushMode = AlivcLivePushBasicMode 基础模式下可以指定count和interval，
  * AlivcLivePushInteractiveMode模式下暂时不支持指定count和interval，传递任何值都不做解析，每次只截图一张画面
  */
+
+/****
+ * @brief Configure snapshot settings
+ * @param count The number of snapshots
+ * @param interval The interval between snapshots
+ * @note lYou can specify the count and interval parameters only when livePushMode is set to AlivcLivePushBasicMode.
+ * When livePushMode is set to AlivcLivePushInteractiveMode, the count and interval parameters that you pass are not parsed.
+ * In this case, only one snapshot is captured.
+ */
 - (void)snapshot:(int)count interval:(int)interval;
 
 
@@ -723,12 +1352,30 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 设置截图回调
  * @param delegate {@link AlivcLivePusherSnapshotDelegate }
  */
+
+/****
+ * @brief Set the callback for snapshot capture
+ * @param delegate {@link AlivcLivePusherSnapshotDelegate }
+ */
 - (void)setSnapshotDelegate:(id<AlivcLivePusherSnapshotDelegate>)delegate;
 
 /* **********************互动模式下特定API******************************** */
+/* **********************Specific methods in interactive mode******************************** */
+
 // 以下API是只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
 // 非互动模式调用以下API将无任何效果，特定API包括：
 // setLiveMixTranscodingConfig
+// muteLocalCamera
+// enableSpeakerphone
+// isEnableSpeakerphone
+
+// Some methods are available only when livePushMode is set to AlivcLivePushInteractiveMode,
+// that is, only when Push SDK is working in interactive mode. Calling these methods in non-interactive
+// mode have no effect. These methods include:
+// setLiveMixTranscodingConfig
+// muteLocalCamera
+// enableSpeakerphone
+// isEnableSpeakerphone
 
 /**
  * @brief 设置云端的混流（转码）参数
@@ -741,6 +1388,22 @@ AlivcLivePusherAudioSampleDelegate;
  * @note 若主播还在房间中但不再需要混流，请务必传入 nil 进行取消，因为当发起混流后，云端混流模块就会开始工作，
  * 不及时取消混流可能会引起不必要的计费损失
  */
+
+/****
+ * @brief Set mixed-stream transcoding parameters
+ * There may be more than one streamer in a live room, and each streamer has a separate audio and video stream
+ * However, viewers may just want to watch one stream. Therefore, you need to mix multiple audio and video streams
+ * into one standard live stream, which requires mixed-stream transcoding
+ * In co-streaming scenarios, you need to mix the audio and video streams of the streamer and co-streamer into a standard live stream for viewers to watch
+ * In battle scenarios, you need to mix the audio and video streams of multiple streamers engaging in the battle into a standard live stream for viewers to watch
+ * @param config Refer to the description about AlivcLiveTranscodingConfig in the AlivcLiveDef.h file
+ * If you pass nil to the parameter, mixed-stream transcoding is disabled
+ * @return
+ *  0:success
+ *  != 0:failure
+ * @note If the streamer is still streaming but stream mixing is no longer required, be sure to pass nil to the parameter to disable mixed-stream transcoding.
+ * When the feature is enabled, the mixed-stream transcoding module continues to work, which may incur unnecessary fees for you.
+ */
 - (int)setLiveMixTranscodingConfig:(AlivcLiveTranscodingConfig *)config;
 
 /**
@@ -749,6 +1412,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  * - 0: 表示Success
  * - 非0: 表示Failure
+ */
+
+/****
+ * @brief Specify whether to disable video capture from the camera. (This method is not supported in basic mode.)
+ * @param mute  YES No video data is sent from the camera.；NO Video data is sent from the camera.
+ * @return
+ *  0:success
+ *  != 0:failure
  */
 - (int)muteLocalCamera:(BOOL)mute;
 
@@ -761,6 +1432,14 @@ AlivcLivePusherAudioSampleDelegate;
  * - 0: 成功
  * - <0: 失败
  */
+
+/****
+ * @brief Set the headset or speaker as the audio output device
+ * @param enable YES: (Default) Speaker; NO:Headset
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
 - (int)enableSpeakerphone:(BOOL)enable;
 
 /**
@@ -769,6 +1448,11 @@ AlivcLivePusherAudioSampleDelegate;
  * - YES: 扬声器模式；
  * - NO: 听筒模式
  */
+
+/****
+ * @brief Query whether the current audio output device is the headset or the speaker
+ * @return - YES: Speaker；- NO: Headset
+ */
 - (BOOL)isEnableSpeakerphone;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -776,19 +1460,37 @@ AlivcLivePusherAudioSampleDelegate;
 //      美颜相关api，在v4.2.0版本已删除，推流SDK不再提供内置美颜功能，请使用阿里云Queen提供的美颜服务
 //      详见：https://help.aliyun.com/document_detail/211047.html?spm=a2c4g.11174283.6.736.79c5454ek41M8B
 //
+//
+//      From V4.2.0, methods related to face retouching are deleted. Push SDK no longer provides a
+//      built-in face retouching   feature. Please use Queen SDK to implement face
+//      retouching.：https://help.aliyun.com/document_detail/211047.html?spm=a2c4g.11174283.6.736.79c5454ek41M8B
+//
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @end
 
 /** @} */
 
+/**** @} */
+
 /**
  * @defgroup AlivcLivePusher_Delegate 直播推流引擎回调
+ * @ingroup live
  *  直播推流引擎回调
+ *  @{
+ */
+
+/****
+ * @defgroup AlivcLivePusher_Delegate Live pusher engine callbacks
+ * @ingroup live
  *  @{
  */
 
 /**
  * 推流错误回调
+ */
+
+/****
+ * Live pusher engine error callbacks
  */
 @protocol AlivcLivePusherErrorDelegate <NSObject>
 
@@ -799,6 +1501,12 @@ AlivcLivePusherAudioSampleDelegate;
  * @param pusher 推流引擎对象
  * @param error 错误信息，{@link AlivcLivePushError}
  */
+
+/****
+ * @brief The system error callback
+ * @param pusher The live pusher engine object
+ * @param error The error message {@link AlivcLivePushError}
+ */
 - (void)onSystemError:(AlivcLivePusher *)pusher error:(AlivcLivePushError *)error;
 
 
@@ -807,6 +1515,12 @@ AlivcLivePusherAudioSampleDelegate;
  * @param pusher 推流引擎对象
  * @param error 错误信息，{@link AlivcLivePushError}
  */
+
+/****
+ * @brief The SDK error callback
+ * @param pusher The live pusher engine object
+ * @param error The error message {@link AlivcLivePushError}
+ */
 - (void)onSDKError:(AlivcLivePusher *)pusher error:(AlivcLivePushError *)error;
 
 @end
@@ -814,6 +1528,10 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  * 推流网络相关回调
+ */
+
+/****
+ * Callbacks related to network status
  */
 @protocol AlivcLivePusherNetworkDelegate <NSObject>
 
@@ -824,6 +1542,12 @@ AlivcLivePusherAudioSampleDelegate;
  * @param pusher 推流引擎对象
  * @note 此回调表示当前主播网络差
  */
+
+/****
+ * @brief The callback for poor network
+ * @param pusher The live pusher engine object
+ * @note This callback indicates that the streamer has a poor network
+ */
 - (void)onNetworkPoor:(AlivcLivePusher *)pusher;
 
 
@@ -831,6 +1555,12 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 推流链接失败
  * @param pusher 推流引擎对象
  * @param error 错误信息，{@link AlivcLivePushError}
+ */
+
+/****
+ * @brief The callback for failed pusher engine
+ * @param pusher The live pusher engine object
+ * @param error The error message {@link AlivcLivePushError}
  */
 - (void)onConnectFail:(AlivcLivePusher *)pusher error:(AlivcLivePushError *)error;
 
@@ -840,6 +1570,12 @@ AlivcLivePusherAudioSampleDelegate;
  * @param pusher 推流引擎对象
  * @note 此回调表示当前主播网络恢复
  */
+
+/****
+ * @brief The callback for network recovery
+ * @param pusher The live pusher engine object
+ * @note This callback indicates that the streamer's network is recovered
+ */
 - (void)onConnectRecovery:(AlivcLivePusher *)pusher;
 
 
@@ -847,6 +1583,12 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 重连开始回调
  * @param pusher 推流引擎对象
  * @note 此回调表示当前推流链接断开，正在开始重连
+ */
+
+/****
+ * @brief The callback for reconnection attempt
+ * @param pusher The live pusher engine object
+ * @note This callback indicates that the push stream is disconnected and being reconnected
  */
 - (void)onReconnectStart:(AlivcLivePusher *)pusher;
 
@@ -856,12 +1598,24 @@ AlivcLivePusherAudioSampleDelegate;
  * @param pusher 推流引擎对象
  * @note 此回调表示重连成功
  */
+
+/****
+ * @brief The callback for successful reconnection
+ * @param pusher The live pusher engine object
+ * @note This callback indicates that reconnection is successful
+ */
 - (void)onReconnectSuccess:(AlivcLivePusher *)pusher;
 
 /**
  * @brief 链接断开
  * @param pusher 推流引擎对象
  * @note 此回调表示推流链接断开
+ */
+
+/****
+ * @brief The callback for disconnected stream pusher
+ * @param pusher The live pusher engine object
+ * @note This callback indicates that the  stream is disconnected
  */
 - (void)onConnectionLost:(AlivcLivePusher *)pusher;
 
@@ -872,6 +1626,13 @@ AlivcLivePusherAudioSampleDelegate;
  * @param error 错误信息，{@link AlivcLivePushError}
  * @note 此回调表示重连失败
  */
+
+/****
+ * @brief The callback for failed reconnection
+ * @param pusher The live pusher engine object
+ * @param error The error message {@link AlivcLivePushError}
+ * @note This callback indicates that reconnection fails
+ */
 - (void)onReconnectError:(AlivcLivePusher *)pusher error:(AlivcLivePushError *)error;
 
 
@@ -879,6 +1640,12 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 发送数据超时
  * @param pusher 推流引擎对象
  * @note 此回调表示发送数据超时
+ */
+
+/****
+ * @brief The callback for data transmission timeout
+ * @param pusher The live pusher engine object
+ * @note This callback indicates that data transmission times out
  */
 - (void)onSendDataTimeout:(AlivcLivePusher *)pusher;
 
@@ -889,12 +1656,24 @@ AlivcLivePusherAudioSampleDelegate;
  * @return 新的重新生成鉴权URL的推流URL
  * @note 此回调当前推流URL鉴权过期，需要给SDK传递一个新的URL
  */
+
+/****
+ * @brief The callback for expiring signed URL. (This callback is sent 1 minute before the signed URL expires.)
+ * @param pusher The live pusher engine object
+ * @return A new signed ingest URL is generated
+ * @note This callback indicates that the signed URL is about to expire. You need to pass a new signed URL to the SDK.
+ */
 - (NSString *)onPushURLAuthenticationOverdue:(AlivcLivePusher *)pusher;
 
 
 /**
  * @brief 发送SEI Message 通知
  * @param pusher 推流引擎对象
+ */
+
+/****
+ * @brief The callback for prompt to send an SEI message
+ * @param pusher The live pusher engine object
  */
 - (void)onSendSeiMessage:(AlivcLivePusher *)pusher;
 
@@ -903,6 +1682,11 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * @brief 网络原因导致音视频丢包
  * @param pusher 推流引擎对象
+ */
+
+/****
+ * @brief The callback for audio/video packet loss due to network reasons
+ * @param pusher The live pusher engine object
  */
 - (void)onPacketsLost:(AlivcLivePusher *)pusher;
 
@@ -914,6 +1698,10 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * 推流基本信息相关回调
  */
+
+/****
+ * Callbacks related to stream pusher basic info
+ */
 @protocol AlivcLivePusherInfoDelegate <NSObject>
 
 @optional
@@ -921,6 +1709,11 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * @brief 预览开始
  * @param pusher 推流引擎对象
+ */
+
+/****
+ * @brief The callback for preview start
+ * @param pusher The live pusher engine object
  */
 - (void)onPreviewStarted:(AlivcLivePusher *)pusher;
 
@@ -930,12 +1723,22 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 停止预览回调
  * @param pusher 推流引擎对象
  */
+
+/****
+ * @brief The callback for preview stop
+ * @param pusher The live pusher engine object
+ */
 - (void)onPreviewStoped:(AlivcLivePusher *)pusher;
 
 
 /**
  * @brief 渲染第一帧回调
  * @param pusher 推流引擎对象
+ */
+
+/****
+ * @brief The callback for first frame rendering
+ * @param pusher The live pusher engine object
  */
 - (void)onFirstFramePreviewed:(AlivcLivePusher *)pusher;
 
@@ -944,11 +1747,21 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 发送第一帧音视频流回调
  * @param pusher 推流引擎对象
  */
+
+/****
+ * @brief The callback for the first frame being sent
+ * @param pusher The live pusher engine object
+ */
 - (void)onFirstFramePushed:(AlivcLivePusher *)pusher;
 
 /**
  * @brief 推流开始回调
  * @param pusher 推流引擎对象
+ */
+
+/****
+ * @brief The callback for start of stream push
+ * @param pusher The live pusher engine object
  */
 - (void)onPushStarted:(AlivcLivePusher *)pusher;
 
@@ -957,12 +1770,22 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 摄像头推流暂停回调
  * @param pusher 推流引擎对象
  */
+
+/****
+ * @brief The callback for pause of stream pusher from the camera
+ * @param pusher The live pusher engine object
+ */
 - (void)onPushPaused:(AlivcLivePusher *)pusher;
 
 
 /**
  * @brief 摄像头推流恢复回调
  * @param pusher 推流引擎对象
+ */
+
+/****
+ * @brief The callback for resume of stream push from the camera
+ * @param pusher The live pusher engine object
  */
 - (void)onPushResumed:(AlivcLivePusher *)pusher;
 
@@ -971,12 +1794,22 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 重新推流回调
  * @param pusher 推流引擎对象
  */
+
+/****
+ * @brief The callback for restart of stream push
+ * @param pusher The live pusher engine object
+ */
 - (void)onPushRestart:(AlivcLivePusher *)pusher;
 
 
 /**
  * @brief 推流停止回调
  * @param pusher 推流引擎对象
+ */
+
+/****
+ * @brief The callback for end of stream push
+ * @param pusher The live pusher engine object
  */
 - (void)onPushStoped:(AlivcLivePusher *)pusher;
 
@@ -985,6 +1818,13 @@ AlivcLivePusherAudioSampleDelegate;
  *
  * @param pusher 推流引擎对象
  * @param statistics 推流器统计数据 {@link AlivcLivePushStatsInfo}
+ */
+
+/****
+ * @brief The callback for statistics on stream push. (This callback is invoked every 2 seconds.)
+ *
+ * @param pusher The live pusher engine object
+ * @param statistics The statistics data {@link AlivcLivePushStatsInfo}
  */
 - (void)onPushStatistics:(AlivcLivePusher *)pusher statsInfo:(AlivcLivePushStatsInfo*)statistics;
 
@@ -995,6 +1835,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @param isSuccess YES表示成功，NO表示失败
  * @param msg 具体错误原因
  */
+
+/****
+ * @brief The callback for mixed-stream transcoding, which corresponds to the setLiveMixTranscodingConfig method
+ * Note: This callback is available only when livePushMode is set to AlivcLivePushInteractiveMode, that is, when Push SDK is working in interactive mode.
+ * @param pusher The live pusher engine object
+ * @param isSuccess YES success; NO failure
+ * @param msg The error cause
+ */
 - (void)onSetLiveMixTranscodingConfig:(AlivcLivePusher *)pusher status:(BOOL)isSuccess message:(NSString *)msg;
 
 
@@ -1002,6 +1850,10 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  * 背景音乐相关回调
+ */
+
+/****
+ * Background music callbacks
  */
 @protocol AlivcLivePusherBGMDelegate <NSObject>
 
@@ -1011,12 +1863,22 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 背景音乐开始播放
  * @param pusher 推流引擎对象
  */
+
+/****
+ * @brief The callback indicating that background music starts to play
+ * @param pusher The live pusher engine object
+ */
 - (void)onStarted:(AlivcLivePusher *)pusher;
 
 
 /**
  * @brief 背景音乐停止播放
  * @param pusher 推流引擎对象
+ */
+
+/****
+ * @brief The callback indicating that background music stops playing
+ * @param pusher The live pusher engine object
  */
 - (void)onStoped:(AlivcLivePusher *)pusher;
 
@@ -1025,12 +1887,22 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 背景音乐暂停播放
  * @param pusher 推流引擎对象
  */
+
+/****
+ * @brief The callback indicating that playback of background music is paused
+ * @param pusher The live pusher engine object
+ */
 - (void)onPaused:(AlivcLivePusher *)pusher;
 
 
 /**
  * @brief 背景音乐恢复播放
  * @param pusher 推流引擎对象
+ */
+
+/****
+ * @brief The callback indicating that playback of background music is resumed
+ * @param pusher The live pusher engine object
  */
 - (void)onResumed:(AlivcLivePusher *)pusher;
 
@@ -1041,12 +1913,24 @@ AlivcLivePusherAudioSampleDelegate;
  * @param progress 播放时长
  * @param duration 总时长
  */
+
+/****
+ * @brief The callback for playback progress
+ * @param pusher The live pusher engine object
+ * @param progress play progress
+ * @param duration duration
+ */
 - (void)onProgress:(AlivcLivePusher *)pusher progress:(long)progress duration:(long)duration;
 
 
 /**
  * @brief 背景音乐播放完毕
  * @param pusher 推流引擎对象
+ */
+
+/****
+ * @brief The callback for complete playback of background music
+ * @param pusher The live pusher engine object
  */
 - (void)onCompleted:(AlivcLivePusher *)pusher;
 
@@ -1055,12 +1939,22 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 背景音乐开启失败
  * @param pusher 推流引擎对象
  */
+
+/****
+ * @brief The callback indicating that background music fails to play
+ * @param pusher The live pusher engine object
+ */
 - (void)onOpenFailed:(AlivcLivePusher *)pusher;
 
 
 /**
  * @brief 背景音乐下载播放超时
  * @param pusher 推流引擎对象
+ */
+
+/****
+ * @brief The callback indicating that the download of background music times out
+ * @param pusher The live pusher engine object
  */
 - (void)onDownloadTimeout:(AlivcLivePusher *)pusher;
 
@@ -1070,12 +1964,22 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * 外置滤镜相关回调
  */
+
+/****
+ * Callbacks related to external filters
+ */
 @protocol AlivcLivePusherCustomFilterDelegate <NSObject>
 @required
 /**
  * @brief 通知外置滤镜创建回调
  * @param pusher 推流引擎对象
  * @param context 上下文环境
+ */
+
+/****
+ * @brief The callback for creation of an external filter
+ * @param pusher The live pusher engine object
+ * @param context The context.
  */
 - (void)onCreate:(AlivcLivePusher *)pusher context:(void*)context;
 /**
@@ -1087,6 +1991,16 @@ AlivcLivePusherAudioSampleDelegate;
  * @param extra 额外信息
  * @return 返回处理后的纹理ID
  */
+
+/****
+ * @brief The callback for processing of an external filter. The current version of the SDK uses onProcess to process face retouching requests in non-interactive mode.
+ * @param pusher The live pusher engine object
+ * @param texture The ID of the processed texture
+ * @param width The width of the video
+ * @param height The height of the video
+ * @param extra extra info
+ * @return The ID of the processed texture is returned
+ */
 - (int)onProcess:(AlivcLivePusher *)pusher texture:(int)texture textureWidth:(int)width textureHeight:(int)height extra:(long)extra;
 /**
  * @brief 通知外置滤镜处理回调，当前版本SDK在互动模式下需要使用onProcessVideoSampleBuffer处理美颜
@@ -1097,11 +2011,25 @@ AlivcLivePusherAudioSampleDelegate;
  * - NO: 不需要写回SDK
  * @note 此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才回回调
  */
+
+/****
+ * @brief The callback for processing of an external filter. The current version of the SDK uses onProcessVideoSampleBuffer
+ * to process face retouching requests in interactive mode
+ * @param pusher The live pusher engine object
+ * @param sampleBuffer video sample data {@link AlivcLiveVideoDataSample}
+ * @return - YES: Written back to the SDK；- NO: Not written back to the SDK
+ * @note This callback is available only when livePushMode is set to AlivcLivePushInteractiveMode, that is, when Push SDK is working in interactive mode.
+ */
 - (BOOL)onProcessVideoSampleBuffer:(AlivcLivePusher *)pusher sampleBuffer:(AlivcLiveVideoDataSample *)sampleBuffer;
 
 /**
  * @brief 通知外置滤镜销毁回调
  * @param pusher 推流引擎对象
+ */
+
+/****
+ * @brief The callback for destruction of an external filter
+ * @param pusher The live pusher engine object
  */
 - (void)onDestory:(AlivcLivePusher *)pusher;
 
@@ -1110,12 +2038,21 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * 外置人脸识别算法相关回调
  */
+
+/****
+ * Callbacks related to external facial recognition algorithms
+ */
 @protocol AlivcLivePusherCustomDetectorDelegate <NSObject>
 
 @required
 /**
  * @brief 通知外置识别器创建回调
  * @param pusher 推流引擎对象
+ */
+
+/****
+ * @brief The callback for creation of an external recognizer
+ * @param pusher The live pusher engine object
  */
 - (void)onCreateDetector:(AlivcLivePusher *)pusher;
 
@@ -1130,11 +2067,28 @@ AlivcLivePusherAudioSampleDelegate;
  * @param extra 额外信息
  * @return 处理后的数据buffer地址
  */
+
+/****
+ * @brief The callback for processing of an external recognizer
+ * @param pusher The live pusher engine object
+ * @param data The data buffer
+ * @param width The width of the video
+ * @param height The height of the video
+ * @param rotation The rotation degree
+ * @param format video format {@link AlivcLivePushVideoFormat}
+ * @param extra extra info
+ * @return The processed data buffer
+ */
 - (long)onDetectorProcess:(AlivcLivePusher *)pusher data:(long)data w:(int)w h:(int)h rotation:(int)rotation format:(int)format extra:(long)extra;
 
 /**
  * @brief 通知外置识别器销毁回调
  * @param pusher 推流引擎对象
+ */
+
+/****
+ * @brief The callback for destruction of an external recognizer
+ * @param pusher The live pusher engine object
  */
 - (void)onDestoryDetector:(AlivcLivePusher *)pusher;
 
@@ -1142,6 +2096,10 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  * 截图相关回调
+ */
+
+/****
+ * Snapshot-related callbacks
  */
 @protocol AlivcLivePusherSnapshotDelegate <NSObject>
 
@@ -1152,11 +2110,21 @@ AlivcLivePusherAudioSampleDelegate;
  * @param pusher 推流引擎对象
  * @param image 截图
  */
+
+/****
+ * @brief Snapshot callbacks
+ * @param pusher The live pusher engine object
+ * @param image
+ */
 - (void)onSnapshot:(AlivcLivePusher *)pusher image:(UIImage *)image;
 @end
 
 /**
  * 音频裸数据相关回调
+ */
+
+/****
+ * Callbacks related to raw audio data
  */
 @protocol AlivcLivePusherAudioSampleDelegate <NSObject>
 /**
@@ -1165,8 +2133,15 @@ AlivcLivePusherAudioSampleDelegate;
  * @param audioSample 音频数据sample, {@link AlivcLivePusherAudioDataSample}
  */
 
+/****
+ * @brief The original audio data collected by the device, You can modify the data.
+ * @param pusher The live pusher engine object
+ * @param audioSample audio sample data {@link AlivcLivePusherAudioDataSample}
+ */
 - (void)onAudioSampleCallback:(AlivcLivePusher *)pusher audioSample:(AlivcLivePusherAudioDataSample*)audioSample;
 
 @end
 
 /** @} */
+
+/**** @} */

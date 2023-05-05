@@ -15,11 +15,19 @@
 /**
  错误描述
  */
+
+/****
+ error description
+ */
 @property (nonatomic, strong) NSString* errorDescription;
 
 
 /**
  错误码
+ */
+
+/****
+ error code
  */
 @property (nonatomic, assign) NSInteger errorCode;
 

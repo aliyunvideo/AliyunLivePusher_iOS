@@ -13,6 +13,12 @@
  - AlivcLivePushBasicMode:基础模式，默认模式，常规的RTMP推流、RTS推流，不支持连麦、PK等实时互动，如果一场直播没有互动需求，建议使用该模式
  -AlivcLivePushInteractiveMode:互动模式，支持连麦、PK等实时互动，如果一场直播有互动需求，建议使用该模式
  */
+
+/****
+ Supported modes:
+ - AlivcLivePushBasicMode:The basic mode, which is the default mode. It does not support real-time interaction features such as co-streaming and battle. Use this mode for ordinary RTMP- and RTS-based stream ingest.
+ -AlivcLivePushInteractiveMode:The interactive mode, which supports real-time interaction features such as co-streaming and battle. If interaction is required during live streaming, we recommend that you use this mode.
+ */
 typedef NS_ENUM(NSInteger, AlivcLivePushMode) {
     AlivcLivePushBasicMode    = 0,
     AlivcLivePushInteractiveMode = 1
@@ -22,6 +28,12 @@ typedef NS_ENUM(NSInteger, AlivcLivePushMode) {
  用户角色
  - AliLiveRoomUserRoleAnchor:主播
  -AliLiveRoomUserRoleInteractiveAudience:互动观众/连麦观众，和主播进行实时互动的观众
+ */
+
+/****
+ The user role.
+ - AliLiveRoomUserRoleAnchor:Anchor
+ -AliLiveRoomUserRoleInteractiveAudience:audience
  */
 typedef NS_ENUM(NSInteger, AlivcLivePushUserRole) {
     AlivcLivePushUserRoleAnchor                 = 0, //主播
@@ -38,6 +50,18 @@ typedef NS_ENUM(NSInteger, AlivcLivePushUserRole) {
  - AlivcLivePushLogLevelWarn: 警告
  - AlivcLivePushLogLevelError: 错误
  - AlivcLivePushLogLevelNone: 不输出日志
+ */
+
+/****
+ SDK log level
+
+ - AlivcLivePushLogLevelAll: all
+ - AlivcLivePushLogLevelVerbose: verbose
+ - AlivcLivePushLogLevelDebug: debug
+ - AlivcLivePushLogLevelInfo: info
+ - AlivcLivePushLogLevelWarn: warn
+ - AlivcLivePushLogLevelError: error
+ - AlivcLivePushLogLevelNone: none
  */
 typedef NS_ENUM(NSInteger, AlivcLivePushLogLevel){
     AlivcLivePushLogLevelAll = 0,
@@ -65,6 +89,23 @@ typedef NS_ENUM(NSInteger, AlivcLivePushLogLevel){
  - AlivcLivePushStatusRestarting: 重启推流中
  - AlivcLivePushStatusError: 错误状态
  */
+
+/****
+ live pusher engine status
+ 
+ - AlivcLivePushStatusIdle: idel
+ - AlivcLivePushStatusInitialized: initialized
+ - AlivcLivePushStatusPreviewing: previewing
+ - AlivcLivePushStatusPreviewed: previewed
+ - AlivcLivePushStatusPushing: pushing
+ - AlivcLivePushStatusPushed: pushed
+ - AlivcLivePushStatusStoping: stoping
+ - AlivcLivePushStatusPausing: pausing
+ - AlivcLivePushStatusPaused: paused
+ - AlivcLivePushStatusResuming: resuming
+ - AlivcLivePushStatusRestarting: restarting
+ - AlivcLivePushStatusError: error
+ */
 typedef NS_ENUM(NSInteger, AlivcLivePushStatus){
     AlivcLivePushStatusIdle = 0,
     AlivcLivePushStatusInitialized,
@@ -82,6 +123,19 @@ typedef NS_ENUM(NSInteger, AlivcLivePushStatus){
 
 /**
  分辨率
+
+ - AlivcLivePushResolution180P: 180P
+ - AlivcLivePushResolution240P: 240P
+ - AlivcLivePushResolution360P: 360P
+ - AlivcLivePushResolution480P: 480P
+ - AlivcLivePushResolution540P: 540P
+ - AlivcLivePushResolution720P: 720P
+ - AlivcLivePushResolution1080P:1080P
+ - AlivcLivePushResolutionPassThrough: pass through only used for external main video stream
+ */
+
+/****
+ Resolution
 
  - AlivcLivePushResolution180P: 180P
  - AlivcLivePushResolution240P: 240P
@@ -147,6 +201,14 @@ typedef NS_ENUM(NSInteger, AlivcLivePushAudioFormat){
  - AlivcLivePushQualityModeFluencyFirst: 流畅度优先模式
  - AlivcLivePushQualityModeCustom: 自定义模式
  */
+
+/****
+ Push quality mode
+
+ - AlivcLivePushQualityModeResolutionFirst: Quality-first mode
+ - AlivcLivePushQualityModeFluencyFirst: Smoothness-first mode
+ - AlivcLivePushQualityModeCustom: Custom mode
+ */
 typedef NS_ENUM(NSInteger, AlivcLivePushQualityMode){
     AlivcLivePushQualityModeResolutionFirst = 0,
     AlivcLivePushQualityModeFluencyFirst,
@@ -173,6 +235,14 @@ typedef NS_ENUM(NSInteger, AlivcLivePushFPS) {
  - AlivcLivePushOrientationLandscapeLeft: 横屏Left方向
  - AlivcLivePushOrientationLandscapeRight: 横屏Right方向
  */
+
+/****
+ Push orientation
+
+ - AlivcLivePushOrientationPortrait: Portrait:
+ - AlivcLivePushOrientationLandscapeLeft: LandscapeLeft
+ - AlivcLivePushOrientationLandscapeRight: LandscapeRight
+ */
 typedef NS_ENUM(NSInteger, AlivcLivePushOrientation){
     AlivcLivePushOrientationPortrait = 0,
     AlivcLivePushOrientationLandscapeLeft,
@@ -186,6 +256,13 @@ typedef NS_ENUM(NSInteger, AlivcLivePushOrientation){
  - AlivcLivePushCameraTypeBack: 后置摄像头
  - AlivcLivePushCameraTypeFront: 前置摄像头
  */
+
+/****
+ Camera type
+
+ - AlivcLivePushCameraTypeBack: The rear camera.
+ - AlivcLivePushCameraTypeFront: The front camera.
+ */
 typedef NS_ENUM(NSInteger, AlivcLivePushCameraType){
     AlivcLivePushCameraTypeBack = 0,
     AlivcLivePushCameraTypeFront,
@@ -197,6 +274,13 @@ typedef NS_ENUM(NSInteger, AlivcLivePushCameraType){
  
  - AlivcLivePushScallingModeFit: 填充
  - AlivcLivePushScallingModeCrop: 裁剪
+ */
+
+/****
+ Scalling Mode
+ 
+ - AlivcLivePushScallingModeFit: Fit
+ - AlivcLivePushScallingModeCrop: Crop
  */
 typedef NS_ENUM(NSInteger, AlivcLivePushScallingMode){
     AlivcLivePushScallingModeFit = 0,
@@ -210,6 +294,13 @@ typedef NS_ENUM(NSInteger, AlivcLivePushScallingMode){
  - AlivcLivePushVideoEncoderModeHard: 硬编码
  - AlivcLivePushVideoEncoderModeSoft: 软编码
  */
+
+/****
+ Video Encoder Mode
+ 
+ - AlivcLivePushVideoEncoderModeHard: Hard
+ - AlivcLivePushVideoEncoderModeSoft: Soft
+ */
 typedef NS_ENUM(NSInteger, AlivcLivePushVideoEncoderMode){
     AlivcLivePushVideoEncoderModeHard = 0,
     AlivcLivePushVideoEncoderModeSoft,
@@ -219,6 +310,12 @@ typedef NS_ENUM(NSInteger, AlivcLivePushVideoEncoderMode){
  硬编码方式
  - AlivcLivePushVideoEncoderModeHardTypeH264: 使用H264硬编码
  - AlivcLivePushVideoEncoderModeHardTypeHEVC: 使用H265硬编码
+ */
+
+/****
+ Video encoder type
+ - AlivcLivePushVideoEncoderModeHardTypeH264: H264
+ - AlivcLivePushVideoEncoderModeHardTypeHEVC: HEVC
  */
 typedef NS_ENUM(NSInteger, AlivcLivePushVideoEncoderModeHardCodec) {
     AlivcLivePushVideoEncoderModeHardCodecH264 = 0,
@@ -231,6 +328,13 @@ typedef NS_ENUM(NSInteger, AlivcLivePushVideoEncoderModeHardCodec) {
  - AlivcLivePushAudioEncoderModeHard: 硬编码
  - AlivcLivePushAudioEncoderModeSoft: 软编码
  */
+
+/****
+ Audio encoder mode
+ 
+ - AlivcLivePushAudioEncoderModeHard: hard
+ - AlivcLivePushAudioEncoderModeSoft: soft
+ */
 typedef NS_ENUM(NSInteger, AlivcLivePushAudioEncoderMode){
     AlivcLivePushAudioEncoderModeHard = 0,
     AlivcLivePushAudioEncoderModeSoft,
@@ -239,6 +343,15 @@ typedef NS_ENUM(NSInteger, AlivcLivePushAudioEncoderMode){
 
 /**
  音频编码格式
+
+ - AlivcLivePushAudioEncoderProfile_AAC_LC: AAC_LC
+ - AlivcLivePushAudioEncoderProfile_HE_AAC: HE_AAC
+ - AlivcLivePushAudioEncoderProfile_HE_AAC_V2: HE_AAC_V2
+ - AlivcLivePushAudioEncoderProfile_AAC_LD: AAC_LD
+ */
+
+/****
+ Audio encoder profile
 
  - AlivcLivePushAudioEncoderProfile_AAC_LC: AAC_LC
  - AlivcLivePushAudioEncoderProfile_HE_AAC: HE_AAC
@@ -258,6 +371,12 @@ typedef NS_ENUM(NSInteger, AlivcLivePushAudioEncoderProfile){
  
  - AlivcLivePushAudioSample32000: 32000Hz
  */
+
+/****
+ Audio  sample rate
+ 
+ - AlivcLivePushAudioSample32000: 32000Hz
+ */
 typedef NS_ENUM(NSInteger, AlivcLivePushAudioSampleRate){
     AlivcLivePushAudioSampleRate16000 = 16000,
     AlivcLivePushAudioSampleRate32000 = 32000,
@@ -272,6 +391,13 @@ typedef NS_ENUM(NSInteger, AlivcLivePushAudioSampleRate){
  - AlivcLivePushAudioChannelOne: 单声道
  - AlivcLivePushAudioChannelTwo: 双声道
  */
+
+/****
+ Audio channel number
+
+ - AlivcLivePushAudioChannelOne: One
+ - AlivcLivePushAudioChannelTwo: Two
+ */
 typedef NS_ENUM(NSInteger, AlivcLivePushAudioChannel){
     AlivcLivePushAudioChannel_1 = 1,
     AlivcLivePushAudioChannel_2 = 2,
@@ -280,6 +406,16 @@ typedef NS_ENUM(NSInteger, AlivcLivePushAudioChannel){
 
 /**
  关键帧间隔
+
+ - AlivcLivePushVideoEncodeGOP_1: 1s
+ - AlivcLivePushVideoEncodeGOP_2: 2s
+ - AlivcLivePushVideoEncodeGOP_3: 3s
+ - AlivcLivePushVideoEncodeGOP_4: 4s
+ - AlivcLivePushVideoEncodeGOP_5: 5s
+ */
+
+/****
+ video gop
 
  - AlivcLivePushVideoEncodeGOP_1: 1s
  - AlivcLivePushVideoEncodeGOP_2: 2s
@@ -299,6 +435,10 @@ typedef NS_ENUM(NSInteger, AlivcLivePushVideoEncodeGOP){
 /**
  接口返回值错误码
  */
+
+/****
+ Error code
+ */
 typedef NS_ENUM(NSInteger, AlivcPusherErrorCode){
     ALIVC_LIVE_PUSHER_INTERFACE_ERROR   = -1, // 接口调用内部错误
     ALIVC_LIVE_PUSHER_PARAM_ERROR       = -2, // 接口调用传入参数错误
@@ -311,6 +451,13 @@ typedef NS_ENUM(NSInteger, AlivcPusherErrorCode){
 /**
  预览窗口显示模式
  */
+
+/****
+ Preview Display Mde
+- ALIVC_LIVE_PUSHER_PREVIEW_SCALE_FILL: Fills the entire preview window. If the aspect ratio of the video is not the same as the aspect ratio of the preview window, the preview image is deformed.
+- ALIVC_LIVE_PUSHER_PREVIEW_ASPECT_FIT: Maintains the original aspect ratio of the video. If the aspect ratio of the video is not the same as the aspect ratio of the preview window, black bars appear on the preview window.
+- ALIVC_LIVE_PUSHER_PREVIEW_ASPECT_FILL:Crops the video to fit the preview window. If the aspect ratio of the video is not the same as the aspect ratio of the preview window, the video is cropped.
+ */
 typedef NS_ENUM(NSInteger, AlivcPusherPreviewDisplayMode){
     ALIVC_LIVE_PUSHER_PREVIEW_SCALE_FILL= 0, // 铺满窗口，视频比例和窗口比例不一致时预览会有变形
     ALIVC_LIVE_PUSHER_PREVIEW_ASPECT_FIT= 1, // 保持视频比例，视频比例和窗口比例不一致时有黑边
@@ -322,6 +469,13 @@ typedef NS_ENUM(NSInteger, AlivcPusherPreviewDisplayMode){
 
  - AlivcLivePushPublishType_RTMP: RTMP协议推流
  - AlivcLivePushPublishType_RTP: RTP协议推流
+ */
+
+/****
+ Live push protocol
+
+ - AlivcLivePushPublishType_RTMP: RTMP
+ - AlivcLivePushPublishType_RTP: RTP
  */
 typedef NS_ENUM(NSInteger, AlivcLivePushPublishType){
     AlivcLivePushPublishType_RTMP = 1,
@@ -336,6 +490,14 @@ typedef NS_ENUM(NSInteger, AlivcLivePushPublishType){
  - AlivcLivePusherAudioScenarioMusicMode 音乐场景，高保真音乐音质，乐器教学等对音乐音质有要求的场景推荐使用
  
  */
+
+/****
+ Audio scenario
+ 
+ - AlivcLivePusherAudioScenarioDefaultMode The default scene. We recommend that you use this for ordinary live streaming.
+ - AlivcLivePusherAudioScenarioMediaMode The media scene. We recommend that you use this if you want to maintain the vocal fidelity and music sound quality.
+ - AlivcLivePusherAudioScenarioMusicMode The music scene. High fidelity is ensured for music. We recommend that you use this in scenarios that require high sound quality, such as instrument teaching.
+ */
 typedef NS_ENUM(NSInteger, AlivcLivePusherAudioScenario) {
     AlivcLivePusherAudioScenarioDefaultMode = 1,
     AlivcLivePusherAudioScenarioMediaMode   = 2,
@@ -348,6 +510,14 @@ typedef NS_ENUM(NSInteger, AlivcLivePusherAudioScenario) {
  - AlivcLivePusherAudioSessionOperationRestrictionSetCategory SDK不能修改AVAudioSession的Category
  - AlivcLivePusherAudioSessionOperationRestrictionConfigureSession SDK不能修改AVAudioSession的配置，包括Category，Mode，CategoryOptions
  - AlivcLivePusherAudioSessionOperationRestrictionDeactivateSession SDK不能关闭AVAudioSession的活动状态，离开频道时，AVAudioSession依然处于活动状态
+ */
+
+/****
+  Audio Session OperationRestriction
+ - AlivcLivePusherAudioSessionOperationRestrictionNone
+ - AlivcLivePusherAudioSessionOperationRestrictionSetCategory
+ - AlivcLivePusherAudioSessionOperationRestrictionConfigureSession
+ - AlivcLivePusherAudioSessionOperationRestrictionDeactivateSession
  */
 typedef NS_ENUM(NSInteger, AlivcLivePusherAudioSessionOperationRestriction) {
     AlivcLivePusherAudioSessionOperationRestrictionNone              = 0,
@@ -366,6 +536,19 @@ typedef NS_ENUM(NSInteger, AlivcLivePusherAudioSessionOperationRestriction) {
  - AlivcLiveLicenseCheckResultCodeBusinessInvalid 无效的业务信息
  - AlivcLiveLicenseCheckResultCodePlatformInvalid 该平台未购买
  - AlivcLiveLicenseCheckResultCodeUninitialized 未初始化
+ */
+
+/****
+ SDK License Check Result Code
+ - AlivcLiveLicenseCheckResultCodeSuccess success
+ - AlivcLiveLicenseCheckResultCodeCertInvalid licenseFile invalid
+ - AlivcLiveLicenseCheckResultCodeCertExpired licenseFile expired
+ - AlivcLiveLicenseCheckResultCodeLicenseExpired licenseKey expired
+ - AlivcLiveLicenseCheckResultCodeAppIdInvalid   APPID invalid
+ - AlivcLiveLicenseCheckResultCodeLicenseError license error
+ - AlivcLiveLicenseCheckResultCodeBusinessInvalid bussiness invalid
+ - AlivcLiveLicenseCheckResultCodePlatformInvalid platform invalid
+ - AlivcLiveLicenseCheckResultCodeUninitialized uninitialized
  */
 
 typedef NS_ENUM(NSInteger, AlivcLiveLicenseCheckResultCode) {
@@ -387,6 +570,14 @@ typedef NS_ENUM(NSInteger, AlivcLiveLicenseCheckResultCode) {
  - AlivcLivePlayRenderModeFill 填充模式
  - AlivcLivePlayRenderModeCrop 裁剪模式
  */
+
+/****
+ The view render mode
+ - AlivcLivePlayRenderModeAuto Automatic mode
+ - AlivcLivePlayRenderModeStretch Stretch mode
+ - AlivcLivePlayRenderModeFill Fill mode
+ - AlivcLivePlayRenderModeCrop Crop mode
+ */
 typedef NS_ENUM(NSUInteger, AlivcLivePlayRenderMode) {
     AlivcLivePlayRenderModeAuto    = 0,
     AlivcLivePlayRenderModeStretch = 1,
@@ -402,6 +593,14 @@ typedef NS_ENUM(NSUInteger, AlivcLivePlayRenderMode) {
  - AlivcLivePlayRotationMode_180 视频旋转角度 - 180
  - AlivcLivePlayRotationMode_270 视频旋转角度 - 270
  */
+
+/****
+ The video rotation angle
+ - AlivcLivePlayRotationMode_0  The video rotation angle - 0
+ - AlivcLivePlayRotationMode_90  The video rotation angle - 90
+ - AlivcLivePlayRotationMode_180  The video rotation angle - 180
+ - AlivcLivePlayRotationMode_270  The video rotation angle - 270
+ */
 typedef NS_ENUM(NSInteger, AlivcLivePlayRotationMode) {
     AlivcLivePlayRotationMode_0    = 0,
     AlivcLivePlayRotationMode_90   = 90,
@@ -414,6 +613,12 @@ typedef NS_ENUM(NSInteger, AlivcLivePlayRotationMode) {
  - AlivcLiveTranscodingCropModeCrop 剪裁
  - AlivcLiveTranscodingCropModeFill 填充
 */
+
+/****
+ mixed-stream transcoding
+ - AlivcLiveTranscodingCropModeCrop Crop mode
+ - AlivcLiveTranscodingCropModeFill Fill mode
+*/
 typedef NS_ENUM(NSInteger, AlivcLiveTranscodingCropMode) {
     AlivcLiveTranscodingCropModeCrop = 1,
     AlivcLiveTranscodingCropModeFill = 2
@@ -424,6 +629,12 @@ typedef NS_ENUM(NSInteger, AlivcLiveTranscodingCropMode) {
  - AlivcLivePlayErrorStreamNotFound 播放URL指定的播放流不存在
  - AlivcLivePlayErrorStreamStopped 播放URL指定的播放流已停止推流
  */
+
+/****
+ Live interaction player engine play error code
+ - AlivcLivePlayErrorStreamNotFound The stream specified by the streaming URL does not exist.
+ - AlivcLivePlayErrorStreamStopped The stream specified by the streaming URL is stopped.
+ */
 typedef NS_ENUM(NSInteger, AlivcLivePlayerError) {
     AlivcLivePlayErrorStreamNotFound = 1,
     AlivcLivePlayErrorStreamStopped = 2
@@ -432,10 +643,14 @@ typedef NS_ENUM(NSInteger, AlivcLivePlayerError) {
 /**
  * @brief 视频数据类型
  */
+
+/****
+ * @brief video format type
+ */
 typedef NS_ENUM(NSInteger, AlivcLiveBufferType) {
-    /** YUV裸数据 */
+    /** YUV */
     AlivcLiveBufferType_Raw_Data = 0,
-    /** CVPixelBuffer数据 */
+    /** CVPixelBuffer */
     AlivcLiveBufferType_CVPixelBuffer,
 };
 
@@ -444,6 +659,13 @@ typedef NS_ENUM(NSInteger, AlivcLiveBufferType) {
  * AlivcLivePushMonitorLevelAll 监控全量质量信息
  * AlivcLivePushMonitorLevelCut 监控精简质量信息
  * AlivcLivePushMonitorLevelNone 不上传任何质量信息
+ */
+
+/****
+ * @brief SDK The SDK provides quality monitoring. For embedment scenarios, you can specify specific monitoring metrics
+ * AlivcLivePushMonitorLevelAll monitoring all quality information
+ * AlivcLivePushMonitorLevelCut monitoring cut quality information
+ * AlivcLivePushMonitorLevelNone monitoring none quality information
  */
 typedef NS_ENUM(NSInteger, AlivcLivePushMonitorLevel) {
     AlivcLivePushMonitorLevelAll = 0,
@@ -463,24 +685,28 @@ typedef NS_ENUM(NSInteger, AlivcLivePushMonitorLevel) {
  * AlivcLivePushAudioEffectvVoiceChangeR_ECHO 回声
  * AlivcLivePushAudioEffectvVoiceChange_MAX 占位符
  */
+
+/****
+ * @brief Voice Changer Mode
+ * AlivcLivePushAudioEffectvVoiceChange_OFF turn off voice changer
+ * AlivcLivePushAudioEffectvVoiceChange_OLD_MAN old man
+ * AlivcLivePushAudioEffectvVoiceChange_BABYBOY baby boy
+ * AlivcLivePushAudioEffectvVoiceChange_BABYGILR baby girl
+ * AlivcLivePushAudioEffectvVoiceChange_ROBOT robot
+ * AlivcLivePushAudioEffectvVoiceChange_DAIMO demon king
+ * AlivcLivePushAudioEffectvVoiceChange_KTV KTV
+ * AlivcLivePushAudioEffectvVoiceChangeR_ECHO echo
+ * AlivcLivePushAudioEffectvVoiceChange_MAX max
+ */
 typedef NS_ENUM(NSInteger, AlivcLivePushAudioEffectVoiceChangeMode) {
-    /** 关闭变声音效 */
     AlivcLivePushAudioEffectvVoiceChange_OFF = 0,
-    /** 老人 */
     AlivcLivePushAudioEffectvVoiceChange_OLD_MAN,
-    /** 男孩 */
     AlivcLivePushAudioEffectvVoiceChange_BABYBOY,
-    /** 女孩 */
     AlivcLivePushAudioEffectvVoiceChange_BABYGILR,
-    /** 机器人 */
     AlivcLivePushAudioEffectvVoiceChange_ROBOT,
-    /** 大魔王 */
     AlivcLivePushAudioEffectvVoiceChange_DAIMO,
-    /** KTV */
     AlivcLivePushAudioEffectvVoiceChange_KTV,
-    /** 回声 */
     AlivcLivePushAudioEffectvVoiceChangeR_ECHO,
-    /** 占位符 */
     AlivcLivePushAudioEffectvVoiceChange_MAX,
 };
 
@@ -497,26 +723,30 @@ typedef NS_ENUM(NSInteger, AlivcLivePushAudioEffectVoiceChangeMode) {
  * AlivcLivePushAudioEffectReverb_Church_Hall 教堂走廊
  * AlivcLivePushAudioEffectReverb_Mode_Max 占位符 
  */
+
+/****
+ * @brief Sound Reverb Mode
+ * AlivcLivePushAudioEffectReverb_Off turn off reverb
+ * AlivcLivePushAudioEffectReverb_Vocal_I vocal I
+ * AlivcLivePushAudioEffectReverb_Vocal_II vocal II
+ * AlivcLivePushAudioEffectReverb_Bathroom bath room
+ * AlivcLivePushAudioEffectReverb_Small_Room_Bright small bright room
+ * AlivcLivePushAudioEffectReverb_Small_Room_Dark samll dark room
+ * AlivcLivePushAudioEffectReverb_Medium_Room
+ * AlivcLivePushAudioEffectReverb_Large_Room large room
+ * AlivcLivePushAudioEffectReverb_Church_Hall church hall
+ * AlivcLivePushAudioEffectReverb_Mode_Max max
+ */
 typedef NS_ENUM(NSInteger, AlivcLivePushAudioEffectReverbMode) {
-    /** 关闭混响 */
     AlivcLivePushAudioEffectReverb_Off = 0,
-    /** 人声I */
     AlivcLivePushAudioEffectReverb_Vocal_I,
-    /** 人声II */
     AlivcLivePushAudioEffectReverb_Vocal_II,
-    /** 澡堂 */
     AlivcLivePushAudioEffectReverb_Bathroom,
-    /** 明亮小房间 */
     AlivcLivePushAudioEffectReverb_Small_Room_Bright,
-    /** 黑暗小房间 */
     AlivcLivePushAudioEffectReverb_Small_Room_Dark,
-    /** 中等房间 */
     AlivcLivePushAudioEffectReverb_Medium_Room,
-    /** 大房间 */
     AlivcLivePushAudioEffectReverb_Large_Room,
-    /** 教堂走廊 */
     AlivcLivePushAudioEffectReverb_Church_Hall,
-    /** 占位符 */
     AlivcLivePushAudioEffectReverb_Mode_Max,
 };
 
@@ -530,19 +760,23 @@ typedef NS_ENUM(NSInteger, AlivcLivePushAudioEffectReverbMode) {
  * AlivcLiveNetworkQualityDisconnect 网络中断
  * AlivcLiveNetworkQualityUnknow 未知
  */
+
+/****
+ * @brief Network quality
+ * AlivcLiveNetworkQualityExcellent The network is excellent, and the stream definition and quality are good
+ * AlivcLiveNetworkQualityGood The network is good, and the fluency and clarity are about the same as excellent
+ * AlivcLiveNetworkQualityPoor The network is poor, and the audio and video fluency and clarity are flawed, which does not affect communication
+ * AlivcLiveNetworkQualityBad The network is poor, the video freezes seriously, but the audio can communicate normally
+ * AlivcLiveNetworkQualityVeryBad The network is extremely poor, and it is basically impossible to communicate
+ * AlivcLiveNetworkQualityDisconnect Network interruption
+ * AlivcLiveNetworkQualityUnknow Unknow
+ */
 typedef NS_ENUM(NSUInteger, AlivcLiveNetworkQuality) {
-    /** 网络极好，流程度清晰度质量好 */
     AlivcLiveNetworkQualityExcellent  = 0,
-    /** 网络好，流畅度清晰度和极好差不多 */
     AlivcLiveNetworkQualityGood       = 1,
-    /** 网络较差，音视频流畅度清晰度有瑕疵，不影响沟通 */
     AlivcLiveNetworkQualityPoor       = 2,
-    /** 网络差，视频卡顿严重，音频能正常沟通 */
     AlivcLiveNetworkQualityBad        = 3,
-    /** 网络极差，基本无法沟通 */
     AlivcLiveNetworkQualityVeryBad    = 4,
-    /** 网络中断 */
     AlivcLiveNetworkQualityDisconnect = 5,
-    /** 未知 */
     AlivcLiveNetworkQualityUnknow     = 6,
 };
