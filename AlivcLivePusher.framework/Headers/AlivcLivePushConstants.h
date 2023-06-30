@@ -780,3 +780,42 @@ typedef NS_ENUM(NSUInteger, AlivcLiveNetworkQuality) {
     AlivcLiveNetworkQualityDisconnect = 5,
     AlivcLiveNetworkQualityUnknow     = 6,
 };
+
+/**
+ * @brief 被踢掉原因
+ * AlivcLivePushKickedOutTypeKickedOut 当前user被踢出房间，需要退出直播间
+ * AlivcLivePushKickedOutTypeChannelTerminated 直播间被删除，需要退出直播间
+ * AlivcLivePushKickedOutTypeUserReplaced 相同userID在其他设备进入直播间，当前设备被下线
+ */
+
+/****
+ * @brief The specific reason for being kicked out
+ * AlivcLivePushKickedOutTypeKickedOut The current user is kicked out of the room and needs to exit the live broadcast room
+ * AlivcLivePushKickedOutTypeChannelTerminated The live room is deleted, you need to exit the live room
+ * AlivcLivePushKickedOutTypeUserReplaced The same userID enters the live broadcast room on other devices, and the current device is offline
+ */
+typedef NS_ENUM(NSInteger, AlivcLivePushKickedOutType) {
+    AlivcLivePushKickedOutTypeKickedOut          = 1,
+    AlivcLivePushKickedOutTypeChannelTerminated    = 2,
+    AlivcLivePushKickedOutTypeUserReplaced         = 3,
+};
+
+/**
+ * @brief  混流成员流类型
+ * AlivcLiveMixStreamTypeAudioVideo 混入音视频
+ * AlivcLiveMixStreamTypePureAudio 混入音频， 不混视频
+ * AlivcLiveMixStreamTypePureVideo 混入视频，不混音频
+ */
+
+/****
+ * @brief  Mixed member stream type
+ * AlivcLiveMixStreamTypeAudioVideo Mix audio and video
+ * AlivcLiveMixStreamTypePureAudio Mix audio, don't mix video
+ * AlivcLiveMixStreamTypePureVideo Mix  video, don't mix audio
+ */
+typedef NS_ENUM(NSInteger, AlivcLiveMixStreamType) {
+    AlivcLiveMixStreamTypeAudioVideo          = 0,
+    AlivcLiveMixStreamTypePureAudio           = 1,
+    AlivcLiveMixStreamTypePureVideo           = 2,
+};
+

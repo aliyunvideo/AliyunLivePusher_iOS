@@ -10,15 +10,15 @@
 		</data>
 		<key>Headers/AlivcLivePushConfig.h</key>
 		<data>
-		bHWV5IPAjN+7JTFPARY3JLNUJJA=
+		+G9dbx1nC4m4D+ati2rBoizwwak=
 		</data>
 		<key>Headers/AlivcLivePushConstants.h</key>
 		<data>
-		5VVNBSqoYywn858FpDUqHaifqQc=
+		HHxfrYDPzaQP7Benqca0WKFV8Gc=
 		</data>
 		<key>Headers/AlivcLivePushDef.h</key>
 		<data>
-		qrGepY1p4a5ZFekx9a88KopKb9A=
+		X89hXcXWXO0G12ZQ98AthNk+WRY=
 		</data>
 		<key>Headers/AlivcLivePushError.h</key>
 		<data>
@@ -30,7 +30,7 @@
 		</data>
 		<key>Headers/AlivcLivePusher.h</key>
 		<data>
-		gRz5WqTRWFlh8M610Z0NnJ+R51A=
+		/JP6GYwUisLSx7onVTwuEy4JtQI=
 		</data>
 		<key>Headers/AlivcLivePusherHeader.h</key>
 		<data>
@@ -38,7 +38,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		4ssSdanUZwZ7N8zayYT+sdWPQxg=
+		uKGcOTcPtQH61zD/UCIMTxIi8P0=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -62,33 +62,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			bHWV5IPAjN+7JTFPARY3JLNUJJA=
+			+G9dbx1nC4m4D+ati2rBoizwwak=
 			</data>
 			<key>hash2</key>
 			<data>
-			r+bIa38iJJe2ZbpFMvRvChWw0FlXaSKZYkeCRAu54F8=
+			uEeK6qTL4ZrllA5KI+XYYxkabIBJvRRSpP18r2rE9DQ=
 			</data>
 		</dict>
 		<key>Headers/AlivcLivePushConstants.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			5VVNBSqoYywn858FpDUqHaifqQc=
+			HHxfrYDPzaQP7Benqca0WKFV8Gc=
 			</data>
 			<key>hash2</key>
 			<data>
-			tGgNlprQvFFVmxXz78WB+Ruh29jWEFhVv7w2FBra/eM=
+			eEKyC798T9fgzcq06lVncKynXccTAEXhpONKNMjEXUs=
 			</data>
 		</dict>
 		<key>Headers/AlivcLivePushDef.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			qrGepY1p4a5ZFekx9a88KopKb9A=
+			X89hXcXWXO0G12ZQ98AthNk+WRY=
 			</data>
 			<key>hash2</key>
 			<data>
-			O6I5cOUgOaDZgq/WHzAJplGpMBuISSY40pj2/yqqGjk=
+			hCKXz0jdGPIifNqpGzrD35UoJNHxA0KBMqyo4sgrmnc=
 			</data>
 		</dict>
 		<key>Headers/AlivcLivePushError.h</key>
@@ -117,11 +117,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			gRz5WqTRWFlh8M610Z0NnJ+R51A=
+			/JP6GYwUisLSx7onVTwuEy4JtQI=
 			</data>
 			<key>hash2</key>
 			<data>
-			5gNBA4sFS5njIk7NS6bZ+5/c+tVGXDk3Y9mcc1oy9s8=
+			n/yzq5PV9g8hLx6pHa49OCcnbXGeUI9agiuzOvdVRdI=
 			</data>
 		</dict>
 		<key>Headers/AlivcLivePusherHeader.h</key>

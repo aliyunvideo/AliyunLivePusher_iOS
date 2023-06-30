@@ -424,14 +424,14 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  * @brief 对焦
- * @param point 对焦的点
+ * @param point 对焦的点，point.x和point.y的取值是(0,1)，表示当前点相对于渲染view的相对位置
  * @param autoFocus 是否自动对焦
  * @return 0:success  非0:failure
  */
 
 /****
  * @brief Configure focus
- * @param point The focus point
+ * @param point The focus point The values ​​of point.x and point.y are (0,1), indicating the relative position of the current point relative to the rendering view
  * @param autoFocus Whether to enable autofocus
  * @return
  *  0:success
@@ -1147,9 +1147,8 @@ AlivcLivePusherAudioSampleDelegate;
  * @param msg 用户推流消息
  * @param count 重复次数
  * @param time 延时时间，单位毫秒
- * @param isKeyFrame 是否只发关键帧
+ * @param isKeyFrame 是否只发关键帧，该参数只支持在livePushMode = AlivcLivePushBasicMode 模式下设置，AlivcLivePushInteractiveMode模式下暂时不支持设置
  * @return 0:success  非0:failure
- * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下设置Message，AlivcLivePushInteractiveMode模式下暂时不支持设置Message
  */
 
 /****
@@ -1157,12 +1156,10 @@ AlivcLivePusherAudioSampleDelegate;
  * @param msg The message
  * @param count The number of repetitions
  * @param time The latency. Unit: millisecond
- * @param isKeyFrame Whether to send only keyframes
+ * @param isKeyFrame Whether to send only keyframes，This parameter only supports setting in livePushMode = AlivcLivePushBasicMode mode, and temporarily does not support setting in AlivcLivePushInteractiveMode mode
  * @return
  *  0:success
  *  != 0:failure
- * @noteNote: The SDK allows you to set a custom SEI message when livePushMode is set to AlivcLivePushBasicMode,
- * but not when livePushMode is set to AlivcLivePushInteractiveMode.
  */
 - (int)sendMessage:(NSString *)msg repeatCount:(int)count delayTime:(int)time KeyFrameOnly:(bool)isKeyFrame;
 
@@ -1376,6 +1373,9 @@ AlivcLivePusherAudioSampleDelegate;
 // muteLocalCamera
 // enableSpeakerphone
 // isEnableSpeakerphone
+// refreshPushURLToken
+// isCameraAutoFocusFaceModeSupported
+// setCameraAutoFocusFaceModeEnabled
 
 /**
  * @brief 设置云端的混流（转码）参数
@@ -1454,6 +1454,66 @@ AlivcLivePusherAudioSampleDelegate;
  * @return - YES: Speaker；- NO: Headset
  */
 - (BOOL)isEnableSpeakerphone;
+
+/**
+ * @brief 刷新Token鉴权信息，传入一个新的推流URL，包含未过期的新token信息，房间ID/用户ID/sdkAppId需要和之前保持一样
+ * @details 该方法用于更新鉴权信息推流URL中的token信息，主要为了防止鉴权过期，导致推流失败，当我们收到 {@link onPushURLTokenWillExpire} 回调时，应用应当更新鉴权信息
+ * @param pushURL 推流URL
+ * @return
+ * - 0: 成功
+ * - <0: 失败
+ */
+
+/****
+ * @brief Refresh the authentication information, pass in a new streaming URL, including token information that has not expired,
+ * and the room ID/user ID/sdkAppId need to be the same as before
+ * @details This method is used to update the token information in the push URL of the authentication information,
+ *  mainly to prevent the authentication from expiring and causing the push to fail. When we receive
+ *  the {@link onPushURLTokenWillExpire} callback, the application should update the authentication information
+ * @param pushURL push URL
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
+- (int)refreshPushURLToken:(NSString *_Nonnull)pushUrl;
+
+/**
+ * @brief 摄像头是否支持人脸聚焦
+ * @return
+ * - YES: 支持
+ * - NO: 不支持
+ * @note 在camera没有打开的情况下返回 NO，
+ *    在camera打开的情况下，如果当前camera同时支持人脸识别和对焦功能则返回 YES
+*/
+
+/****
+ * @brief Does the camera support face focusing?
+ * @note Return NO if the camera is not open, and return YES if the current camera supports both face recognition and
+ * focus functions if the camera is open
+ * @return
+ * - YES: success
+ * - NO: failure
+ */
+- (BOOL)isCameraAutoFocusFaceModeSupported;
+
+/**
+ * @brief 设置摄像头人脸对焦
+ * @param enable  YES: 开启; NO:关闭
+ * @return
+ * - YES: 成功
+ * - NO: 失败
+ * @note 如果 {@link isCameraAutoFocusFaceModeSupported} 返回 YES
+ *      且此调用enable为 YES 的情况下，实时对焦到采集到数据的人脸上
+*/
+
+/****
+ * @brief Set camera face focus
+ * @param enable  YES: open; NO:close
+ * @return
+ * - YES: success
+ * - NO: failure
+*/
+- (BOOL)setCameraAutoFocusFaceModeEnabled:(BOOL)enable;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -1665,6 +1725,34 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (NSString *)onPushURLAuthenticationOverdue:(AlivcLivePusher *)pusher;
 
+/**
+ * @brief 连麦推流URL的token即将过期(将在过期前30s内发送此回调)
+ * @param pusher 推流引擎对象
+ * @note 此回调只在互动模式下生效，该回调在鉴权信息30秒前触发，收到该回调后应该及时将新的token的URL传入SDK，参考 {@link refreshPushURLToken:}
+ */
+
+/****
+ * @brief The token of the streaming URL is about to expire (this callback will be sent within 30s before expiration)
+ * @param pusher The live pusher engine object
+ * @note This callback only takes effect in the interactive mode. The callback is triggered 30 seconds before the authentication information.
+ * After receiving the callback, the URL of the new token should be passed to the SDK in time.{@link refreshPushURLToken:}
+ */
+- (void)onPushURLTokenWillExpire:(AlivcLivePusher *)pusher;
+
+/**
+ * @brief 连麦推流URL的token已经过期
+ * @param pusher 推流引擎对象
+ * @note 此回调只在互动模式下生效，该回调触发代表鉴权信息已过期，需要调用结束推流后使用新的token的URL重新推流
+ */
+
+/****
+ * @brief The token of the streaming URL has expired
+ * @param pusher The live pusher engine object
+ * @note This callback only takes effect in the interactive mode. The trigger of this callback means that the authentication
+ *  information has expired, and it needs to be called to re-push the stream with the URL of the new token after the push ends.
+ */
+- (void)onPushURLTokenExpired:(AlivcLivePusher *)pusher;
+
 
 /**
  * @brief 发送SEI Message 通知
@@ -1845,6 +1933,21 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (void)onSetLiveMixTranscodingConfig:(AlivcLivePusher *)pusher status:(BOOL)isSuccess message:(NSString *)msg;
 
+
+/**
+ * @brief 被服务侧强制踢掉回调
+ * 注：此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
+ * @param pusher 推流引擎对象
+ * @param code 具体被踢掉原因
+ */
+
+/****
+ * @brief The reason for being kicked out by the server callback
+ * Note: This callback is available only when livePushMode is set to AlivcLivePushInteractiveMode, that is, when Push SDK is working in interactive mode.
+ * @param pusher pusher The live pusher engine object
+ * @param code The specific reason for being kicked out
+ */
+- (void)onKickedOutByServer:(AlivcLivePusher *)pusher reason:(AlivcLivePushKickedOutType)code;
 
 @end
 

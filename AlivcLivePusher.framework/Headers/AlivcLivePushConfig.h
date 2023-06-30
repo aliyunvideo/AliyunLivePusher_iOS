@@ -622,6 +622,25 @@
 @property (nonatomic, assign) AlivcLivePushMonitorLevel monitorLevel;
 
 /**
+ * @brief 互动模式下默认回调pixbuffer，通过enableLocalVideoTexture可以指定纹理回调
+ */
+
+/****
+ * @brief when livePushMode is set to AlivcLivePushLiveMode, pixbuffer is called back by default, and texture callback can be specified by enableLocalVideoTexture
+ */
+
+@property (nonatomic, assign) BOOL enableLocalVideoTexture;
+
+/**
+ * @brief 互动模式下enableLocalVideoTexture指定纹理回调后，可以设置enableLocalVideoRawBuffer打开视频裸数据的回调，格式是I420
+ */
+
+/****
+ * @brief After enableLocalVideoTexture specifies the texture callback in interactive mode, enableLocalVideoRawBuffer can be set to enable the callback of video raw data, the format is I420
+ */
+@property (nonatomic, assign) BOOL enableLocalVideoRawBuffer;
+
+/**
  * @brief init 分辨率 其余值为默认值
  * @param resolution 推流分辨率
  * @return self
