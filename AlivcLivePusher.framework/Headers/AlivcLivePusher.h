@@ -642,12 +642,12 @@ AlivcLivePusherAudioSampleDelegate;
 
 
 /**
- * @brief 设置推流分辨率，只在预览模式下生效，推流中不能设置
+ * @brief 设置推流分辨率
  * @param resolution 推流分辨率
  */
 
 /****
- * @brief Specify the resolution, which takes effect only in preview mode. You cannot specify this parameter during stream push.
+ * @brief Specify the resolution, which takes effect only in preview mode
  * @param resolution The resolution of the ingested stream
  */
 - (void)setResolution:(AlivcLivePushResolution)resolution;
@@ -1515,6 +1515,21 @@ AlivcLivePusherAudioSampleDelegate;
 */
 - (BOOL)setCameraAutoFocusFaceModeEnabled:(BOOL)enable;
 
+/**
+ * @brief 设置音量回调频率和平滑系数
+ * @param interval 时间间隔，单位毫秒，最小值不得小于10ms, 建议设置300-500ms, <= 0表示不启用音量提示和说话人提示功能
+ * @param smooth 平滑系数，数值越大平滑程度越高，反之越低，实时性越好，建议设置3，范围[0, 9];
+ * @param reportVad 说话人检测开关
+ * - 1: 打开本地人声检测
+ * - 0: 关闭本地人声检测
+ * @return
+ * - 0: 成功
+ * - <0: 失败
+ * @note 设置之后，音频音量和说话人uid会分别通过 {@link onMicrophoneVolumeUpdate:} 和 {@link onPlayoutVolumeUpdate:} 回调
+ */
+- (int)enableAudioVolumeIndication:(int)interval smooth:(int)smooth reportVad:(int)reportVad;
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //      美颜相关api，在v4.2.0版本已删除，推流SDK不再提供内置美颜功能，请使用阿里云Queen提供的美颜服务
@@ -1949,6 +1964,23 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (void)onKickedOutByServer:(AlivcLivePusher *)pusher reason:(AlivcLivePushKickedOutType)code;
 
+/**
+ * @brief 麦克风音量回调
+ * 注：此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
+ * @param pusher 推流引擎对象
+ * @param volume 音量大小, 取值范围[0,255]
+ * @note  调用 {@link enableAudioVolumeIndication} 打开音量回调频率后，会收到这个回调通知。
+ */
+
+/****
+ * @brief Microphone volume callback
+ * Note: This callback is available only when livePushMode is set to AlivcLivePushInteractiveMode, that is, when Push SDK is working in interactive mode.
+ * @param pusher  The live pusher engine object
+ * @param volume volume, value [0,255]
+ * @note  After calling {@link enableAudioVolumeIndication} to enable the volume callback frequency, you will receive this callback notification.
+ */
+- (void)onMicrophoneVolumeUpdate:(AlivcLivePusher *)pusher volume:(int)volume;
+
 @end
 
 /**
@@ -2086,7 +2118,7 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (void)onCreate:(AlivcLivePusher *)pusher context:(void*)context;
 /**
- * @brief 通知外置滤镜处理回调，当前版本SDK在非互动模式下需要使用onProcess处理美颜
+ * @brief 通知外置滤镜处理回调(纹理回调)
  * @param pusher 推流引擎对象
  * @param texture 纹理ID
  * @param width 图像宽

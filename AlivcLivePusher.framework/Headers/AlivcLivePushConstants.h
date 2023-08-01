@@ -446,6 +446,35 @@ typedef NS_ENUM(NSInteger, AlivcPusherErrorCode){
     ALIVC_LIVE_PUSHER_SEQUENCE_ERROR    = -4, // 接口调用顺序错误
     ALIVC_LIVE_PUSHER_RTC_NOT_SUPPORT_AUDIO_OR_VIDEOONLY_PUSH = -5, //RTS协议暂不支持纯音频或纯视频推流
     ALIVC_LIVE_PUSHER_API_NOT_SUPPORT_FOR_INTERACTIVEMODE = -6,//当前API在互动模式下不支持
+    
+    /* ***********************设备异常相关错误码(onSystemError 回调)*********************** */
+    
+    /** 麦克风打开失败 */
+    ALIVC_LIVE_PUSHER_DEVICE_ERROR_MicOpenFail = 1,
+    /** 麦克风被打断 */
+    ALIVC_LIVE_PUSHER_DEVICE_ERROR_MicInterrupt = 2,
+    /** 麦克风无权限 */
+    ALIVC_LIVE_PUSHER_DEVICE_ERROR_MicAuthFail = 3,
+    /** 无可用麦克风 */
+    ALIVC_LIVE_PUSHER_DEVICE_ERROR_MicNotAvailable = 4,
+    /** 扬声器打开失败 */
+    ALIVC_LIVE_PUSHER_DEVICE_ERROR_SpeakerOpenFail = 5,
+    /** 扬声器被打断 */
+    ALIVC_LIVE_PUSHER_DEVICE_ERROR_SpeakerInterrupt = 6,
+    /** 无可用扬声器 */
+    ALIVC_LIVE_PUSHER_DEVICE_ERROR_SpeakerNotAvailable = 7,
+    /** 音频设备异常 */
+    ALIVC_LIVE_PUSHER_DEVICE_ERROR_AudioDeviceException = 8,
+    /** 摄像头打开失败 */
+    ALIVC_LIVE_PUSHER_DEVICE_ERROR_CameraOpenFail = 9,
+    /** 摄像头被打断 */
+    ALIVC_LIVE_PUSHER_DEVICE_ERROR_CameraInterrupt = 10,
+    /** 摄像头无权限 */
+    ALIVC_LIVE_PUSHER_DEVICE_ERROR_CameraAuthFail = 11,
+    /** 显示设备异常 */
+    ALIVC_LIVE_PUSHER_DEVICE_ERROR_DisplayExecption = 12,
+    /** 视频设备异常 */
+    ALIVC_LIVE_PUSHER_DEVICE_ERROR_VideoDeviceException = 13
 };
 
 /**
