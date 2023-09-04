@@ -657,16 +657,19 @@ typedef NS_ENUM(NSInteger, AlivcLiveTranscodingCropMode) {
  互动模式拉流错误码
  - AlivcLivePlayErrorStreamNotFound 播放URL指定的播放流不存在
  - AlivcLivePlayErrorStreamStopped 播放URL指定的播放流已停止推流
+ - AlivcLivePlayErrorPlayFailed 播放URL指定的播放流播放失败
  */
 
 /****
  Live interaction player engine play error code
  - AlivcLivePlayErrorStreamNotFound The stream specified by the streaming URL does not exist.
  - AlivcLivePlayErrorStreamStopped The stream specified by the streaming URL is stopped.
+ - AlivcLivePlayErrorPlayFailed The stream specified by the streaming URL play failed
  */
 typedef NS_ENUM(NSInteger, AlivcLivePlayerError) {
     AlivcLivePlayErrorStreamNotFound = 1,
-    AlivcLivePlayErrorStreamStopped = 2
+    AlivcLivePlayErrorStreamStopped = 2,
+    AlivcLivePlayErrorPlayFailed = 3
 };
 
 /**

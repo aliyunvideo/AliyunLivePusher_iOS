@@ -331,7 +331,7 @@
 
 /**
  * @brief 预览镜像
- * default : false 关闭镜像
+ * default : true 前置摄像头默认预览镜像，后置摄像头预览不镜像
  */
 
 /****
@@ -621,6 +621,11 @@
  */
 @property (nonatomic, assign) AlivcLivePushMonitorLevel monitorLevel;
 
+
+/**
+ * @brief 互动模式下开启RTS推拉裸流(直推&直拉，不同于直播连麦)
+ */
+@property (nonatomic, assign) BOOL enableRTSForInteractiveMode;
 /**
  * @brief 互动模式下默认回调pixbuffer，通过enableLocalVideoTexture可以指定纹理回调
  */
