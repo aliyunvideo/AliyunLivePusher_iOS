@@ -228,12 +228,12 @@
 
 /**
  * @brief 音频应用场景
- * default：AlivcLivePusherAudioScenarioDefaultMode 默认模式
+ * default：AlivcLivePusherAudioScenarioMusicMode 默认自适应音乐模式
  */
 
 /****
  * @brief The audio scenario
- * default：AlivcLivePusherAudioScenarioDefaultMode
+ * default：AlivcLivePusherAudioScenarioMusicMode
  */
 @property (nonatomic, assign) AlivcLivePusherAudioScenario audioScene;
 
@@ -644,6 +644,27 @@
  * @brief After enableLocalVideoTexture specifies the texture callback in interactive mode, enableLocalVideoRawBuffer can be set to enable the callback of video raw data, the format is I420
  */
 @property (nonatomic, assign) BOOL enableLocalVideoRawBuffer;
+
+/**
+ * @brief 设置H5兼容模式
+ * @details 互动模式下，是否需要与Web 连麦互通，则必须使用H5兼容模式,否则，Web用户查看Native用户将是黑屏。
+ * @param h5CompatibleMode
+ * - YES: 兼容H5。
+ * - NO: 传统模式，不兼容H5。
+ * default : false
+ * @note 不支持在创建AlivcLivePusher实例之后更改H5兼容模式，必须在创建实例之前就调用此方法。
+ */
+
+/****
+ * @brief Set H5 compatibility mode
+ * @note In the interactive mode, if you need to communicate with the Web, you must use the H5 compatibility mode, otherwise, the Web user will see a black screen when viewing the Native user.
+ * @param enable  YES: open; NO:close
+ * default : false
+ * @return
+ * - YES: success
+ * - NO: failure
+*/
+@property (nonatomic, assign) BOOL h5CompatibleMode;
 
 /**
  * @brief init 分辨率 其余值为默认值

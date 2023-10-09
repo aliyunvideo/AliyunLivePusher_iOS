@@ -1260,7 +1260,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @param coordY 水印左上顶点y的相对坐标 [0,1]
  * @param width 水印的相对宽度 (水印会根据水印图片实际大小和水印宽度等比缩放) (0,1]
  * @return 0:success  非0:failure
- * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下添加水印，AlivcLivePushInteractiveMode模式下暂时不支持添加水印
+ * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下添加水印，AlivcLivePushInteractiveMode模式下使用setWatermark添加水印
  */
 
 /****
@@ -1365,6 +1365,11 @@ AlivcLivePusherAudioSampleDelegate;
 // muteLocalCamera
 // enableSpeakerphone
 // isEnableSpeakerphone
+// refreshPushURLToken
+// isCameraAutoFocusFaceModeSupported
+// setCameraAutoFocusFaceModeEnabled
+//enableAudioVolumeIndication
+//setH5CompatibleMode
 
 // Some methods are available only when livePushMode is set to AlivcLivePushInteractiveMode,
 // that is, only when Push SDK is working in interactive mode. Calling these methods in non-interactive
@@ -1376,6 +1381,8 @@ AlivcLivePusherAudioSampleDelegate;
 // refreshPushURLToken
 // isCameraAutoFocusFaceModeSupported
 // setCameraAutoFocusFaceModeEnabled
+//enableAudioVolumeIndication
+//setH5CompatibleMode
 
 /**
  * @brief 设置云端的混流（转码）参数
@@ -1528,6 +1535,16 @@ AlivcLivePusherAudioSampleDelegate;
  * @note 设置之后，音频音量和说话人uid会分别通过 {@link onMicrophoneVolumeUpdate:} 和 {@link onPlayoutVolumeUpdate:} 回调
  */
 - (int)enableAudioVolumeIndication:(int)interval smooth:(int)smooth reportVad:(int)reportVad;
+
+/**
+ * @brief 添加水印(互动模式下使用该接口添加水印)
+ * @note 水印位置是通过 rect 参数来指定，rect 是一个四元组参数，其格式为 (x，y，width，height)，其中x和y是水印的坐标，取值范围为0 1的浮点数。width：水印的宽度，取值范围为0 - 1的浮点数，height：不需要设置的，SDK 内部会根据水印图片的宽高比自动计算高度。
+ * 例如：当推流分辨率是 720 × 1280时，rect 参数为（0.1，0.1，0.3，0.0），则水印的左上角坐标点就是（720 × 0.1，1280 × 0.1）即（72，128），水印的宽度是720x0.3=216，水印高度是根据水印图片的宽高比自动算出来。
+ * @param  image 水印图片， 使用透明底色的 png 格式。
+ * @param rect 水印相对于推流分辨率的相对坐标，x，y，width，height 取值范围0 - 1。
+ */
+- (void)setWatermark:(nullable UIImage *)image rect:(CGRect)rect;
+
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1780,6 +1797,23 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (void)onSendSeiMessage:(AlivcLivePusher *)pusher;
 
+/**
+ * @brief 网络质量变化时发出的消息
+ * @param pusher pusher 推流引擎对象
+ * @param upQuality  上行网络质量
+ * @param downQuality 下行网络质量
+ * @note 当对端网络质量发生变化时触发, 此回调只在互动模式下生效
+ */
+
+/****
+ * @brief The message that is sent when the network quality changes.
+ * @param pusher The live pusher engine object
+ * @param upQuality  up network quality
+ * @param downQuality down network quality
+ * @note Triggered when peer network quality changes.This callback only takes effect in the interactive mode.
+ */
+- (void)onPusherNetworkQualityChanged:(AlivcLivePusher *)pusher upNetworkQuality:(AlivcLiveNetworkQuality)upQuality downNetworkQuality:(AlivcLiveNetworkQuality)downQuality;
+
 @optional
 
 /**
@@ -1980,6 +2014,26 @@ AlivcLivePusherAudioSampleDelegate;
  * @note  After calling {@link enableAudioVolumeIndication} to enable the volume callback frequency, you will receive this callback notification.
  */
 - (void)onMicrophoneVolumeUpdate:(AlivcLivePusher *)pusher volume:(int)volume;
+
+/**
+ * @brief 有用户加入房间回调(只针对直播连麦场景生效)
+ * 注：此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
+ * @param pusher 推流引擎对象
+ * @param userId 加入房间的用户ID
+ * @note
+ *  主播和观众连麦时，连麦观众开始推流后，在主播侧可以收到该回调，主播拿到回调后，可以向其
+ *  业务server请求该userId的连麦拉流地址，使用AlivcLivePlayer的startPlayWithURL接口进行拉流
+ */
+
+/****
+ * @brief A user room has been added to the callback
+ * Note: This callback is available only when livePushMode is set to AlivcLivePushInteractiveMode, that is, when Push SDK is working in interactive mode.
+ * @param pusher  The live pusher engine object
+ * @param userId User ID to join the room
+ * @note
+ * When the anchor and the audience are connected to each other, after the audience starts to push the stream, the anchor can receive the callback. After getting the callback, the anchor can request the userId's streaming address from its business server, using the startPlayWithURL interface of AlivcLivePlayer pull flow
+ */
+- (void)onRemoteUserEnterRoom:(AlivcLivePusher *)pusher userId:(NSString *)userId;
 
 @end
 
