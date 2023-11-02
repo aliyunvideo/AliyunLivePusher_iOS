@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL mirror;
 
 /**
- * @brief 旋转角度 
+ * @brief 旋转角度
  * default： AlivcLivePlayRotationMode_0
  */
 
@@ -68,6 +68,17 @@ NS_ASSUME_NONNULL_BEGIN
  * default： AlivcLivePlayRotationMode_0
  */
 @property (nonatomic, assign) AlivcLivePlayRotationMode rotationMode;
+
+/**
+ * @brief 视频流类型
+ * default: AlivcLivePlayVideoStreamTypeCamera
+ */
+
+/****
+ * @brief Video stream type
+ * default: AlivcLivePlayVideoStreamTypeCamera
+ */
+@property (nonatomic, assign) AlivcLivePlayVideoStreamType videoStreamType;
 @end
 
 
@@ -139,6 +150,15 @@ NS_ASSUME_NONNULL_BEGIN
  * mixed-in stream type
  */
 @property (nonatomic, assign) AlivcLiveMixStreamType streamType;
+
+/**
+ * 混入的流类型
+ */
+
+/****
+ * mixed-in stream type
+ */
+@property (nonatomic, assign) AlivcLiveMixSourceType sourceType;
 
 @end
 
@@ -301,5 +321,104 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+
+@interface AlivcLiveLocalRecoderConfig : NSObject
+
+/**
+ * 录音文件在本地保存的绝对路径，需精确到文件名及格式（必填）。请确保路径有读写权限且合法，否则录制文件无法生成。
+ * 该路径需要精确到文件名及格式后缀，格式后缀用于决定录制出的文件格式。
+ * 例如 /App Sandbox/Library/Caches/local.mp4, 请确保你指定的路径存在并且可写, 目前支持的视频录制格式只有MP4。
+ */
+/****
+ * Absolute path to local recording files
+ *
+ * @note Please ensure that the path has read and write permissions and is legal, otherwise local recording files will not be generated
+ * @note The absolute path of the local recording file, which needs to be precise to the file name and format
+*/
+@property (nonatomic, copy) NSString *_Nonnull storagePath;
+
+
+/**
+ * 媒体录制类型，默认是AlivcLiveRecordTypeAudioAndVideo， 即同时录制音频和视频
+ */
+/****
+    * Stream type for local recording
+    *
+    * @note Default AlivcLiveRecordTypeAudioAndVideo, which means recording audio and video simultaneously
+    * @see AlivcLiveRecordType
+    */
+@property (nonatomic, assign) AlivcLiveRecordType recordType;
+
+/**
+ * 录制视频最大文件长度，单位：字节，默认是0
+ * 1. 如果设置为0或者-1，SDK内部按照2G大小进行分块，录制文件超过2G则回调相应事件，并在设置的文件尾上追加块编号重新在新的文件上进行录制；
+ * 2. 如果设置了>0的值，则发现文件超过该值后停止录制，同时在onMediaRecordEvent回调消息；
+ * 如果需要控制录制文件大小，可以设置该字段
+ * 注：该字段只有在recordType=AlivcLiveRecordTypeAudioAndVideo，即需要生成AlivcLiveRecordFormatMP4格式的Mp4文件时生效；如果recordType=AlivcLiveRecordTypePureAudio，设置该字段无效
+ */
+/****
+ * Maximum file length for local recording, in bytes
+ *
+ * @note If you need to control the recording file size, you can set this field
+ * @note 1. If set to 0 or -1, the SDK will be divided into blocks according to the size of 2G internally.
+ * @note If the recorded file exceeds 2G, the corresponding event will be recalled, and the block number will be added to the end of the set file to record on a new file;
+ * @note 2. If a value>0 is set, the recording will stop after the file exceeds this value, and a callback message will be sent to onMediaRecordEvent;
+*/
+@property (nonatomic, assign) NSInteger maxSize;
+
+/**
+ * 录制视频最大时长, 单位：秒，默认是0
+ * 如果等于0或者小于0，则不对录制时长做限制
+ * 如果设置了时间长度限制，则超过限制时长停止录制，同时onMediaRecordEvent回调消息；
+ * 如果需要控制录制文件时长，可以设置该字段
+ * 注：该字段只有在recordType=AlivcLiveRecordTypeAudioAndVideo，即需要生成AlivcLiveRecordFormatMP4格式的Mp4文件时生效；如果recordType=AlivcLiveRecordTypePureAudio，设置该字段无效
+ */
+/****
+ * The maximum duration of local recording, in seconds, defaults to 0
+ *
+ * @note If equal to or less than 0, there is no limit on the recording duration
+ * @note If a time limit is set, recording will stop if the limit is exceeded, and an onMediaRecordEvent callback message will be sent;
+ * @note If you need to control the duration of recording files, you can set this field
+ * @note Note: This field only takes effect when generating MP4 files; If generating a pure audio local file, setting this field is invalid
+ */
+@property (nonatomic, assign) NSInteger maxDuration;
+
+/**
+ * 录制音频的质量，详见 AlivcLiveRecordAudioQuality
+ * 默认：AlivcLiveRecordAudioQualityMidium
+ */
+/****
+ * Local recording audio quality
+ *
+ * @note Default: AlivcLiveRecordAudioQualityMidium
+ * @see AlivcLiveRecordAudioQuality
+*/
+@property (nonatomic, assign) AlivcLiveRecordAudioQuality recordAudioQuality;
+
+/**
+ * 录制格式，默认：AlivcLiveRecordFormatMP4
+ * 注：如果record指定为AlivcLiveRecordTypePureAudio，则recordFormat不能指定为AlivcLiveRecordFormatMP4；
+ *   如果record指定为AlivcLiveRecordTypeAudioAndVideo，则recordFormat需要指定为AlivcLiveRecordFormatMP4；
+ */
+/****
+ * Local recording media format
+ *
+ * @note Default: AlivcLiveRecordFormatMP4
+ * @see AlivcLiveRecordFormat
+*/
+@property (nonatomic, assign) AlivcLiveRecordFormat recordFormat;
+
+/**
+ * 录制音频的采样率，默认：AlivcLivePushAudioSampleRate48000
+ */
+/****
+ * Local recording audio sampling rate
+ *
+ * @note Default: AlivcLivePushAudioSampleRate48000
+ * @see AlivcLivePushAudioSampleRate
+*/
+@property (nonatomic, assign) AlivcLivePushAudioSampleRate recordAudioSamplerate;
+
+@end
 
 NS_ASSUME_NONNULL_END

@@ -638,6 +638,22 @@ typedef NS_ENUM(NSInteger, AlivcLivePlayRotationMode) {
 };
 
 /**
+ 视频流类型
+ - AlivcLivePlayVideoStreamTypeCamera 摄像头流
+ - AlivcLivePlayVideoStreamTypeScreen 屏幕共享流
+ */
+
+/****
+ The video stream type
+ - AlivcLivePlayVideoStreamTypeCamera camera stream
+ - AlivcLivePlayVideoStreamTypeScreen  screen stream
+ */
+typedef NS_ENUM(NSInteger, AlivcLivePlayVideoStreamType) {
+    AlivcLivePlayVideoStreamTypeCamera = 1,
+    AlivcLivePlayVideoStreamTypeScreen = 2,
+};
+
+/**
  云端混流（转码）裁剪模式
  - AlivcLiveTranscodingCropModeCrop 剪裁
  - AlivcLiveTranscodingCropModeFill 填充
@@ -851,3 +867,141 @@ typedef NS_ENUM(NSInteger, AlivcLiveMixStreamType) {
     AlivcLiveMixStreamTypePureVideo           = 2,
 };
 
+/**
+ * @brief  混流成员视频源类型
+ * AlivcLiveMixSourceTypeCamera 混入视频头流
+ * AlivcLiveMixSourceTypeScreen 混入屏幕共享流
+ */
+
+/****
+ * @brief  Mixed member stream type
+ * AlivcLiveMixSourceTypeCamera Mix camera video
+ * AlivcLiveMixSourceTypeScreen Mix screen
+ */
+typedef NS_ENUM(NSInteger, AlivcLiveMixSourceType) {
+    AlivcLiveMixSourceTypeCamera             = 0,
+    AlivcLiveMixSourceTypeScreen             = 1,
+};
+
+/**
+ * @brief  本地录制媒体类型
+ * AlivcLiveRecordTypePureAudio 仅录制音频
+ * AlivcLiveRecordTypeAudioAndVideo 同时录制音频和视频
+ */
+
+/****
+ * @brief  Local recode media type
+ * AlivcLiveRecordTypePureAudio only recode audio
+ * AlivcLiveRecordTypeAudioAndVideo recode audio and video
+ */
+typedef NS_ENUM(NSInteger, AlivcLiveRecordType) {
+    AlivcLiveRecordTypePureAudio            = 0,
+    AlivcLiveRecordTypeAudioAndVideo        = 1,
+};
+
+/**
+ * @brief  本地录制音频质量
+ * AlivcLiveRecordAudioQualityLow 低质量文件录制，文件体积较小，音质一般
+ * AlivcLiveRecordAudioQualityMidium 中等质量文件录制，文件体积中等，音质中等
+ * AlivcLiveRecordAudioQualityHigh 高质量文件录制，文件体积较大，音质较好
+ */
+
+/****
+ * @brief  Local recoded audio quality
+ * AlivcLiveRecordAudioQualityLow Low-quality file recording, small file size, average sound quality
+ * AlivcLiveRecordAudioQualityMidium Medium quality file recording, medium file size, medium sound quality
+ * AlivcLiveRecordAudioQualityHigh High-quality file recording, larger file size and better sound quality
+ */
+typedef NS_ENUM(NSInteger, AlivcLiveRecordAudioQuality) {
+    AlivcLiveRecordAudioQualityLow            = 0,
+    AlivcLiveRecordAudioQualityMidium         = 1,
+    AlivcLiveRecordAudioQualityHigh           = 2,
+};
+
+/**
+ * @brief  本地录制格式
+ * AlivcLiveRecordFormatAAC 录制只有音频的AAC格式文件
+ * AlivcLiveRecordFormatWAV 录制只有音频的WAV格式文件
+ * AlivcLiveRecordFormatMP4 录制包含音视频的MP4格式文件
+ */
+
+/****
+ * @brief  Local recording format
+ * AlivcLiveRecordFormatAAC Record audio-only AAC format files
+ * AlivcLiveRecordFormatWAV Record audio-only WAV format files
+ * AlivcLiveRecordFormatMP4 Record MP4 format files containing audio and video
+ */
+typedef NS_ENUM(NSInteger, AlivcLiveRecordFormat) {
+    AlivcLiveRecordFormatAAC                  = 0,
+    AlivcLiveRecordFormatWAV                  = 1,
+    AlivcLiveRecordFormatMP4                  = 2,
+};
+
+/**
+ * @brief  本地录制状态和错误回调
+ * AlivcLiveRecordMediaEventCodeTimeOverLimit 超过设置的时长
+ * AlivcLiveRecordMediaEventCodeSizeOverLimit 超过设置的文件大小
+ * AlivcLiveRecordMediaEventCodeOutOfSize 超过2G进行文件分块
+ * AlivcLiveRecordMediaEventCodeWriteFailed 写文件失败
+ * AlivcLiveRecordMediaEventCodeStart 开始录制
+ * AlivcLiveRecordMediaEventCodeStop 停止录制
+ */
+
+/****
+ * @brief  Local recording status and error callback
+ * AlivcLiveRecordMediaEventCodeTimeOverLimit Exceeds the set maxDuration
+ * AlivcLiveRecordMediaEventCodeSizeOverLimit Exceeds set file maxSize
+ * AlivcLiveRecordMediaEventCodeOutOfSize Block files exceeding 2G
+ * AlivcLiveRecordMediaEventCodeWriteFailed Failed to write file
+ * AlivcLiveRecordMediaEventCodeStart Start recording
+ * AlivcLiveRecordMediaEventCodeStop Stop recording
+ */
+
+typedef NS_ENUM(NSInteger, AlivcLiveRecordMediaEventCode) {
+    /**超过设置的时长 */
+    AlivcLiveRecordMediaEventCodeTimeOverLimit   = -4,
+    /**超过设置的文件大小 */
+    AlivcLiveRecordMediaEventCodeSizeOverLimit   = -3,
+    /* 超过2G进行文件分块 */
+    AlivcLiveRecordMediaEventCodeOutOfSize       = -2,
+    /**写文件失败 */
+    AlivcLiveRecordMediaEventCodeWriteFailed     = -1,
+    /**开始录制 */
+    AlivcLiveRecordMediaEventCodeStart           = 0,
+    /**停止录制 */
+    AlivcLiveRecordMediaEventCodeStop            = 1,
+};
+
+/**
+ * @brief 音频编码模式
+ * AlivcLiveAudioProfileLowQualityMode 音频低音质模式，默认8000Hz采样率，单声道，最大编码码率12kbps
+ * AlivcLiveAudioProfileBasicQualityMode 标准音质模式，默认16000Hz采样率，单声道，最大编码码率24kbps
+ * AlivcLiveAudioProfileQualityMode （默认）高音质模式，默认48000Hz采样率，单声道，最大编码码率64kbps
+ * AlivcLiveAudioProfileStereoHighQualityMode 立体声高音质模式，默认48000Hz采样率，双声道，最大编码码率80kbps
+ * AlivcLiveAudioProfileSuperHighQualityMode 超高音质模式，默认48000Hz采样率，单声道，最大编码码率96kbps
+ * AlivcLiveAudioProfileStereoSuperHighQualityMode 立体声超高音质模式，默认48000Hz采样率，双声道，最大编码码率128kbps
+ */
+
+/****
+ * @brief audio profile model
+ * AlivcLiveAudioProfileLowQualityMode Audio low quality mode, default 8000Hz sampling rate, mono, maximum encoding rate 12kbps
+ * AlivcLiveAudioProfileBasicQualityMode Standard sound quality mode, default 16000Hz sampling rate, mono, maximum encoding rate 24kbps
+ * AlivcLiveAudioProfileQualityMode (Default) High quality mode, default 48000Hz sampling rate, mono, maximum encoding rate 64kbps
+ * AlivcLiveAudioProfileStereoHighQualityMode Stereo high quality mode, default 48000Hz sampling rate, two-channel, maximum encoding rate 80kbps
+ * AlivcLiveAudioProfileSuperHighQualityMode Ultra-sound quality mode, default 48000Hz sampling rate, mono, maximum encoding rate 96kbps
+ * AlivcLiveAudioProfileStereoSuperHighQualityMode Stereo super high quality mode, default 48000Hz sampling rate, two-channel, maximum encoding rate 128kbps
+ */
+typedef NS_ENUM(NSInteger, AlivcLiveAudioProfile) {
+    /** 音频低音质模式，默认8000Hz采样率，单声道，最大编码码率12kbps */
+    AlivcLiveAudioProfileLowQualityMode        = 0x0000,
+    /** 标准音质模式，默认16000Hz采样率，单声道，最大编码码率24kbps */
+    AlivcLiveAudioProfileBasicQualityMode      = 0x0001,
+    /**（默认）高音质模式，默认48000Hz采样率，单声道，最大编码码率64kbps */
+    AlivcLiveAudioProfileQualityMode       = 0x0010,
+    /** 立体声高音质模式，默认48000Hz采样率，双声道，最大编码码率80kbps */
+    AlivcLiveAudioProfileStereoHighQualityMode = 0x0011,
+    /** 超高音质模式，默认48000Hz采样率，单声道，最大编码码率96kbps */
+    AlivcLiveAudioProfileSuperHighQualityMode = 0x0012,
+    /** 立体声超高音质模式，默认48000Hz采样率，双声道，最大编码码率128kbps */
+    AlivcLiveAudioProfileStereoSuperHighQualityMode = 0x0013,
+};

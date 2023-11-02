@@ -379,6 +379,17 @@
 @property (nonatomic, assign) bool autoFocus;
 
 /**
+ * @brief 微距对焦，适用多个摄像头的高端机型，近距离拍摄对焦
+ * default : false
+ */
+
+/****
+ * @brief Macro focus, suitable for high-end models with multiple cameras, close-range shooting focus
+ * default : false
+ */
+@property (nonatomic, assign) bool macroFocus;
+
+/**
  * @brief 设置背景音乐使用阿里云播放器来播放，默认使用内置播放
  * 内置播放支持大部分场景，若有需要特别的格式，可以切换至阿里云播放器，需要app添加阿里云播放器5.4.1及以上版本的依赖
  * default：false

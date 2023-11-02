@@ -1545,7 +1545,95 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (void)setWatermark:(nullable UIImage *)image rect:(CGRect)rect;
 
+/**
+ * @brief 开启本地音视频流录制
+ * @note 开启后把直播中的音视频内容录制到本地的一个文件。调用接口后，通过onMediaRecordEvent回调通知录制状态
+ * @param config 本地录制参数，参见AlivcLiveLocalRecoderConfig
+ */
 
+/****
+ * @brief Enable local media recording
+ * @note After turning it on, record the audio and video content in the live broadcast to a local file. After calling the interface, the recording status is notified through the onMediaRecordEvent callback.
+ * @param config Local recording parameters, see AlivcLiveLocalRecoderConfig
+ */
+- (BOOL)startRecording:(AlivcLiveLocalRecoderConfig *_Nullable)config;
+
+/**
+ * @brief 停止本地音视频流录制
+ * @note 如果录制任务在结束推流前尚未通过本接口停止，则结束推流后录制任务会自动被停止。
+*/
+
+/****
+ * @brief Stoplocal media recording
+ * @note If the recording task has not been stopped through this interface before the streaming is ended, the recording task will be automatically stopped after the streaming is ended.
+*/
+- (void)stopRecording;
+
+/**
+ * @brief 启动屏幕分享
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Start screen share
+ * @return
+ * - YES: success
+ * - NO: failure
+*/
+- (int)startScreenShare;
+
+/**
+ * @brief 停止屏幕分享
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief stop screen share
+ * @return
+ * - YES: success
+ * - NO: failure
+*/
+- (int)stopScreenShare;
+
+
+/**
+ * @brief 设置音频profile
+ * @param audio_profile 音频采集/编码模式参数, 详见 {@link AlivcLiveAudioProfile};
+ * @return
+ * - 0: 成功
+ * - 其他: 失败
+ * @note 只支持 {@link startPushWithURL} 前设置有效；
+ */
+
+/****
+ * @brief set audio profile
+ * @param audio_profile Audio capture/encoding mode parameters, see for details  {@link AlivcLiveAudioProfile};
+ * @return
+ * @return
+ * - YES: success
+ * - NO: failure
+ * @note Only valid settings before {@link startPushWithURL} are supported;
+ */
+- (int)setAudioProfile:(AlivcLiveAudioProfile)audio_profile;
+
+/**
+ * @brief 获取当前视频编码格式
+ * @return
+ * - AlivcLivePushVideoEncoderModeHardCodecH264: H264
+ * - AlivcLivePushVideoEncoderModeHardCodecHEVC: HEVC
+ */
+
+/****
+ * @brief Get the current video encoding format
+ * @return
+ * - AlivcLivePushVideoEncoderModeHardCodecH264: H264
+ * - AlivcLivePushVideoEncoderModeHardCodecHEVC: HEVC
+ */
+- (AlivcLivePushVideoEncoderModeHardCodec)getVideoCodecType;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -2020,6 +2108,7 @@ AlivcLivePusherAudioSampleDelegate;
  * 注：此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
  * @param pusher 推流引擎对象
  * @param userId 加入房间的用户ID
+ * @param isOnline 加入房间状态：YES表示加入了房间，NO表示离开了房间
  * @note
  *  主播和观众连麦时，连麦观众开始推流后，在主播侧可以收到该回调，主播拿到回调后，可以向其
  *  业务server请求该userId的连麦拉流地址，使用AlivcLivePlayer的startPlayWithURL接口进行拉流
@@ -2030,11 +2119,67 @@ AlivcLivePusherAudioSampleDelegate;
  * Note: This callback is available only when livePushMode is set to AlivcLivePushInteractiveMode, that is, when Push SDK is working in interactive mode.
  * @param pusher  The live pusher engine object
  * @param userId User ID to join the room
+ * @param isOnline Joining room status: YES means joining the room, NO means leaving the room
  * @note
  * When the anchor and the audience are connected to each other, after the audience starts to push the stream, the anchor can receive the callback. After getting the callback, the anchor can request the userId's streaming address from its business server, using the startPlayWithURL interface of AlivcLivePlayer pull flow
  */
-- (void)onRemoteUserEnterRoom:(AlivcLivePusher *)pusher userId:(NSString *)userId;
+- (void)onRemoteUserEnterRoom:(AlivcLivePusher *)pusher userId:(NSString *)userId state:(BOOL)isOnline;
 
+/**
+ * @brief 有用户在房间内开启共享流回调，可以是屏幕共享流或者unity流(只针对直播连麦场景生效)
+ * 注：此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
+ * @param pusher 推流引擎对象
+ * @param userId 加入房间的用户ID
+ * @param videoStreamType 视频类型，摄像头流或者屏幕共享流
+ * @param isPushing 推流状态：YES表示开始推流，NO表示停止推流
+ * @note
+ * 主播拿到共享流回调后，可以创建AliLivePlayer对象，指定videoStreamType为AlivcLivePlayVideoStreamTypeScreen，
+ * 使用该userId的连麦拉流地址，用AlivcLivePlayer的startPlayWithURL接口进行拉流
+ */
+
+/****
+ * @brief A user opens a shared stream callback in the room, which can be a screen sharing stream or a unity stream
+ * Note: This callback is available only when livePushMode is set to AlivcLivePushInteractiveMode, that is, when Push SDK is working in interactive mode.
+ * @param pusher  The live pusher engine object
+ * @param userId User ID to join the room
+ * @param videoStreamType Video type, camera stream or screen sharing stream
+ * @param isPushing push state：YES start pushing，NO stop push
+ * @note
+ * After the anchor gets the shared stream callback, he can create an AliLivePlayer object, specify the videoStreamType as AlivcLivePlayVideoStreamTypeScreen, use the userId's link address to pull the stream, and use the startPlayWithURL interface of AlivcLivePlayer to pull the stream.
+ */
+- (void)onRemoteUserVideoStream:(AlivcLivePusher *)pusher userId:(NSString *)userId type:(AlivcLivePlayVideoStreamType)videoStreamType state:(BOOL)isPushing;
+
+/**
+ * @brief 本地媒体录制状态回调
+ * 注：录制开始或者录制异常都是通过该回调回抛
+ * @param pusher 推流引擎对象
+ * @param event 本地录制状态和错误回调, 参见AlivcLiveRecordMediaEventCode
+ * @param storagePath 录制文件存储路径
+ */
+
+/**
+ * @brief Local media recording status callback
+ * Note: The recording start or recording exception will be thrown through this callback.
+ * @param pusher The live pusher engine object
+ * @param event Local recording status and error callback, see AlivcLiveRecordMediaEventCode
+ * @param storagePath Recording file storage path
+ */
+- (void)onMediaRecordEvent:(AlivcLivePusher *)pusher event:(AlivcLiveRecordMediaEventCode)event recoderStoragePath:(NSString *_Nullable)storagePath;
+
+/**
+ * @brief 发送共享流推送状态回调
+ * 注：此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
+ * @param pusher 推流引擎对象
+ * @param isPushing 推流状态：YES表示开始推流，NO表示停止推流
+ */
+
+/****
+ * @brief The callback for the  screen frame being sent
+ * Note: This callback is available only when livePushMode is set to AlivcLivePushInteractiveMode, that is, when Push SDK is working in interactive mode.
+ * @param pusher The live pusher engine object
+ * @param isPushing push state：YES start pushing，NO stop push
+ */
+- (void)onScreenFramePushState:(AlivcLivePusher *)pusher state:(BOOL)isPushing;
 @end
 
 /**
