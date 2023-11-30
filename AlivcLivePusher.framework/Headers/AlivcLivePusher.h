@@ -1369,7 +1369,15 @@ AlivcLivePusherAudioSampleDelegate;
 // isCameraAutoFocusFaceModeSupported
 // setCameraAutoFocusFaceModeEnabled
 //enableAudioVolumeIndication
-//setH5CompatibleMode
+//setWatermark
+//startRecording
+//stopRecording
+//startScreenShare
+//stopScreenShare
+//setAudioProfile
+//updateLocalView
+//stopAudioCapture
+//startAudioCapture
 
 // Some methods are available only when livePushMode is set to AlivcLivePushInteractiveMode,
 // that is, only when Push SDK is working in interactive mode. Calling these methods in non-interactive
@@ -1382,7 +1390,15 @@ AlivcLivePusherAudioSampleDelegate;
 // isCameraAutoFocusFaceModeSupported
 // setCameraAutoFocusFaceModeEnabled
 //enableAudioVolumeIndication
-//setH5CompatibleMode
+//setWatermark
+//startRecording
+//stopRecording
+//startScreenShare
+//stopScreenShare
+//setAudioProfile
+//updateLocalView
+//stopAudioCapture
+//startAudioCapture
 
 /**
  * @brief 设置云端的混流（转码）参数
@@ -1414,11 +1430,35 @@ AlivcLivePusherAudioSampleDelegate;
 - (int)setLiveMixTranscodingConfig:(AlivcLiveTranscodingConfig *)config;
 
 /**
+ * @brief 禁用或启用本地视频采集（非互动模式暂不支持该API，调用无任何效果）
+ * @param enabled
+ * - YES : 启用本地视频采集
+ * - NO : 禁用本地视频采集
+ * @return
+ * - 0 : 成功
+ * - < 0 : 失败
+ * @note 摄像头采集会被关闭掉
+ */
+
+/****
+ * @brief Disable or enable local video capture
+ * @param enabled
+ * - YES : Enable local video capture
+ * - NO : Disable local video capture
+ * @return
+ * - 0 : Success
+ * - < 0 : Failure
+ * @note Camera capture will be turned off
+ */
+- (int)enableLocalCamera:(BOOL)enabled;
+
+/**
  * @brief 关闭/打开视频（非互动模式暂不支持该API，调用无任何效果）
  * @param mute  YES表示不发送视频数据；NO表示恢复正常
  * @return
  * - 0: 表示Success
  * - 非0: 表示Failure
+ * @note 发送黑色的视频帧。采集，编码，发送模块仍然工作，只是视频内容是黑色帧
  */
 
 /****
@@ -1634,6 +1674,40 @@ AlivcLivePusherAudioSampleDelegate;
  * - AlivcLivePushVideoEncoderModeHardCodecHEVC: HEVC
  */
 - (AlivcLivePushVideoEncoderModeHardCodec)getVideoCodecType;
+
+/**
+ * @brief 更新本地摄像头的预览画面
+ * @param view 预览view
+ */
+
+/****
+ * @brief Update local camera preview
+ * @param view camera preview view
+ */
+- (void)updateLocalView:(UIView *)view;
+
+/**
+ * @brief 关闭音频采集
+ * @note 调用此接口后，采集设备关闭
+ */
+
+/****
+ * @brief Stop microphone capture
+ * @note After calling this interface, the  microphone device is closed
+ */
+- (void)stopAudioCapture;
+
+/**
+ * @brief 开启音频采集
+ * @param keepAlive YES: 停止推流后麦克风采集设备保持开启状态；NO: 停止推流后麦克风采集设备关闭
+ */
+
+/****
+ * @brief Start microphone capture
+ * @param keepAlive YES:
+ The microphone  device remains on after stopping push ；NO: The microphone  device is turned off after stopping push
+ */
+- (void)startAudioCapture:(BOOL)keepAlive;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -2126,7 +2200,7 @@ AlivcLivePusherAudioSampleDelegate;
 - (void)onRemoteUserEnterRoom:(AlivcLivePusher *)pusher userId:(NSString *)userId state:(BOOL)isOnline;
 
 /**
- * @brief 有用户在房间内开启共享流回调，可以是屏幕共享流或者unity流(只针对直播连麦场景生效)
+ * @brief 有用户在房间内开启摄像头或共享流回调，可以是屏幕共享流或者unity流(只针对直播连麦场景生效)
  * 注：此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
  * @param pusher 推流引擎对象
  * @param userId 加入房间的用户ID
@@ -2138,7 +2212,7 @@ AlivcLivePusherAudioSampleDelegate;
  */
 
 /****
- * @brief A user opens a shared stream callback in the room, which can be a screen sharing stream or a unity stream
+ * @brief A user opens a camera stream or  share screen stream callback in the room, which can be a screen sharing stream or a unity stream
  * Note: This callback is available only when livePushMode is set to AlivcLivePushInteractiveMode, that is, when Push SDK is working in interactive mode.
  * @param pusher  The live pusher engine object
  * @param userId User ID to join the room
@@ -2148,6 +2222,24 @@ AlivcLivePusherAudioSampleDelegate;
  * After the anchor gets the shared stream callback, he can create an AliLivePlayer object, specify the videoStreamType as AlivcLivePlayVideoStreamTypeScreen, use the userId's link address to pull the stream, and use the startPlayWithURL interface of AlivcLivePlayer to pull the stream.
  */
 - (void)onRemoteUserVideoStream:(AlivcLivePusher *)pusher userId:(NSString *)userId type:(AlivcLivePlayVideoStreamType)videoStreamType state:(BOOL)isPushing;
+
+/**
+ * @brief 有用户在房间内成员推送音频流回调(只针对直播连麦场景生效)
+ * 注：此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
+ * @param pusher 推流引擎对象
+ * @param userId 加入房间的用户ID
+ * @param isPushing 推流状态：YES表示开始推流，NO表示停止推流
+ * @note
+ */
+
+/****
+ * @brief A user opens a audio stream callback in the room
+ * Note: This callback is available only when livePushMode is set to AlivcLivePushInteractiveMode, that is, when Push SDK is working in interactive mode.
+ * @param pusher  The live pusher engine object
+ * @param userId User ID to join the room
+ * @param isPushing push state：YES start pushing，NO stop push
+ */
+- (void)onRemoteUserAudioStream:(AlivcLivePusher *)pusher userId:(NSString *)userId  state:(BOOL)isPushing;
 
 /**
  * @brief 本地媒体录制状态回调
@@ -2324,6 +2416,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @param height 图像高
  * @param extra 额外信息
  * @return 返回处理后的纹理ID
+ * @note 互动模式下默认是回抛CVPixelBuffer用于美颜，如果想要回调纹理ID，需要设置enableLocalVideoTexture，设置后，互动模式会回抛纹理ID
  */
 
 /****
@@ -2334,10 +2427,11 @@ AlivcLivePusherAudioSampleDelegate;
  * @param height The height of the video
  * @param extra extra info
  * @return The ID of the processed texture is returned
+ * @note In the interactive mode, the default is to throw back the CVPixelBuffer for beauty. If you want to call back the texture, you need to set enableLocalVideoTexture. After setting, the interactive mode will throw back the texture ID.
  */
 - (int)onProcess:(AlivcLivePusher *)pusher texture:(int)texture textureWidth:(int)width textureHeight:(int)height extra:(long)extra;
 /**
- * @brief 通知外置滤镜处理回调，当前版本SDK在互动模式下需要使用onProcessVideoSampleBuffer处理美颜
+ * @brief 通知外置滤镜处理回调，当前版本SDK在互动模式下默认回抛CVPixelBuffer，需要使用onProcessVideoSampleBuffer处理美颜，如果想要回抛纹理ID，需要设置enableLocalVideoTexture
  * @param pusher 推流引擎对象
  * @param sampleBuffer 视频sample data {@link AlivcLiveVideoDataSample}
  * @return
