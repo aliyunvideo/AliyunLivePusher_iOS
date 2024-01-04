@@ -193,12 +193,14 @@
  * @brief 音频编码码率
  * default : 64
  * @note 范围 : [10,1000], 单位 : Kbps
+ * @note 互动模式下如果设置了AlivcLivePushAudioChannel_2 双声道，建议audioBitrate设置128
  */
 
 /****
  * @brief  The audio bitrate.
  * default : 64
  * @note Range : [10,1000], Unit : Kbps
+ * @note  When livePushMode is set to AlivcLivePushInteractiveMode, If AlivcLivePushAudioChannel_2 dual channel is set, it is recommended that the audioBitrate is set to 128
  */
 @property (nonatomic, assign) int audioBitrate;
 
@@ -218,11 +220,13 @@
 /**
  * @brief 声道数
  * default : AlivcLivePushAudioChannel_1 单声道
+ * @note 互动模式下如果设置了AlivcLivePushAudioChannel_2 双声道，建议audioBitrate设置128
  */
 
 /****
  * @brief The number of sound channels.
  * default : AlivcLivePushAudioChannel_1 Mono
+ * @note  When livePushMode is set to AlivcLivePushInteractiveMode, If AlivcLivePushAudioChannel_2 dual channel is set, it is recommended that the audioBitrate is set to 128
  */
 @property (nonatomic, assign) AlivcLivePushAudioChannel audioChannel;
 
@@ -676,6 +680,26 @@
  * - NO: failure
 */
 @property (nonatomic, assign) BOOL h5CompatibleMode;
+
+/**
+ * @brief 打开数据通道收到自定义消息
+ * default : false
+ */
+
+/****
+ * @brief Open the data channel and receive a custom message
+ * default : false
+*/
+@property (nonatomic, assign) BOOL enableDataChannelMessage;
+
+/**
+ * @brief 用户名
+ */
+
+/****
+ * @brief userName
+ */
+@property (nonatomic, copy) NSString *userName;
 
 /**
  * @brief init 分辨率 其余值为默认值

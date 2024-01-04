@@ -803,7 +803,7 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  * @brief 设置变声音效模式
- * @param mode 参考 {@link AlivcLivePushAudioEffectVoiceChangerMode} 对应的变声音效模式值
+ * @param mode 参考AlivcLivePushAudioEffectVoiceChangerMode对应的变声音效模式值
  * @return
  * - 0：成功
  * - 非0：失败
@@ -812,7 +812,7 @@ AlivcLivePusherAudioSampleDelegate;
 
 /****
  * @brief Set the voice change mode
- * @param mode Reference {@link AlivcLivePushAudioEffectVoiceChangerMode} Values that specify the voice change effects.
+ * @param mode Reference  AlivcLivePushAudioEffectVoiceChangerMode Values that specify the voice change effects.
  * @return
  *  0:success
  *  != 0:failure
@@ -822,7 +822,7 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  * @brief 设置混响音效模式
- * @param mode 参考 {@link AlivcLivePushAudioEffectReverbMode} 对应的混响模式
+ * @param mode 参考AlivcLivePushAudioEffectReverbMode 对应的混响模式
  * @return
  * - 0：成功
  * - 非0：失败
@@ -831,7 +831,7 @@ AlivcLivePusherAudioSampleDelegate;
 
 /****
  * @brief Set the reverberation mode
- * @param mode Reference: {@link AlivcLivePushAudioEffectReverbMode} Values that specify the reverberation effects.
+ * @param mode Reference AlivcLivePushAudioEffectReverbMode Values that specify the reverberation effects.
  * @return
  *  0:success
  *  != 0:failure
@@ -977,7 +977,7 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  * @brief 添加视频混流设置
- * @param format 原始视频数据格式 {@link  AlivcLivePushVideoFormat}
+ * @param format 原始视频数据格式
  * @param width 图像宽
  * @param height 图像高
  * @param rotation 图像角度
@@ -992,7 +992,7 @@ AlivcLivePusherAudioSampleDelegate;
 
 /****
  * @brief Add video stream mixing settings
- * @param format The format of the raw video data  {@link  AlivcLivePushVideoFormat}
+ * @param format The format of the raw video data
  * @param width The width of the video
  * @param height The height of the video
  * @param rotation The angle of the video
@@ -1087,7 +1087,7 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * @brief 添加音频混流设置
  * @param channels 声道数
- * @param format 音频格式  {@link AlivcLivePushAudioFormat}
+ * @param format 音频格式  AlivcLivePushAudioFormat
  * @param audioSample 音频采样率
  * @return 返回对应音频混流标识ID
  注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下添加音频混流，AlivcLivePushInteractiveMode模式下暂时不支持添加音频混流
@@ -1096,7 +1096,7 @@ AlivcLivePusherAudioSampleDelegate;
 /****
  * @brief Add audio stream mixing settings
  * @param channels The number of sound channels
- * @param format The format of the audio {@link AlivcLivePushAudioFormat}
+ * @param format The format of the audio AlivcLivePushAudioFormat
  * @param audioSample The audio sample rate
  * @return The ID of the mixed audio stream is returned
  * Note: The SDK allows you to add audio stream mixing settings when livePushMode is set to AlivcLivePushBasicMode,
@@ -1189,12 +1189,12 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  * @brief 获取当前推流状态
- * @return 推流状态 {@link AlivcLivePushStatus}
+ * @return 推流状态 AlivcLivePushStatus
  */
 
 /****
  * @brief Query the live push status
- * @return The live push status. {@link AlivcLivePushStatus}
+ * @return The live push status.
  */
 - (AlivcLivePushStatus)getLiveStatus;
 
@@ -1378,6 +1378,7 @@ AlivcLivePusherAudioSampleDelegate;
 //updateLocalView
 //stopAudioCapture
 //startAudioCapture
+//startBGMWithMusicPathAsync:config
 
 // Some methods are available only when livePushMode is set to AlivcLivePushInteractiveMode,
 // that is, only when Push SDK is working in interactive mode. Calling these methods in non-interactive
@@ -1399,6 +1400,7 @@ AlivcLivePusherAudioSampleDelegate;
 //updateLocalView
 //stopAudioCapture
 //startAudioCapture
+//startBGMWithMusicPathAsync:config
 
 /**
  * @brief 设置云端的混流（转码）参数
@@ -1504,7 +1506,7 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  * @brief 刷新Token鉴权信息，传入一个新的推流URL，包含未过期的新token信息，房间ID/用户ID/sdkAppId需要和之前保持一样
- * @details 该方法用于更新鉴权信息推流URL中的token信息，主要为了防止鉴权过期，导致推流失败，当我们收到 {@link onPushURLTokenWillExpire} 回调时，应用应当更新鉴权信息
+ * @details 该方法用于更新鉴权信息推流URL中的token信息，主要为了防止鉴权过期，导致推流失败，当我们收到  onPushURLTokenWillExpire 回调时，应用应当更新鉴权信息
  * @param pushURL 推流URL
  * @return
  * - 0: 成功
@@ -1516,7 +1518,7 @@ AlivcLivePusherAudioSampleDelegate;
  * and the room ID/user ID/sdkAppId need to be the same as before
  * @details This method is used to update the token information in the push URL of the authentication information,
  *  mainly to prevent the authentication from expiring and causing the push to fail. When we receive
- *  the {@link onPushURLTokenWillExpire} callback, the application should update the authentication information
+ *  the onPushURLTokenWillExpire callback, the application should update the authentication information
  * @param pushURL push URL
  * @return
  *  0:success
@@ -1549,7 +1551,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  * - YES: 成功
  * - NO: 失败
- * @note 如果 {@link isCameraAutoFocusFaceModeSupported} 返回 YES
+ * @note 如果  isCameraAutoFocusFaceModeSupported 返回 YES
  *      且此调用enable为 YES 的情况下，实时对焦到采集到数据的人脸上
 */
 
@@ -1572,7 +1574,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  * - 0: 成功
  * - <0: 失败
- * @note 设置之后，音频音量和说话人uid会分别通过 {@link onMicrophoneVolumeUpdate:} 和 {@link onPlayoutVolumeUpdate:} 回调
+ * @note 设置之后，音频音量和说话人uid会分别通过 onMicrophoneVolumeUpdate和  onPlayoutVolumeUpdate 回调
  */
 - (int)enableAudioVolumeIndication:(int)interval smooth:(int)smooth reportVad:(int)reportVad;
 
@@ -1642,23 +1644,88 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  * @brief 设置音频profile
- * @param audio_profile 音频采集/编码模式参数, 详见 {@link AlivcLiveAudioProfile};
+ * @param audio_profile 音频采集/编码模式参数, 详见AlivcLiveAudioProfile
  * @return
  * - 0: 成功
  * - 其他: 失败
- * @note 只支持 {@link startPushWithURL} 前设置有效；
+ * @note 只支持  startPushWithURL 前设置有效；
  */
 
 /****
  * @brief set audio profile
- * @param audio_profile Audio capture/encoding mode parameters, see for details  {@link AlivcLiveAudioProfile};
+ * @param audio_profile Audio capture/encoding mode parameters, see for details  AlivcLiveAudioProfile
  * @return
  * @return
  * - YES: success
  * - NO: failure
- * @note Only valid settings before {@link startPushWithURL} are supported;
+ * @note Only valid settings before startPushWithURL are supported;
  */
 - (int)setAudioProfile:(AlivcLiveAudioProfile)audio_profile;
+
+/**
+ * @brief 设置变调参数
+ * @param value 变调参数，范围：[0.5, 2.0]，1.0表示音调不变，小于1.0表示音调降低，大于1.0表示音调升高，默认1.0
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Set audio pitch parameters
+ * @param value  audio pitch parameters，value：[0.5, 2.0]，1.0 means the pitch remains unchanged, less than 1.0 means the pitch decreases, greater than 1.0 means the pitch increases, the default is 1.0
+ * @return
+ * - YES: success
+ * - NO: failure
+ */
+- (int)setAudioEffectPitchValue:(double)value;
+
+/**
+ * @brief 设置美声音效模式
+ * @param mode 参考 AliLiveAudioEffectBeautifyMode 对应的美声模式
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Set the sound mode
+ * @param mode see AliLiveAudioEffectBeautifyMode
+ * @return
+ * - YES: success
+ * - NO: failure
+ */
+- (int)setAudioEffectBeautifyMode:(AliLiveAudioEffectBeautifyMode)mode;
+
+/**
+ * @brief 设置均衡器参数
+ * @param bandIndex 均衡器段数[0,9]  center frequency [31,62,125,250,500,1000,2000,4000,8000,16000] Hz AliLiveAudioEffectEqualizationBandFrequency
+ * @param gain 均衡器增益db   [-15,15]  default 0
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ * @note 需要在 setAudioEffectBeautifyMode 之后调用
+ */
+- (int)setAudioEffectEqualizationParam:(AliLiveAudioEffectEqualizationBandFrequency)bandIndex gain:(float)gain;
+
+/**
+ * @brief 设置混响音效类型
+ * @param type 参考AliLiveAudioEffectReverbParamType 对应的混响类型
+ * @param value 混响参数值，不同混响类型的取值范围参考 AliLiveAudioEffectReverbParamType中取值说明
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ * @note 需要在 setAudioEffectReverbMode之后调用
+ */
+
+/****
+ * @brief Set the reverb sound effect type
+ * @param type see  AliLiveAudioEffectReverbParamType
+ * @param value
+ * @return
+ * - YES: success
+ * - NO: failure
+ */
+- (int)setAudioEffectReverbParamType:(AliLiveAudioEffectReverbParamType)type value:(float)value;
 
 /**
  * @brief 获取当前视频编码格式
@@ -1708,6 +1775,173 @@ AlivcLivePusherAudioSampleDelegate;
  The microphone  device remains on after stopping push ；NO: The microphone  device is turned off after stopping push
  */
 - (void)startAudioCapture:(BOOL)keepAlive;
+
+/**
+ * @brief 设置频道模式
+ * @details 根据业务需求可以配置不同的频道模式，AliRTC会根据不用的频道模式模式采用不用的策略，目前主要提供通信模式(默认)、互动模式、低延迟互动直播模式
+ *
+ * @param profile 频道模式类型, 详细请参考  AlivcLiveChannelProfile
+ * @return
+ * - 0: 成功
+ * - 非0: 失败
+ *
+ * @note
+ *  - 该方法只在startPushWithURLAsync前调用有效，推流中不可以重新设置，stopPush 后可以重新设置
+ */
+- (int)setChannelProfile:(AlivcLiveChannelProfile)profile;
+
+/**
+ * @brief 通过数据通道发送自定义消息
+ *
+ * @param message 自定义消息
+ * @return
+ * - 0: 成功
+ * - 非0: 失败
+ */
+- (int)sendDataChannelMessage:(NSString *)message;
+
+/**
+ * @brief 播放背景音乐
+ * @param path 背景音乐路径
+ * @param config 背景音乐播放配置
+ * @return 0:success  非0:failure
+ */
+
+/****
+ * @brief Play background music
+ * @param path The path of the background music
+ * @param config The config of the background music
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
+- (int)startBGMWithMusicPathAsync:(NSString *)path config:(AlivcLiveBGMConfig *_Nonnull)config;
+
+/**
+ * @brief 启用外部视频输入源
+ * @param enable
+ * - YES 开启
+ * - NO 关闭
+ * @param type 流类型，详见 AliLiveVideoSource
+ * - AliLiveVideoSourceCameraType 外部输入视频数据走相机流通道，如果当前相机采集打开中，调用该接口设置enable为YES，sdk会替换掉相机采集
+ * - AliLiveVideoSourceScreenShareType 外部输入视频数据走屏幕流通道，如果当前屏幕共享采集打开中，调用该接口设置enable为YES，sdk会替换掉屏幕共享采集
+ * @param renderMode 处理模式，外部输入视频源宽高比和推流profile不一致时，会按照对应的rendermode做对应处理，详见AliLiveRenderMode
+ * - AliLiveRenderModeAuto 自动（默认） 如果外部输入的视频宽高比和推流设置的宽高比不一致时，维持外部输入的视频宽高比，等比例缩放宽高到推流设置的宽高范围内，注意此模式下为了保证原始视频的比例和内容完整性，会导致实际推流的分辨率和设置的不一致
+ * - AliLiveRenderModeStretch 拉伸平铺，如果外部输入的视频宽高比和推流设置的宽高比不一致时，将输入视频拉伸到推流设置的比例，画面会变形
+ * - AliLiveRenderModeFill 填充黑边，如果外部输入的视频宽高比和推流设置的宽高比不一致时，将输入视频上下或者左右填充黑边
+ * - AliLiveRenderModeCrop 裁剪，如果外部输入的视频宽高比和推流设置的宽高比不一致时，将输入视频宽或者高进行裁剪，画面内容会丢失
+ * @return
+ * - 0: 成功
+ * - 非0: 失败
+ * @note 通过sendVideoData接口向SDK 输入自定义数据
+*/
+- (int)setExternalVideoSource:(BOOL)enable sourceType:(AliLiveVideoSource)type renderMode:(AliLiveRenderMode)renderMode;
+
+
+/**
+ * @brief 新增外部音频流
+ * @param config 外部音频流配置
+ * @return
+ * - <=0: 表示失败;
+ * - >0: 表示成功;
+ * - 返回值为 外部音频流Id
+ * @note 通过pushExternalAudioStream接口向SDK 输入自定义数据
+ */
+- (int)addExternalAudioStream:(AliLiveExternalAudioStreamConfig *_Nonnull)config;
+
+/**
+ * @brief 输入外部音频流数据
+ * @param streamId 外部音频流Id（addExternalAudioStream的返回值）
+ * @param audioFrame 音频数据
+ * @return
+ * - <0: 表示失败;
+ * - 0: 表示成功;
+ * - 返回值为0x01070101 时，需要在间隔投递数据时间长度后再次重试投递
+ * @note 为了保证语音连续性，sdk内部会有buffer缓存送进来的音频数据，以每次送10ms数据为例，如果返回 0x01070101 时，说明内部缓冲区已满，建议等待20ms后再重新送当前数据帧；
+ */
+- (int)pushExternalAudioStream:(int)streamId
+                       rawData:(AlivcLivePusherAudioDataSample * _Nonnull)audioFrame;
+
+/**
+ * @brief 设置是否与麦克风采集音频混合
+ * @param mixed YES：混音；NO：完全替换麦克风采集数据
+ * @return
+ * - 0: 成功
+ * - 非0: 失败
+ */
+- (int)setMixedWithMic:(BOOL)mixed;
+
+/**
+ * @brief 设置外部音频流播放音量
+ * @param streamId 外部音频流Id
+ * @param playoutVolume 播放音量，取值范围[0, 100]
+ * @return
+ * - <0: 表示失败;
+ * - 0: 表示成功;
+ */
+- (int)setExternalAudioStream:(int)streamId
+                playoutVolume:(int)playoutVolume;
+
+/**
+ * @brief 设置外部音频流推流音量
+ * @param streamId 外部音频流Id
+ * @param publishVolume 推流音量，取值范围[0, 100]
+ * @return
+ * - <0: 表示失败;
+ * - 0: 表示成功;
+ */
+- (int)setExternalAudioStream:(int)streamId
+                publishVolume:(int)publishVolume;
+
+/**
+ * @brief 删除外部音频流
+ * @param streamId 外部音频流Id
+ * @return
+ * - <0: 表示失败;
+ * - 0: 表示成功;
+ */
+- (int)removeExternalAudioStream:(int)streamId;
+
+#pragma mark - "网络测试"
+
+/**
+ * @brief 开始网络质量探测
+ * @param config 网络探测配置，AliLiveNetworkQualityProbeConfig
+ * @details 网络质量探测需要在未推流 startPush之前调用，探测结果，开始推流后不能调用startLastmileDetect
+ * - 在3s左右，粗略的结果会在  onLastmileDetectResultWithQuality 中回调
+ * - 在30s左右，更多的结果会在 onLastmileDetectResultWithBandWidth 中回调
+ * @return
+ * - 0: 成功
+ * - <0: 失败
+ */
+
+/****
+ * @brief Start network quality detection
+ * @param config Network detection configuration，AliLiveNetworkQualityProbeConfig
+ * @details Network quality detection needs to be called before startPush. As a result of the detection, startLastmileDetect cannot be called after startPush
+ * - In about 3s, the rough result will be called back in onLastmileDetectResultWithQuality
+ * - In about 30s, more results will be called back in onLastmileDetectResultWithBandWidth
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
+- (int)startLastmileDetect:(AliLiveNetworkQualityProbeConfig *_Nonnull)config;
+
+/**
+ * @brief 停止网络质量探测
+ * @return
+ * - 0: 成功
+ * - <0: 失败
+ */
+
+/****
+ * @brief Stop network quality detection
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
+- (int)stopLastmileDetect;
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -1922,14 +2156,14 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * @brief 连麦推流URL的token即将过期(将在过期前30s内发送此回调)
  * @param pusher 推流引擎对象
- * @note 此回调只在互动模式下生效，该回调在鉴权信息30秒前触发，收到该回调后应该及时将新的token的URL传入SDK，参考 {@link refreshPushURLToken:}
+ * @note 此回调只在互动模式下生效，该回调在鉴权信息30秒前触发，收到该回调后应该及时将新的token的URL传入SDK，参考refreshPushURLToken
  */
 
 /****
  * @brief The token of the streaming URL is about to expire (this callback will be sent within 30s before expiration)
  * @param pusher The live pusher engine object
  * @note This callback only takes effect in the interactive mode. The callback is triggered 30 seconds before the authentication information.
- * After receiving the callback, the URL of the new token should be passed to the SDK in time.{@link refreshPushURLToken:}
+ * After receiving the callback, the URL of the new token should be passed to the SDK in time refreshPushURLToken
  */
 - (void)onPushURLTokenWillExpire:(AlivcLivePusher *)pusher;
 
@@ -1975,6 +2209,44 @@ AlivcLivePusherAudioSampleDelegate;
  * @note Triggered when peer network quality changes.This callback only takes effect in the interactive mode.
  */
 - (void)onPusherNetworkQualityChanged:(AlivcLivePusher *)pusher upNetworkQuality:(AlivcLiveNetworkQuality)upQuality downNetworkQuality:(AlivcLiveNetworkQuality)downQuality;
+
+/**
+ * @brief 网络质量探测回调
+ * @param pusher pusher 推流引擎对象
+ * @param networkQuality 网络质量 AlivcLiveNetworkQuality
+ * @note 在开始推流前调用 startLastmileDetect 后会触发该回调
+ */
+
+/****
+ * @brief Network quality detection callback
+ * @param pusher The live pusher engine object
+ * @param networkQuality  network quality AlivcLiveNetworkQuality
+ * @note This callback will be triggered after calling startLastmileDetect before startPush
+ */
+- (void)onLastmileDetectResultWithQuality:(AlivcLivePusher *)pusher networkQuality:(AlivcLiveNetworkQuality)networkQuality;
+
+/**
+ * @brief 网络质量探测结果的回调
+ * @param pusher pusher 推流引擎对象
+ * @param code 探测结果，0: 成功，-1: DNS获取失败，-2: ICMP模块初始化失败,  -3: ICMP 发送长时间失败, -4: ICMP 无法接收(建议允许开播)
+ * @param result 网络质量 AliLiveNetworkQualityProbeResult
+ * @note 当调用 startLastmileDetect后会触发该回调
+ * @details code 错误码处理建议：
+ * 1. 如果是直接回抛了-1、-2、-3错误码，可以阻止开播；
+ * 2. 由于有些特定网络可能设置阻止网络探测，会返回-4错误码，为了避免探测误伤导致主播无法开播，因此返回-4错误码也建议允许开播推流
+ */
+
+/****
+ * @brief Callback of network quality detection results
+ * @param pusher The live pusher engine object
+ * @param code Detection results，0: success, -1: DNS acquisition failed, -2: ICMP module initialization failed, -3: ICMP sending failed for a long time, -4: ICMP cannot be accepted(It is recommended to allow broadcasting)
+ * @param result network result AliLiveNetworkQualityProbeResult
+ * @note This callback will be triggered when startLastmileDetect is called.
+ * @details code Error code handling suggestions:：
+ * 1. If -1, -2, -3 error codes are directly thrown back, broadcasting can be prevented;
+ * 2. Because some specific networks may be configured to prevent network detection, a -4 error code will be returned. In order to avoid detection errors that may cause the host to be unable to start broadcasting, it is recommended to allow the broadcasting and push streaming if a -4 error code is returned.
+ */
+- (void)onLastmileDetectResultWithBandWidth:(AlivcLivePusher *)pusher code:(int)code result:(AliLiveNetworkQualityProbeResult* _Nonnull)result;
 
 @optional
 
@@ -2165,7 +2437,7 @@ AlivcLivePusherAudioSampleDelegate;
  * 注：此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
  * @param pusher 推流引擎对象
  * @param volume 音量大小, 取值范围[0,255]
- * @note  调用 {@link enableAudioVolumeIndication} 打开音量回调频率后，会收到这个回调通知。
+ * @note  调用 enableAudioVolumeIndication 打开音量回调频率后，会收到这个回调通知。
  */
 
 /****
@@ -2173,7 +2445,7 @@ AlivcLivePusherAudioSampleDelegate;
  * Note: This callback is available only when livePushMode is set to AlivcLivePushInteractiveMode, that is, when Push SDK is working in interactive mode.
  * @param pusher  The live pusher engine object
  * @param volume volume, value [0,255]
- * @note  After calling {@link enableAudioVolumeIndication} to enable the volume callback frequency, you will receive this callback notification.
+ * @note  After calling enableAudioVolumeIndication to enable the volume callback frequency, you will receive this callback notification.
  */
 - (void)onMicrophoneVolumeUpdate:(AlivcLivePusher *)pusher volume:(int)volume;
 
@@ -2491,7 +2763,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @param w图像宽
  * @param h图像高
  * @param rotation 图像角度
- * @param format 图像格式，{@link AlivcLivePushVideoFormat}
+ * @param format 图像格式
  * @param extra 额外信息
  * @return 处理后的数据buffer地址
  */
@@ -2503,7 +2775,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @param width The width of the video
  * @param height The height of the video
  * @param rotation The rotation degree
- * @param format video format {@link AlivcLivePushVideoFormat}
+ * @param format video format
  * @param extra extra info
  * @return The processed data buffer
  */

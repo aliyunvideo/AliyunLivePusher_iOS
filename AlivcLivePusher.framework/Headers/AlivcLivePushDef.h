@@ -29,6 +29,57 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
+ * @brief 外部音频流配置
+ */
+@interface AliLiveExternalAudioStreamConfig : NSObject
+/** 声道数，默认值：1 */
+@property (nonatomic, assign) int channels;
+/** 采样率，默认值：48000 */
+@property (nonatomic, assign) int sampleRate;
+/** 播放音量，取值范围[0-100]，默认值：50 */
+@property (nonatomic, assign) int playoutVolume;
+/** 推流音量，取值范围[0-100]，默认值：50 */
+@property (nonatomic, assign) int publishVolume;
+/** 指定绑定的音频流 1-第二音频流，0-MIC流  默认值：0*/
+@property (nonatomic, assign) int publishStream;
+@end
+
+/**
+ * @brief 网络探测的参数配置
+ */
+@interface AliLiveNetworkQualityProbeConfig : NSObject
+/** 是否探测上行，默认值：NO */
+@property (nonatomic, assign) BOOL probeUplink;
+/** 是否探测下行，默认值：NO  暂不支持 */
+@property (nonatomic, assign) BOOL probeDownlink;
+/** 探测上行带宽峰值，单位kbps 默认值：1000 */
+@property (nonatomic, assign) int upLinkBandWidth;
+/** 探测下行带宽峰值，单位kbps 默认值：1000  暂不支持 */
+@property (nonatomic, assign) int DownLinkBandWidth;
+@end
+
+/**
+ * @brief 网络探测的结果
+ */
+@interface AliLiveNetworkQualityProbeResult : NSObject
+/** 探测链路的rtt  单位ms*/
+@property (nonatomic, assign) int rtt;
+/** 上行的丢包率 最大值100 */
+@property (nonatomic, assign) int upLinkLossRate;
+/** 探测上行链路的jitter 单位ms  */
+@property (nonatomic, assign) int upLinkJitter;
+/** 探测上行链路的带宽，单位kbps */
+@property (nonatomic, assign) int upLinkBandWidth;
+/** 下行的丢包率 最大值100 暂不支持 */
+@property (nonatomic, assign) int downLinkLossRate;
+/** 探测下行链路的jitter 单位ms  暂不支持 */
+@property (nonatomic, assign) int downLinkJitter;
+/** 探测下行链路的带宽，单位kbps 暂不支持 */
+@property (nonatomic, assign) int downLinkBandWidth;
+@end
+
+
+/**
  * @brief 直播连麦播放参数配置
  */
 
@@ -220,6 +271,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface AlivcLiveBGMConfig : NSObject
+/** 是否只本地播放，默认值：NO */
+@property (nonatomic, assign) BOOL onlyLocalPlay;
+/** 是否替换掉MIC，默认值：NO */
+@property (nonatomic, assign) BOOL replaceMic;
+/** 循环次数，可以设置-1(无限循环)或者>0的正整数次，其他值无效，默认值：-1 */
+@property (nonatomic, assign) int loopCycles;
+/** 起播位置，单位：ms，默认值：0 */
+@property (nonatomic, assign) NSInteger startPosMs;
+/** 推流音量，取值范围[0-100]，默认值：50 */
+@property (nonatomic, assign) int publishVolume;
+/** 播放音量，取值范围[0-100]，默认值：50 */
+@property (nonatomic, assign) int playoutVolume;
+
+@end
+
 @interface AlivcLivePlayerStatsInfo : NSObject
 
 #pragma mark - system
@@ -283,6 +350,39 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) int videoBitrate;
 
+/**
+ * 视频播放的累计卡顿时长，单位ms
+ */
+
+/****
+ total video frozen times
+ */
+@property (nonatomic, assign)  int totalVideoFrozenTime;
+
+/**
+ 视频播放的卡顿率，单位% 计算方法 视频播放卡顿率=视频播放的累计卡顿时长/视频播放的总时长
+ */
+@property (nonatomic, assign)  int videoFrozenRate;
+
+/**
+ 远端用户加入频道后音频卡顿的累计时长(ms)
+ */
+@property (nonatomic, assign) int totalAudioFrozenTime;
+
+/**
+  音频播放卡顿率 单位% 计算方法 音频播放卡顿率=音频播放的累计卡顿时长/音频播放的总时长
+ */
+@property (nonatomic, assign)  int audioFrozenRate;
+
+/**
+ 音频链路发送端到接收端的网络延时（ms)
+ */
+@property (nonatomic, assign) int networkTransportDelay;
+
+/**
+ 音频链路接收端到网络抖动缓存的网络延时（ms)
+ */
+@property (nonatomic, assign) int jitterBufferDelay;
 
 /**
  音频码率

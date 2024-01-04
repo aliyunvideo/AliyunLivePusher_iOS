@@ -10,6 +10,68 @@
 #import "AlivcLivePushConstants.h"
 
 /**
+ 直播连麦场景RTC相关的上下行数据
+ */
+
+/****
+ Live push engine  RTC performance
+ */
+@interface AlivcLiveRTCPushStatsInfo : NSObject
+
+/*! 通话时长(s) */
+@property (nonatomic, assign) long long callDuration;
+
+/*! 可用带宽(kb) */
+@property (nonatomic, assign) long long availableSentKbitrate;
+
+/*! 总发送码率(kb) */
+@property (nonatomic, assign) long long sentKbitrate;
+
+/*! 总接收码率(kb) */
+@property (nonatomic, assign) long long rcvdKbitrate;
+
+/*! 总发送数据量(bytes) */
+@property (nonatomic, assign) long long sentBytes;
+
+/*! 总接收数据量(bytes) */
+@property (nonatomic, assign) long long rcvdBytes;
+
+/*! 视频接受码率(kb) */
+@property (nonatomic, assign) long long videoRcvdKbitrate;
+
+/*! 视频发送码率(kb) */
+@property (nonatomic, assign) long long videoSentKbitrate;
+
+/*! 客户端到服务器的丢包率(%) */
+@property (nonatomic, assign) long long sentLossRate;
+
+/*! 客户端到服务器的丢包数 */
+@property (nonatomic, assign) long long sentLossPkts;
+
+/*! 客户端到服务器的总包数 */
+@property (nonatomic, assign) long long sentExpectedPkts;
+
+/*! 服务器到客户端的下行丢包率（%） */
+@property (nonatomic, assign) long long rcvdLossRate;
+
+/*! 服务器到客户端的下行丢包数 */
+@property (nonatomic, assign) long long rcvdLossPkts;
+
+/*! 服务器到客户端的下行总包数 */
+@property (nonatomic, assign) long long rcvdExpectedPkts;
+
+/*! 客户端到服务器的延迟(ms) */
+@property (nonatomic, assign) long long lastmileDelay;
+
+/*! 进程CPU使用量(%) */
+@property (nonatomic, assign) float cpuUsage;
+
+/*! 系统CPU使用量(%) */
+@property (nonatomic, assign) float systemCpuUsage;
+@end
+
+
+/**
  推流性能参数类
  */
 
@@ -213,7 +275,7 @@
 
 /**
  视频编码码率
- * 单位 : Kbps
+ * 单位 :基础模式：Kbps ，互动模式：bps
  */
 
 /****
@@ -278,6 +340,12 @@
  */
 @property (nonatomic, assign) int videoEncodeParam;
 
+/**
+ 每秒平均QP
+ */
+
+@property (nonatomic, assign)  int videoAvgQp;
+
 
 /**
  设置的视频编码模式
@@ -325,7 +393,7 @@
 
 /**
  视频上传码率
- * 单位 : Kbps
+ *  单位 :基础模式：Kbps ，互动模式：bps
  */
 
 /****
@@ -696,5 +764,10 @@ Video resend bitrate（kbps）
 Audio resend bitrate（kbps）
 */
 @property (nonatomic, assign) int audioReSendBitRate;
+
+/**
+ 直播连麦场景RTC相关的上下行数据
+ */
+@property (nonatomic, strong) AlivcLiveRTCPushStatsInfo *rtcPushStatsInfo;
 
 @end

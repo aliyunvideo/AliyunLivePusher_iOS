@@ -517,6 +517,9 @@ typedef NS_ENUM(NSInteger, AlivcLivePushPublishType){
  - AlivcLivePusherAudioScenarioDefaultMode 默认场景，一般的直播场景推荐使用
  - AlivcLivePusherAudioScenarioMediaMode 媒体场景，保真人声与音乐音质等 推荐使用
  - AlivcLivePusherAudioScenarioMusicMode 音乐场景，高保真音乐音质，乐器教学等对音乐音质有要求的场景推荐使用
+ - AlivcLivePusherAudioScenarioEducationMode 教育场景，优先保证音频连续性与稳定性
+ - AlivcLivePusherAudioScenarioChatroomMode 聊天室模式，适用于频繁上下麦的场景
+ - AlivcLivePusherAudioScenarioKtvMode ktv模式
  
  */
 
@@ -526,11 +529,17 @@ typedef NS_ENUM(NSInteger, AlivcLivePushPublishType){
  - AlivcLivePusherAudioScenarioDefaultMode The default scene. We recommend that you use this for ordinary live streaming.
  - AlivcLivePusherAudioScenarioMediaMode The media scene. We recommend that you use this if you want to maintain the vocal fidelity and music sound quality.
  - AlivcLivePusherAudioScenarioMusicMode The music scene. High fidelity is ensured for music. We recommend that you use this in scenarios that require high sound quality, such as instrument teaching.
+ - AlivcLivePusherAudioScenarioEducationMode In educational scenarios, priority is given to audio continuity and stability.
+ - AlivcLivePusherAudioScenarioChatroomMode Chat room mode, suitable for scenarios where you frequently use the microphone.
+ - AlivcLivePusherAudioScenarioKtvMode ktv mode
  */
 typedef NS_ENUM(NSInteger, AlivcLivePusherAudioScenario) {
     AlivcLivePusherAudioScenarioDefaultMode = 1,
     AlivcLivePusherAudioScenarioMediaMode   = 2,
-    AlivcLivePusherAudioScenarioMusicMode   = 3
+    AlivcLivePusherAudioScenarioMusicMode   = 3,
+    AlivcLivePusherAudioScenarioEducationMode = 4,
+    AlivcLivePusherAudioScenarioChatroomMode  = 5,
+    AlivcLivePusherAudioScenarioKtvMode       = 6,
 };
 
 /**
@@ -1005,3 +1014,105 @@ typedef NS_ENUM(NSInteger, AlivcLiveAudioProfile) {
     /** 立体声超高音质模式，默认48000Hz采样率，双声道，最大编码码率128kbps */
     AlivcLiveAudioProfileStereoSuperHighQualityMode = 0x0013,
 };
+
+/**
+ * @brief 频道类型
+ */
+typedef NS_ENUM(NSInteger, AlivcLiveChannelProfile) {
+    /** 通信模式 */
+    AlivcLiveCommunication = 0,
+    /** 互动模式 */
+    AlivcLiveInteractivelive,
+    /** 低延时互动直播模式 */
+    AlivcLiveInteractiveWithLowLatencyLive,
+};
+
+
+/**
+ * @brief 音效美声模式
+ */
+typedef NS_ENUM(NSInteger, AliLiveAudioEffectBeautifyMode) {
+    /** 关闭 */
+    AliLiveAudioEffectBeautify_Off = 0,
+    /** 浑厚 */
+    AliLiveAudioEffectBeautify_Vigorous,
+    /** 嘹亮 */
+    AliLiveAudioEffectBeautify_Ringing,
+    /** 占位符 */
+    AliLiveAudioEffectBeautify_Mode_Max,
+};
+
+/**
+ * @brief 音效混响参数
+ */
+typedef NS_ENUM(NSInteger, AliLiveAudioEffectReverbParamType) {
+    /** 房间大小，取值范围：[0, 100] */
+    AliLiveAudioEffectReverb_Room_Size = 0,
+    /** 预延时，单位ms，取值范围：[0, 200] */
+    AliLiveAudioEffectReverb_Pre_Delay,
+    /** 混响感，取值范围：[0, 100] */
+    AliLiveAudioEffectReverb_Revetberance,
+    /** 消声，取值范围：[0, 100] */
+    AliLiveAudioEffectReverb_Hf_Damping,
+    /** 低音调，取值范围：[0, 100] */
+    AliLiveAudioEffectReverb_Tone_Low,
+    /** 高音调，取值范围：[0, 100] */
+    AliLiveAudioEffectReverb_Tone_High,
+    /** 干增益，取值范围：[-20, 10] */
+    AliLiveAudioEffectReverb_Dry_Gain,
+    /** 湿增益，取值范围：[-20, 10] */
+    AliLiveAudioEffectReverb_Wet_Gain,
+    /** 占位符 */
+    AliLiveAudioEffectReverb_Type_Max,
+};
+
+/** Audio equalization band frequency. */
+typedef NS_ENUM(NSInteger, AliLiveAudioEffectEqualizationBandFrequency) {
+  /** 31 Hz  */
+  AliLiveAudioEffectEqualizationBand31 = 0,
+  /** 62 Hz  */
+  AliLiveAudioEffectEqualizationBand62 = 1,
+  /** 125 Hz  */
+  AliLiveAudioEffectEqualizationBand125 = 2,
+  /** 250 Hz  */
+  AliLiveAudioEffectEqualizationBand250 = 3,
+  /** 500 Hz  */
+  AliLiveAudioEffectEqualizationBand500 = 4,
+  /** 1 kHz  */
+  AliLiveAudioEffectEqualizationBand1K = 5,
+  /** 2 kHz  */
+  AliLiveAudioEffectEqualizationBand2K = 6,
+  /** 4 kHz  */
+  AliLiveAudioEffectEqualizationBand4K = 7,
+  /** 8 kHz  */
+  AliLiveAudioEffectEqualizationBand8K = 8,
+  /** 16 kHz  */
+  AliLiveAudioEffectEqualizationBand16K = 9,
+};
+
+/**
+ * @brief 视频裸数据源类型
+ */
+typedef NS_ENUM(NSInteger, AliLiveVideoSource) {
+    /** 相机流 */
+    AliLiveVideosourceCameraType = 0,
+    /** 屏幕共享流 */
+    AliLiveVideosourceScreenShareType = 1,
+    /** 占位符，无意义 */
+    AliLiveVideosourceTypeMax,
+};
+
+/**
+ * @brief 视图显示模式
+ */
+typedef NS_ENUM(NSUInteger, AliLiveRenderMode) {
+    /** 自动模式 */
+    AliLiveRenderModeAuto    = 0,
+    /** 延伸模式 */
+    AliLiveRenderModeStretch = 1,
+    /** 填充模式 */
+    AliLiveRenderModeFill    = 2,
+    /** 裁剪模式 */
+    AliLiveRenderModeCrop    = 3,
+};
+
