@@ -682,19 +682,28 @@ typedef NS_ENUM(NSInteger, AlivcLiveTranscodingCropMode) {
  互动模式拉流错误码
  - AlivcLivePlayErrorStreamNotFound 播放URL指定的播放流不存在
  - AlivcLivePlayErrorStreamStopped 播放URL指定的播放流已停止推流
- - AlivcLivePlayErrorPlayFailed 播放URL指定的播放流播放失败
+ - AlivcLivePlayErrorSubscribeAudioStreamFailed 订阅音频流失败
+ - AlivcLivePlayErrorSubscribeVideoStreamFailed 订阅视频流失败
+ - AlivcLivePlayErrorSubscribeScreenStreamFailed 订阅共享流失败
+ - AlivcLivePlayErrorOtherPlayError 其他播放错误
  */
 
 /****
  Live interaction player engine play error code
  - AlivcLivePlayErrorStreamNotFound The stream specified by the streaming URL does not exist.
  - AlivcLivePlayErrorStreamStopped The stream specified by the streaming URL is stopped.
- - AlivcLivePlayErrorPlayFailed The stream specified by the streaming URL play failed
+ - AlivcLivePlayErrorSubscribeAudioStreamFailed subscribe audio stream failed
+ - AlivcLivePlayErrorSubscribeVideoStreamFailed subscribe video stream failed
+ - AlivcLivePlayErrorSubscribeScreenStreamFailed subscribe screen stream failed
+ - AlivcLivePlayErrorOtherPlayError other play error
  */
 typedef NS_ENUM(NSInteger, AlivcLivePlayerError) {
     AlivcLivePlayErrorStreamNotFound = 1,
     AlivcLivePlayErrorStreamStopped = 2,
-    AlivcLivePlayErrorPlayFailed = 3
+    AlivcLivePlayErrorSubscribeAudioStreamFailed = 3,
+    AlivcLivePlayErrorSubscribeVideoStreamFailed = 4,
+    AlivcLivePlayErrorSubscribeScreenStreamFailed = 5,
+    AlivcLivePlayErrorOtherPlayError = 6
 };
 
 /**
@@ -1116,3 +1125,76 @@ typedef NS_ENUM(NSUInteger, AliLiveRenderMode) {
     AliLiveRenderModeCrop    = 3,
 };
 
+/**
+ * @brief 网络连接状态
+*/
+typedef NS_ENUM(NSInteger, AliLiveConnectionStatus) {
+    /** 初始化完成 */
+    AliLiveConnectionStatusInit = 0,
+    /** 网络连接断开 */
+    AliLiveConnectionStatusDisconnected,
+    /** 建立网络连接中 */
+    AliLiveConnectionStatusConnecting,
+    /** 网络已连接 */
+    AliLiveConnectionStatusConnected,
+    /** 重新建立网络连接中 */
+    AliLiveConnectionStatusReconnecting,
+    /** 网络连接失败 */
+    AliLiveConnectionStatusFailed,
+};
+
+/**
+ * @brief 引起网络状态变更原因
+*/
+typedef NS_ENUM(NSInteger, AliLiveConnectionStatusChangeReason) {
+    /** 未知原因 */
+    AliLiveConnectionChangedDummyReason = 0,
+    /** 媒体通道变更 */
+    AliLiveConnectionChangedMediaPathChanged,
+    /** 心跳超时 */
+    AliLiveConnectionChangedSignalingHeartbeatTimeout,
+    /** 心跳恢复 */
+    AliLiveConnectionChangedSignalingHeartbeatAlive,
+    /** DNS解析成功 */
+    AliLiveConnectionChangedSignalingHttpdnsResolved,
+    /** DNS解析失败 */
+    AliLiveConnectionChangedSignalingHttpdnsFailure,
+    /** GSLB请求失败 */
+    AliLiveConnectionChangedSignalingGslbFailure,
+    /** GSLB请求成功 */
+    AliLiveConnectionChangedSignalingGslbSucccess,
+    /** 加入频道失败 */
+    AliLiveConnectionChangedSignalingJoinChannelFailure,
+    /** 加入频道成功 */
+    AliLiveConnectionChangedSignalingJoinChannelSuccess,
+    /** 离开频道 */
+    AliLiveConnectionChangedSignalingLeaveRoom,
+    /** 信令建立连接 */
+    AliLiveConnectionChangedSignalingConnecting,
+    /** 网络连接中断 */
+    AliLiveConnectionChangedNetworkInterrupted,
+};
+
+/**
+ * @brief 订阅状态
+ */
+typedef NS_ENUM(NSInteger, AliLiveSubscribeState) {
+    /** 初始状态 */
+    AliLiveStatsSubscribeIdle = 0,
+    /** 未订阅 */
+    AliLiveStatsNoSubscribe   = 1,
+    /** 订阅中 */
+    AliLiveStatsSubscribing   = 2,
+    /** 已订阅 */
+    AliLiveStatsSubscribed    = 3,
+};
+
+/**
+ * @brief 远端用户离开原因
+ */
+typedef NS_ENUM(NSInteger, AliLiveUserOfflineReason) {
+    /** 用户主动离开 */
+    AliLiveUserOfflineQuit = 0,
+    /** 因过长时间收不到对方数据包，超时掉线 */
+    AliLiveUserOfflineDropped = 1
+};

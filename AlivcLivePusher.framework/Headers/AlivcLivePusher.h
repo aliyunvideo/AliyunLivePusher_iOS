@@ -2211,10 +2211,28 @@ AlivcLivePusherAudioSampleDelegate;
 - (void)onPusherNetworkQualityChanged:(AlivcLivePusher *)pusher upNetworkQuality:(AlivcLiveNetworkQuality)upQuality downNetworkQuality:(AlivcLiveNetworkQuality)downQuality;
 
 /**
+ * @brief 网络连接状态改变的回调
+ * @param pusher pusher 推流引擎对象
+ * @param status 当前状态值, 对应值参考枚举 AliLiveConnectionStatus
+ * @param reason 引起状态变化的具体原因, 对应值参考枚举AliLiveConnectionStatusChangeReason
+ * @note 此回调只在互动模式下生效
+ */
+
+/****
+ * @brief Callback when network connection status changes
+ * @param pusher The live pusher engine object
+ * @param status Current status value, corresponding value reference enumeration AliLiveConnectionStatus
+ * @param reason The specific reason causing the status change, the corresponding value refers to the enumeration AliLiveConnectionStatusChangeReason
+ * @note This callback only takes effect in interactive mode
+ */
+- (void)onConnectionStatusChange:(AlivcLivePusher *)pusher
+                connectionStatus:(AliLiveConnectionStatus)status reason:(AliLiveConnectionStatusChangeReason)reason;
+
+/**
  * @brief 网络质量探测回调
  * @param pusher pusher 推流引擎对象
  * @param networkQuality 网络质量 AlivcLiveNetworkQuality
- * @note 在开始推流前调用 startLastmileDetect 后会触发该回调
+ * @note 在开始推流前调用 startLastmileDetect 后会触发该回调,  此回调只在互动模式下生效
  */
 
 /****
@@ -2230,7 +2248,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @param pusher pusher 推流引擎对象
  * @param code 探测结果，0: 成功，-1: DNS获取失败，-2: ICMP模块初始化失败,  -3: ICMP 发送长时间失败, -4: ICMP 无法接收(建议允许开播)
  * @param result 网络质量 AliLiveNetworkQualityProbeResult
- * @note 当调用 startLastmileDetect后会触发该回调
+ * @note 当调用 startLastmileDetect后会触发该回调, 此回调只在互动模式下生效
  * @details code 错误码处理建议：
  * 1. 如果是直接回抛了-1、-2、-3错误码，可以阻止开播；
  * 2. 由于有些特定网络可能设置阻止网络探测，会返回-4错误码，为了避免探测误伤导致主播无法开播，因此返回-4错误码也建议允许开播推流
