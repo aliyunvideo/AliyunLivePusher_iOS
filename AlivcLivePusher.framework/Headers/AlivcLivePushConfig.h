@@ -465,6 +465,19 @@
 @property (nonatomic, assign)AlivcLivePushVideoEncoderModeHardCodec videoHardEncoderCodec;
 
 /**
+ * @brief 允许视频编码自动降级
+ * @details 当设置HEVC硬件编码但当前设备不支持时，SDK会自动降级成H264，此开关可以控制SDK不自动降级成H264
+ * default：true，允许自动降级
+ */
+
+/****
+ * @brief Allow video encoding to automatically downgrade
+ * @details When HEVC hardware encoding is set but the current device does not support it, the SDK will automatically downgrade to H264. This switch can control the SDK not to automatically downgrade to H264.
+ * default：true, Allow video codec  automatic downgrade
+ */
+@property (nonatomic, assign) bool enableVideoCodecDowngrade;
+
+/**
  * @brief 视频硬编模式下是否开启B帧
  * default：NO
  */
@@ -508,6 +521,19 @@
  * default : AlivcLivePushAudioEncoderModeSoft
  */
 @property (nonatomic, assign) AlivcLivePushAudioEncoderMode audioEncoderMode;
+
+/**
+ * @brief 音频编码器类型
+ * default : AlivcLivePushAudioEncoderCodecOpus
+ * @note 该配置参数只在互动模式(直播连麦或PK)下生效，基础模式只支持音频AAC编码；互动模式默认是Opus编码，可以通过设置audioEncoderCodec切换成AAC编码
+ */
+
+/****
+ * @brief The audio encoder codec
+ * default : AlivcLivePushAudioEncoderCodecOpus
+ * @note This configuration parameter only takes effect in the interactive mode (live broadcast or PK). The basic mode only supports AAC audio encoding; the interactive mode defaults to Opus encoding, and can be switched to AAC encoding by setting audioEncoderCodec.
+ */
+@property (nonatomic, assign) AlivcLivePushAudioEncoderCodec audioEncoderCodec;
 
 
 /**
@@ -596,12 +622,12 @@
 
 /**
  * @brief 预览显示模式
- * default : ALIVC_LIVE_PUSHER_PREVIEW_ASPECT_FIT
+ * default : ALIVC_LIVE_PUSHER_PREVIEW_ASPECT_FILL
  */
 
 /****
  * @brief The preview mode
- * default : ALIVC_LIVE_PUSHER_PREVIEW_ASPECT_FIT
+ * default : ALIVC_LIVE_PUSHER_PREVIEW_ASPECT_FILL
  */
 @property (nonatomic, assign) AlivcPusherPreviewDisplayMode previewDisplayMode;
 
@@ -700,6 +726,19 @@
  * @brief userName
  */
 @property (nonatomic, copy) NSString *userName;
+
+/**
+ * @brief 远端视频裸数据回调开关(互动模式下有效)
+ * default : false
+ * @note 如果此开关打开，则可在AliLivePlayerDelegate->onRemoteVideoSample中回调远端视频裸数据
+ */
+
+/****
+ * @brief Remote video frame callback switch in interactive mode
+ * default : false
+ * @note If this switch is turned on, the remote video raw data can be called back in AliLivePlayerDelegate->onRemoteVideoSample.
+ */
+@property (nonatomic, assign) BOOL enableRemoteVideoFrameObserver;
 
 /**
  * @brief init 分辨率 其余值为默认值

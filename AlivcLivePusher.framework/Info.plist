@@ -29,22 +29,26 @@
 	<key>DTPlatformBuild</key>
 	<string>19C51</string>
 	<key>DTPlatformName</key>
-	<string>iphonesimulator</string>
+	<string>iphoneos</string>
 	<key>DTPlatformVersion</key>
 	<string>15.2</string>
 	<key>DTSDKBuild</key>
 	<string>19C51</string>
 	<key>DTSDKName</key>
-	<string>iphonesimulator15.2</string>
+	<string>iphoneos15.2</string>
 	<key>DTXcode</key>
 	<string>1321</string>
 	<key>DTXcodeBuild</key>
 	<string>13C100</string>
 	<key>MinimumOSVersion</key>
-	<string>8.0--verbose</string>
+	<string>8.0</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
+	</array>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>arm64</string>
 	</array>
 </dict>
 </plist>

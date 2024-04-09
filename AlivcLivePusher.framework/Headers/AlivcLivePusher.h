@@ -70,30 +70,6 @@ AlivcLivePusherAudioSampleDelegate;
 
 
 /**
- * @brief 显示调试悬浮窗
- * @note 注意 ：Debug悬浮窗会占用一定的系统资源，只可用于APP研发的Debug阶段，Release版本请勿调用此接口
- */
-
-/****
- * @brief Show the debugging window
- * @note Note: The debugging window occupies certain system resources and can only be used in the Debug phase of app development.
- *  Do not call this method in the released version of your app.
- */
-+ (void)showDebugView;
-
-
-
-/**
- * @brief 隐藏调试悬浮窗
- */
-
-/****
- * @brief Hide the debugging window
- */
-+ (void)hideDebugView;
-
-
-/**
  * @brief 创建一个推流引擎实例
  * @param config 推流配置信息 {@link AlivcLivePushConfig}
  * @return self:success  nil:failure
@@ -191,6 +167,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 开始预览 同步接口
  * @param previewView 预览view
  * @return 0:success  非0:failure
+ * @note 如需调整推流预览显示模式，可以通过改变AlivcLivePushConfig中的previewDisplayMode来指定
  */
 
 /****
@@ -199,6 +176,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  *  0:success
  *  != 0:failure
+ * @note If you need to adjust the streaming preview display mode, Can be specified by changing previewDisplayMode in AlivcLivePushConfig
  */
 - (int)startPreview:(UIView *)previewView;
 
@@ -333,6 +311,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 开始预览 异步接口
  * @param preview 预览view
  * @return 0:success  非0:failure
+ * @note 如需调整推流预览显示模式，可以通过改变AlivcLivePushConfig中的previewDisplayMode来指定
  */
 
 /****
@@ -341,6 +320,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  *  0:success
  *  != 0:failure
+ * @note If you need to adjust the streaming preview display mode, Can be specified by changing previewDisplayMode in AlivcLivePushConfig
  */
 - (int)startPreviewAsync:(UIView *)preview;
 
@@ -1378,6 +1358,8 @@ AlivcLivePusherAudioSampleDelegate;
 //updateLocalView
 //stopAudioCapture
 //startAudioCapture
+//getParameter
+//getCurrentEncoderManufacturer
 //startBGMWithMusicPathAsync:config
 
 // Some methods are available only when livePushMode is set to AlivcLivePushInteractiveMode,
@@ -1400,6 +1382,8 @@ AlivcLivePusherAudioSampleDelegate;
 //updateLocalView
 //stopAudioCapture
 //startAudioCapture
+//getParameter
+//getCurrentEncoderManufacturer
 //startBGMWithMusicPathAsync:config
 
 /**
@@ -1801,6 +1785,29 @@ AlivcLivePusherAudioSampleDelegate;
 - (int)sendDataChannelMessage:(NSString *)message;
 
 /**
+ * @brief 设置自定义参数
+ * @param param   自定义参数
+ * @return
+ * - 0: 成功
+ * - 非0: 失败
+ */
+- (int)setParameter:(NSString *)param;
+
+/**
+ * @brief 获取自定义参数
+ * @param param   自定义参数
+ * @return 自定义参数值
+ */
+- (NSString *)getParameter:(NSString *)param;
+
+/**
+* @brief 获取当前使用的编码器类型,如未开始推流，返回无效类型
+* @param isCameraStreem YES: 获取摄像头流的编码器类型;  NO: 获取共享流的编码器类型
+* @return AlivcLiveVideoCodecManufacturer 编码器类型
+*/
+- (AlivcLiveVideoCodecManufacturer)getCurrentEncoderManufacturer:(BOOL)isCameraStreem;
+
+/**
  * @brief 播放背景音乐
  * @param path 背景音乐路径
  * @param config 背景音乐播放配置
@@ -1833,10 +1840,53 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  * - 0: 成功
  * - 非0: 失败
- * @note 通过sendVideoData接口向SDK 输入自定义数据
+ * @note 通过pushExternalVideoFrame接口向SDK 输入自定义数据
+*/
+
+/****
+ * @brief Enable external video input source
+ * @param enable
+ * - YES turn on
+ * - NO turn off
+ * @param type stream type，see AliLiveVideoSource
+ * - AliLiveVideoSourceCameraType external input video data goes through the camera stream channel. If the current camera collection is open, call this interface and set enable to YES, and the SDK will replace the camera collection.
+ * - AliLiveVideoSourceScreenShareType external input video data goes through the screen stream channel. If the current screen sharing collection is open, call this interface and set enable to YES, and the SDK will replace the screen sharing collection.
+ * @param renderMode render mode. When the aspect ratio of the external input video source is inconsistent with the push profile, the corresponding rendermode will be used for processing. For details, see AliLiveRenderMode
+ * - AliLiveRenderModeAuto auto（default） If the aspect ratio of the externally input video is inconsistent with the aspect ratio of the push setting, the aspect ratio of the external input video is maintained and the width and height are scaled proportionally to the width and height range of the push setting. Note that in this mode, in order to ensure the original The proportion and content integrity of the video will lead to inconsistencies in the actual resolution and settings of the stream.
+ * - AliLiveRenderModeStretch Stretch Mode, if the aspect ratio of the external input video is inconsistent with the aspect ratio set by the push stream, the input video will be stretched to the ratio set by the push stream, and the picture will be deformed.
+ * - AliLiveRenderModeFill Fill black borders. If the aspect ratio of the external input video is inconsistent with the aspect ratio set by the push stream, the input video will be filled with black borders on the top, bottom or left and right.
+ * - AliLiveRenderModeCrop Cropping, if the aspect ratio of the external input video is inconsistent with the aspect ratio of the push setting, the width or height of the input video will be cropped, and the screen content will be lost.
+ * @return
+ *  0:success
+ *  != 0:failure
+ * @note Enter custom data into the SDK through the pushExternalVideoFrame interface
 */
 - (int)setExternalVideoSource:(BOOL)enable sourceType:(AliLiveVideoSource)type renderMode:(AliLiveRenderMode)renderMode;
 
+/**
+ * @brief 输入视频数据
+ * @param frame 帧数据，详见 AlivcLiveVideoDataSample
+ * @param type 流类型，详见 AliLiveVideoSource
+ * - AliLiveVideosourceCameraType 外部输入视频数据走相机流通道
+ * - AliLiveVideosourceScreenShareType 外部输入视频数据走屏幕流通道
+ *  @return
+ * - 0: 成功
+ * - 非0: 失败
+ * @note 如果返回值为0x01070102，代表当前buffer队列塞满，需要等待后再继续输送数据
+*/
+
+/****
+ * @brief input video raw data
+ * @param frame video raw data，see AlivcLiveVideoDataSample
+ * @param type stream type，see AliLiveVideoSource
+ * - AliLiveVideosourceCameraType external input video data goes through the camera stream channel
+ * - AliLiveVideosourceScreenShareType external input video data goes through the screen stream channel
+ *  @return
+ *  0:success
+ *  != 0:failure
+ * @note If the return value is 0x01070102, it means that the current buffer queue is full and you need to wait before continuing to transmit data.
+*/
+- (int)pushExternalVideoFrame:(AlivcLiveVideoDataSample *_Nonnull)frame sourceType:(AliLiveVideoSource)type;
 
 /**
  * @brief 新增外部音频流
@@ -1846,6 +1896,16 @@ AlivcLivePusherAudioSampleDelegate;
  * - >0: 表示成功;
  * - 返回值为 外部音频流Id
  * @note 通过pushExternalAudioStream接口向SDK 输入自定义数据
+ */
+
+/****
+ * @brief add external audio stream
+ * @param config external audio stream configuration
+ * @return
+ * - <=0: failed;
+ * - >0:  success;
+ * - The return value is the external audio stream Id.
+ * @note Input custom data to the SDK through the pushExternalAudioStream interface
  */
 - (int)addExternalAudioStream:(AliLiveExternalAudioStreamConfig *_Nonnull)config;
 
@@ -1859,6 +1919,17 @@ AlivcLivePusherAudioSampleDelegate;
  * - 返回值为0x01070101 时，需要在间隔投递数据时间长度后再次重试投递
  * @note 为了保证语音连续性，sdk内部会有buffer缓存送进来的音频数据，以每次送10ms数据为例，如果返回 0x01070101 时，说明内部缓冲区已满，建议等待20ms后再重新送当前数据帧；
  */
+
+/****
+ * @brief Input external audio stream data
+ * @param streamId external audio stream ID（addExternalAudioStream return）
+ * @param audioFrame audio data
+ * @return
+ * - <0:failed;
+ * - 0:success;
+ * - When the return value is 0x01070101, you need to retry delivery after the interval of data delivery time.
+ * @note In order to ensure voice continuity, there will be a buffer buffer inside the SDK to buffer the audio data sent in. Taking 10ms of data sent each time as an example, if 0x01070101 is returned, it means that the internal buffer is full. It is recommended to wait for 20ms before resending the current data frame;
+ */
 - (int)pushExternalAudioStream:(int)streamId
                        rawData:(AlivcLivePusherAudioDataSample * _Nonnull)audioFrame;
 
@@ -1869,6 +1940,14 @@ AlivcLivePusherAudioSampleDelegate;
  * - 0: 成功
  * - 非0: 失败
  */
+
+/****
+ * @brief Set whether to mix audio collected with the microphone
+ * @param mixed YES：mix；NO：Completely replace the microphone to collect data
+ * @return
+ * - <0:failed;
+ * - 0:success;
+ */
 - (int)setMixedWithMic:(BOOL)mixed;
 
 /**
@@ -1878,6 +1957,15 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  * - <0: 表示失败;
  * - 0: 表示成功;
+ */
+
+/****
+ * @brief Set external audio stream playback volume
+ * @param streamId external audio stream ID
+ * @param playoutVolume Playback volume, value range [0, 100]
+ * @return
+ * - <0:failed;
+ * - 0:success;
  */
 - (int)setExternalAudioStream:(int)streamId
                 playoutVolume:(int)playoutVolume;
@@ -1890,6 +1978,15 @@ AlivcLivePusherAudioSampleDelegate;
  * - <0: 表示失败;
  * - 0: 表示成功;
  */
+
+/****
+ * @brief Set external audio streaming volume
+ * @param streamId external audio stream ID
+ * @param publishVolume Push volume, value range [0, 100]
+ * @return
+ * - <0:failed;
+ * - 0:success;
+ */
 - (int)setExternalAudioStream:(int)streamId
                 publishVolume:(int)publishVolume;
 
@@ -1899,6 +1996,14 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  * - <0: 表示失败;
  * - 0: 表示成功;
+ */
+
+/****
+ * @brief Remove external audio stream
+ * @param streamId external audio stream ID
+ * @return
+ * - <0:failed;
+ * - 0:success;
  */
 - (int)removeExternalAudioStream:(int)streamId;
 
@@ -1954,6 +2059,44 @@ AlivcLivePusherAudioSampleDelegate;
 //      retouching.：https://help.aliyun.com/document_detail/211047.html?spm=a2c4g.11174283.6.736.79c5454ek41M8B
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//        从v6.10.0版本开始，Debug悬浮窗相关接口废弃，此块功能已移植到最新的源码demo中，请下载最新的源码demo查看
+//        详见：https://help.aliyun.com/zh/live/developer-reference/sdk-download-and-release-notes
+//
+//        Starting from version v6.10.0, the interface related to the Debug floating window is abandoned. This
+//        function has been transplanted to the latest source code demo. Please download the latest source code
+//        demo to view. See:https://help.aliyun.com/zh/live/developer-reference/sdk-download-and-release-notes
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief 显示调试悬浮窗(已废弃)
+ * @note 已废弃使用
+ * @deprecated
+ */
+
+/****
+ * @brief Show the debugging window
+ * @deprecated
+ */
++ (void)showDebugView;
+
+
+
+/**
+ * @brief 隐藏调试悬浮窗(已废弃)
+ * @note 已废弃使用
+ * @deprecated
+ */
+
+/****
+ * @brief Hide the debugging window
+ * @deprecated
+ */
++ (void)hideDebugView;
+
 @end
 
 /** @} */

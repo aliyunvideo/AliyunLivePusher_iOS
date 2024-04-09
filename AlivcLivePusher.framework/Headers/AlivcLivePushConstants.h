@@ -175,6 +175,8 @@ typedef NS_ENUM(NSInteger, AlivcLivePushVideoFormat){
     AlivcLivePushVideoFormatYUVJ420SP,
     AlivcLivePushVideoFormatYUVJ444P,
     AlivcLivePushVideoFormatYUV444P,
+    AlivcLivePushVideoFormatTexture2D,
+    AlivcLivePushVideoFormatTextureOES,
 };
 
 
@@ -340,6 +342,23 @@ typedef NS_ENUM(NSInteger, AlivcLivePushAudioEncoderMode){
     AlivcLivePushAudioEncoderModeSoft,
 };
 
+/**
+ 音频编码器类型
+ 
+ - AlivcLivePushAudioEncoderCodecOpus: Opus编码
+ - AlivcLivePushAudioEncoderCodecAAC: AAC 编码
+ */
+
+/****
+ Audio encoder codec
+ 
+ - AlivcLivePushAudioEncoderCodecOpus: Opus codec
+ - AlivcLivePushAudioEncoderCodecAAC: AAC codec
+ */
+typedef NS_ENUM(NSInteger, AlivcLivePushAudioEncoderCodec) {
+    AlivcLivePushAudioEncoderCodecOpus = 0,
+    AlivcLivePushAudioEncoderCodecAAC,
+};
 
 /**
  音频编码格式
@@ -716,8 +735,12 @@ typedef NS_ENUM(NSInteger, AlivcLivePlayerError) {
 typedef NS_ENUM(NSInteger, AlivcLiveBufferType) {
     /** YUV */
     AlivcLiveBufferType_Raw_Data = 0,
+    /** opengl texture */
+    AlivcLiveBufferType_Texture,
     /** CVPixelBuffer */
     AlivcLiveBufferType_CVPixelBuffer,
+    /** 文件路径 */
+    AlivcLiveBufferType_File,
 };
 
 /**
@@ -1197,4 +1220,22 @@ typedef NS_ENUM(NSInteger, AliLiveUserOfflineReason) {
     AliLiveUserOfflineQuit = 0,
     /** 因过长时间收不到对方数据包，超时掉线 */
     AliLiveUserOfflineDropped = 1
+};
+
+/*
+ * @brief 编码器解码器类型
+*/
+typedef NS_ENUM(NSInteger, AlivcLiveVideoCodecManufacturer) {
+    AlivcLiveVideoCodecManufactureropenH264 = 0,
+    AlivcLiveVideoCodecManufacturerX264 = 1,
+    AlivcLiveVideoCodecManufacturerX265 = 2,
+    AlivcLiveVideoCodecManufacturerS265 = 3,
+    AlivcLiveVideoCodecManufacturerFFMPEG = 4 ,
+    AlivcLiveVideoCodecManufacturerQsvIntel = 0x10,
+    AlivcLiveVideoCodecManufacturerNvidia = 0x11,
+    AlivcLiveVideoCodecManufacturerAMD = 0x12,
+    AlivcLiveVideoCodecManufacturerMicrosoft = 0x13,
+    AlivcLiveVideoCodecManufacturerVideoToolbox = 0x20,
+    AlivcLiveVideoCodecManufacturerMediaCodec = 0x30,
+    AlivcLiveVideoCodecManufacturerUnknown = 0xFFFF,
 };
