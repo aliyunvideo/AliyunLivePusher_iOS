@@ -740,6 +740,12 @@
  */
 @property (nonatomic, assign) BOOL enableRemoteVideoFrameObserver;
 
+
+/**
+ * @brief 直播连麦场景透传RTC extra信息字段
+ */
+@property (nonatomic, copy) NSDictionary *extras;
+
 /**
  * @brief init 分辨率 其余值为默认值
  * @param resolution 推流分辨率

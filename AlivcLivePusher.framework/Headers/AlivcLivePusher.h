@@ -73,25 +73,27 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 创建一个推流引擎实例
  * @param config 推流配置信息 {@link AlivcLivePushConfig}
  * @return self:success  nil:failure
- * @note 同一时间只会存在一个主推流引擎实例
+ * @note 同一时间只会存在一个主推流引擎实例，引擎销毁对应的接口：{@link AlivcLivePusher::destory }
  */
 
 /****
  * @brief Create a live  pusher engine
  * @param config Configure live pusher {@link AlivcLivePushConfig}
  * @return self:success  nil:failure
- * @note You can create only one primary live pusher engine
+ * @note You can create only one primary live pusher engine，The corresponding interface for engine destruction: {@link AlivcLivePusher::destroy}
  */
 - (instancetype)initWithConfig:(AlivcLivePushConfig *)config;
 
 /**
  * @brief 设置推流错误监听回调
  * @param delegate {@link AlivcLivePusherErrorDelegate}
+ * @note 错误回调和相关处理可参考：https://help.aliyun.com/zh/live/developer-reference/handling-of-exceptions-and-special-scenarios-for-ios
  */
 
 /****
  * @brief Set the callback for live pusher engine errors.
  * @param delegate {@link AlivcLivePusherErrorDelegate}
+ * @note error callbacks and related processing can be referred to：https://help.aliyun.com/zh/live/developer-reference/handling-of-exceptions-and-special-scenarios-for-ios
  */
 - (void)setErrorDelegate:(id<AlivcLivePusherErrorDelegate>)delegate;
 
@@ -110,22 +112,30 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * @brief 设置推流网络监听回调
  * @param delegate {@link AlivcLivePusherNetworkDelegate}
+ * @note 网络监听回调和相关处理可参考：
+ * https://help.aliyun.com/zh/live/developer-reference/handling-of-exceptions-and-special-scenarios-for-ios
  */
 
 /****
  * @brief Set the callback for the network status of live pusher engine
  * @param delegate {@link AlivcLivePusherNetworkDelegate}
+ * @note For network monitoring callbacks and related processing, please refer to：
+ * https://help.aliyun.com/zh/live/developer-reference/handling-of-exceptions-and-special-scenarios-for-ios
  */
 - (void)setNetworkDelegate:(id<AlivcLivePusherNetworkDelegate>)delegate;
 
 /**
  * @brief 设置用户自定义滤镜回调
  * @param delegate {@link AlivcLivePusherCustomFilterDelegate}
+ * @note 对接美颜SDK相关回调可参考：
+ * https://help.aliyun.com/zh/live/developer-reference/handling-of-exceptions-and-special-scenarios-for-ios
  */
 
 /****
  * @brief Set a custom filter callback
  * @param delegate {@link AlivcLivePusherCustomFilterDelegate}
+ * @note Please refer to the callbacks related to docking third-party beauty SDK.：
+ * https://help.aliyun.com/zh/live/developer-reference/handling-of-exceptions-and-special-scenarios-for-ios
  */
 - (void)setCustomFilterDelegate:(id<AlivcLivePusherCustomFilterDelegate>)delegate;
 
@@ -163,11 +173,15 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (void)setAudioSampleDelegate:(id<AlivcLivePusherAudioSampleDelegate>)delegate;
 
+/* *****************(互动模式下没有同步接口和异步接口区别，同步异步接口调用效果完全相同，只需要选择任意一种API即可)****************** */
 /**
  * @brief 开始预览 同步接口
  * @param previewView 预览view
  * @return 0:success  非0:failure
- * @note 如需调整推流预览显示模式，可以通过改变AlivcLivePushConfig中的previewDisplayMode来指定
+ * @note 该接口对应的回调：{@link AlivcLivePusherInfoDelegate::onPreviewStarted:}
+ * @note 预览成功对应的回调：{@link AlivcLivePusherInfoDelegate::onFirstFramePreviewed:}
+ * @note 如果需要更新渲染View(例如刚开始在A view上渲染，需要更新到B view上渲染)，可以调用接口：{@link AlivcLivePusher::updateLocalView:}
+ * @note 如果需要调整预览现实样式(例如裁剪、拉升)，可参考接口设置：{@link AlivcLivePushConfig::previewDisplayMode} 或 {@link AlivcLivePusher::setpreviewDisplayMode:}
  */
 
 /****
@@ -176,14 +190,33 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  *  0:success
  *  != 0:failure
- * @note If you need to adjust the streaming preview display mode, Can be specified by changing previewDisplayMode in AlivcLivePushConfig
+ * @note The callback corresponding to this interface：{@link AlivcLivePusherInfoDelegate::onPreviewStarted:}
+ * @note Callback corresponding to successful preview：{@link AlivcLivePusherInfoDelegate::onFirstFramePreviewed:}
+ * @note If you need to update the rendering View (for example, you just started preview on the A view and need to update it to render on the B view), you can call the interface: {@link AlivcLivePusher::updateLocalView:}
+ * @note If you need to adjust the preview style (such as cropping, lifting), please refer to the interface settings：{@link AlivcLivePushConfig::previewDisplayMode} or  {@link AlivcLivePusher::setpreviewDisplayMode:}
  */
 - (int)startPreview:(UIView *)previewView;
+
+/**
+ * @brief 更新本地摄像头的预览画面
+ * @param view 预览view
+ * @note 如果需要更新渲染View(例如刚开始在A view上渲染，需要更新到B view上渲染)，可以调用此接口
+ * @note 注：该API暂时只支持在livePushMode = AlivcLivePushInteractiveMode 模式下生效，AlivcLivePushBasicMode模式下暂时不支持该API，调用无任何效果
+ */
+
+/****
+ * @brief Update local camera preview
+ * @param view camera preview view
+ * @note If you need to update the rendering View (for example, you just started rendering on the A view and need to update it to render on the B view), you can call this interface.
+ * @note Note: This API is currently only supported in livePushMode = AlivcLivePushInteractiveMode mode. This API is temporarily not supported in AlivcLivePushBasicMode mode, and the call has no effect.
+ */
+- (void)updateLocalView:(UIView *)view;
 
 
 /**
  * @brief 停止预览
  * @return 0:success  非0:failure
+ * @note 该接口对应的回调：{@link AlivcLivePusherInfoDelegate::onPreviewStoped:}
  */
 
 /****
@@ -191,6 +224,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  *  0:success
  *  != 0:failure
+ * @note The callback corresponding to this interface：{@link AlivcLivePusherInfoDelegate::onPreviewStoped:}
  */
 - (int)stopPreview;
 
@@ -199,6 +233,9 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 开始推流 同步接口
  * @param pushURL 推流URL
  * @return 0:success  非0:failure
+ * @note 该接口调用后可收到的回调:
+ * 1. 推流链接建立成功：{@link AlivcLivePusherInfoDelegate::onPushStarted:}
+ * 2.发送第一帧音视频流成功回调，可作为推流成功回调: {@link AlivcLivePusherInfoDelegate::onFirstFramePushed:}
  */
 
 /****
@@ -207,6 +244,9 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  *  0:success
  *  != 0:failure
+ * @note The callbacks that can be received after calling this interface:
+ * 1. Push connection established successfully：{@link AlivcLivePusherInfoDelegate::onPushStarted:}
+ * 2. Callback for successful sending of the first frame of audio and video stream, which can be used as callback for successful streaming: {@link AlivcLivePusherInfoDelegate::onFirstFramePushed:}
  */
 - (int)startPushWithURL:(NSString *)pushURL;
 
@@ -214,6 +254,7 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * @brief 停止推流
  * @return 0:success  非0:failure
+ * @note 该接口调用后可收到的回调: {@link AlivcLivePusherInfoDelegate::onPushStoped:}
  */
 
 /****
@@ -221,6 +262,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  *  0:success
  *  != 0:failure
+ * @note The callbacks that can be received after calling this interface: {@link AlivcLivePusherInfoDelegate::onPushStoped:}
  */
 - (int)stopPush;
 
@@ -228,6 +270,7 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * @brief 重新推流 同步接口
  * @return 0:success  非0:failure
+ * @note 此接口SDK内部会停止预览再开启预览，预览画面会有黑一下的过程；如果不希望重新预览，仅是重新推流，可以先调用stopPush结束推流，再调用startPushWithURL开启推流
  */
 
 /****
@@ -235,6 +278,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  *  0:success
  *  != 0:failure
+ * @note This interface SDK will stop previewing and then start previewing, and the preview screen will go black for a while; if you do not want to preview again and just push the stream again, you can first call stopPush to end the push, and then call startPushWithURL to start the push.
  */
 - (int)restartPush;
 
@@ -242,6 +286,7 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * @brief 暂停摄像头推流，如果pushCongfig 中设置了pauseImg图片，将推设置的静态图片
  * @return 0:success  非0:failure
+ * @note SDK不提供暂停推流的接口，这个接口的含义是暂停摄像头推流切换成推静态图片，只是视频画面发生了变化，声音还是推流
  */
 
 /****
@@ -250,6 +295,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  *  0:success
  *  != 0:failure
+ *  @note The SDK does not provide an interface for pausing streaming. The meaning of this interface is to pause the camera streaming and switch to pushing static pictures. Only the video picture changes, and the sound is still pushed.
  */
 - (int)pause;
 
@@ -306,12 +352,15 @@ AlivcLivePusherAudioSampleDelegate;
 
 
 
-/* ***********************异步接口*********************** */
+/* *****************异步接口(互动模式下没有同步接口和异步接口区别，同步异步接口调用效果完全相同，只需要选择任意一种API即可)****************** */
 /**
  * @brief 开始预览 异步接口
  * @param preview 预览view
  * @return 0:success  非0:failure
- * @note 如需调整推流预览显示模式，可以通过改变AlivcLivePushConfig中的previewDisplayMode来指定
+ * @note 该接口对应的回调：{@link AlivcLivePusherInfoDelegate::onPreviewStarted:}
+ * @note 预览成功对应的回调：{@link AlivcLivePusherInfoDelegate::onFirstFramePreviewed:}
+ * @note 如果需要更新渲染View(例如刚开始在A view上渲染，需要更新到B view上渲染)，可以调用接口：{@link AlivcLivePusher::updateLocalView:}
+ * @note 如果需要调整预览现实样式(例如裁剪、拉升)，可参考接口设置：{@link AlivcLivePushConfig::previewDisplayMode} 或 {@link AlivcLivePusher::setpreviewDisplayMode:}
  */
 
 /****
@@ -320,7 +369,10 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  *  0:success
  *  != 0:failure
- * @note If you need to adjust the streaming preview display mode, Can be specified by changing previewDisplayMode in AlivcLivePushConfig
+ * @note The callback corresponding to this interface：{@link AlivcLivePusherInfoDelegate::onPreviewStarted:}
+ * @note Callback corresponding to successful preview：{@link AlivcLivePusherInfoDelegate::onFirstFramePreviewed:}
+ * @note If you need to update the rendering View (for example, you just started preview on the A view and need to update it to render on the B view), you can call the interface: {@link AlivcLivePusher::updateLocalView:}
+ * @note If you need to adjust the preview style (such as cropping, lifting), please refer to the interface settings：{@link AlivcLivePushConfig::previewDisplayMode} or  {@link AlivcLivePusher::setpreviewDisplayMode:}
  */
 - (int)startPreviewAsync:(UIView *)preview;
 
@@ -329,6 +381,9 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 开始推流 异步接口
  * @param pushURL 推流URL
  * @return 0:success  非0:failure
+ * @note 该接口调用后可收到的回调:
+ * 1. 推流链接建立成功：{@link AlivcLivePusherInfoDelegate::onPushStarted:}
+ * 2.发送第一帧音视频流成功回调，可作为推流成功回调: {@link AlivcLivePusherInfoDelegate::onFirstFramePushed:}
  */
 
 /****
@@ -337,6 +392,9 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  *  0:success
  *  != 0:failure
+ * @note The callbacks that can be received after calling this interface:
+ * 1. Push connection established successfully：{@link AlivcLivePusherInfoDelegate::onPushStarted:}
+ * 2. Callback for successful sending of the first frame of audio and video stream, which can be used as callback for successful streaming: {@link AlivcLivePusherInfoDelegate::onFirstFramePushed:}
  */
 - (int)startPushWithURLAsync:(NSString *)pushURL;
 
@@ -344,6 +402,7 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * @brief 重新推流 异步接口
  * @return 0:success  非0:failure
+ * @note 此接口SDK内部会停止预览再开启预览，预览画面会有黑一下的过程；如果不希望重新预览，仅是重新推流，可以先调用stopPush结束推流，再调用startPushWithURLAsync开启推流
  */
 
 /****
@@ -351,6 +410,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  *  0:success
  *  != 0:failure
+ * @note This interface SDK will stop previewing and then start previewing, and the preview screen will go black for a while; if you do not want to preview again and just push the stream again, you can first call stopPush to end the push, and then call startPushWithURLAsync to start the push.
  */
 - (int)restartPushAsync;
 
@@ -390,6 +450,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 设置自动对焦
  * @param autoFocus true:自动对焦 false:手动对焦
  * @return 0:success  非0:failure
+ * @note SDK内部默认是自动对焦的
  */
 
 /****
@@ -398,6 +459,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  *  0:success
  *  != 0:failure
+ * @note The SDK internal default is autofocus
  */
 - (int)setAutoFocus:(bool)autoFocus;
 
@@ -529,11 +591,13 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * @brief 推流镜像开关
  * @param mirror true:打开推流镜像 false:关闭推流镜像
+ * @note SDK默认推流不镜像
  */
 
 /****
  * @brief Specify whether to enable the mirroring mode for live pusher
  * @param mirror true:Enable the mirroring mode for stream push. false:Disable the mirroring mode for stream push
+ * @note SDK default push stream does not mirror
  */
 - (void)setPushMirror:(bool)mirror;
 
@@ -541,11 +605,13 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * @brief 预览镜像开关
  * @param mirror true:打开预览镜像 false:关闭预览镜像
+ * @note SDK默认前置摄像头预览镜像，后置摄像头预览不镜像
  */
 
 /****
  * @brief Specify whether to enable the mirroring mode for preview
  * @param mirror true:Enable the mirroring mode for preview. false:Disable the mirroring mode for preview.
+ * @note By default, the SDK mirrors the front camera preview and does not mirror the rear camera preview.
  */
 - (void)setPreviewMirror:(bool)mirror;
 
@@ -553,11 +619,15 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * @brief 静音推流
  * @param mute true:静音推流 false:正常推流
+ * @note 调用此接口，控制音频流是否静音；即使在静音时，仍然占用系统麦克风权限，发送静音音频数据
+ * @note 如果希望不再占用系统麦克风权限，即：关闭音频采集，可调用接口：{@link AlivcLivePusher::stopAudioCapture }
  */
 
 /****
  * @brief Mute the audio stream
  * @param mute true:mute false:Normal
+ * @note Call this interface to control whether the audio stream is muted; Even when muted, the system still occupies microphone permissions and sends muted audio data
+ * @note If you want to no longer occupy system microphone permissions, that is, turn off audio collection, please refer to the interface：{@link AlivcLivePusher::stopAudioCapture }
  */
 - (void)setMute:(bool)mute;
 
@@ -566,6 +636,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 设置推流模式
  * @param qualityMode 推流模式 : 选择 ResolutionFirst 模式时，SDK内部会优先保障推流视频的清晰度; 选择 FluencyFirst 模式时，SDK内部会优先保障推流视频的流畅度，此接口只支持这两种模式。设置后码率设置失效。
  * @return 0:success  非0:failure
+ * @note 此接口只在基础模式下生效，互动模式下不生效
  */
 
 /****
@@ -574,6 +645,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @return
  *  0:success
  *  != 0:failure
+ * @note This interface only takes effect in basic mode and does not take effect in interactive mode.
  */
 - (int)setQualityMode:(AlivcLivePushQualityMode)qualityMode;
 
@@ -624,11 +696,13 @@ AlivcLivePusherAudioSampleDelegate;
 /**
  * @brief 设置推流分辨率
  * @param resolution 推流分辨率
+ * @note 此接口可以动态调整推流分辨率，例如在多人PK场景，根据PK人数的不同需要动态调整推流分辨率，可以使用该接口
  */
 
 /****
  * @brief Specify the resolution, which takes effect only in preview mode
  * @param resolution The resolution of the ingested stream
+ * @note This interface can dynamically adjust the push resolution. For example, in a multi-player PK scenario, you can use this interface to dynamically adjust the push resolution according to the different number of people in the PK.
  */
 - (void)setResolution:(AlivcLivePushResolution)resolution;
 
@@ -781,43 +855,9 @@ AlivcLivePusherAudioSampleDelegate;
 */
 - (int)stopIntelligentDenoise;
 
-/**
- * @brief 设置变声音效模式
- * @param mode 参考AlivcLivePushAudioEffectVoiceChangerMode对应的变声音效模式值
- * @return
- * - 0：成功
- * - 非0：失败
- * @note 推流前和推流过程中调用都生效
- */
 
-/****
- * @brief Set the voice change mode
- * @param mode Reference  AlivcLivePushAudioEffectVoiceChangerMode Values that specify the voice change effects.
- * @return
- *  0:success
- *  != 0:failure
- * @note You can call this method before or during live push.
- */
-- (int)setAudioEffectVoiceChangeMode:(AlivcLivePushAudioEffectVoiceChangeMode)mode;
 
-/**
- * @brief 设置混响音效模式
- * @param mode 参考AlivcLivePushAudioEffectReverbMode 对应的混响模式
- * @return
- * - 0：成功
- * - 非0：失败
- * @note 推流前和推流过程中调用都生效
- */
 
-/****
- * @brief Set the reverberation mode
- * @param mode Reference AlivcLivePushAudioEffectReverbMode Values that specify the reverberation effects.
- * @return
- *  0:success
- *  != 0:failure
- * @note You can call this method before or during live push.
- */
-- (int)setAudioEffectReverbMode:(AlivcLivePushAudioEffectReverbMode)mode;
 
 /**
  * @brief 设置背景音乐混音 音乐音量
@@ -881,8 +921,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 发送自定义video SampleBuffer
  *
  * @param sampleBuffer video sample buffer
- * @note 当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下发送自定义video SampleBuffer，AlivcLivePushInteractiveMode模式下暂时不支持发送自定义video
- * SampleBuffer
+ * @note 当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下发送自定义video SampleBuffer，AlivcLivePushInteractiveMode模式下请使用sendVideoData接口向SDK输入自定义视频数据
  */
 
 /****
@@ -900,7 +939,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @param sampleBuffer audio sample buffer
  * @param sampleBufferType audio sample buffer type
  * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushBasicMode 模式下发送自定义的audio
- * SampleBuffer，AlivcLivePushInteractiveMode模式下暂时不支持发送自定义的audio SampleBuffer
+ * SampleBuffer，AlivcLivePushInteractiveMode模式下暂时不支持发送自定义的audio SampleBuffer，请使用sendPCMData接口向SDK输入自定义音频数据
  */
 
 /****
@@ -1127,8 +1166,9 @@ AlivcLivePusherAudioSampleDelegate;
  * @param msg 用户推流消息
  * @param count 重复次数
  * @param time 延时时间，单位毫秒
- * @param isKeyFrame 是否只发关键帧，该参数只支持在livePushMode = AlivcLivePushBasicMode 模式下设置，AlivcLivePushInteractiveMode模式下暂时不支持设置
+ * @param isKeyFrame 是否只发关键帧，该参数只支持在livePushMode = AlivcLivePushBasicMode 模式下设置，AlivcLivePushInteractiveMode模式下暂时不支持设置，互动模式下传入false
  * @return 0:success  非0:failure
+ * @note 该接口sei 的payloadType为5
  */
 
 /****
@@ -1136,17 +1176,54 @@ AlivcLivePusherAudioSampleDelegate;
  * @param msg The message
  * @param count The number of repetitions
  * @param time The latency. Unit: millisecond
- * @param isKeyFrame Whether to send only keyframes，This parameter only supports setting in livePushMode = AlivcLivePushBasicMode mode, and temporarily does not support setting in AlivcLivePushInteractiveMode mode
+ * @param isKeyFrame Whether to send only keyframes，This parameter only supports setting in livePushMode = AlivcLivePushBasicMode mode, and temporarily does not support setting in AlivcLivePushInteractiveMode mode, Pass false in interactive mode
  * @return
  *  0:success
  *  != 0:failure
  */
 - (int)sendMessage:(NSString *)msg repeatCount:(int)count delayTime:(int)time KeyFrameOnly:(bool)isKeyFrame;
 
+/**
+ * @brief 设置自定义Message (SEI)
+ * @param msg 用户推流消息
+ * @param count 重复次数
+ * @param time 延时时间，单位毫秒
+ * @param isKeyFrame 是否只发关键帧，该参数只支持在livePushMode = AlivcLivePushBasicMode 模式下设置，AlivcLivePushInteractiveMode模式下暂时不支持设置, ，互动模式下传入false
+ * @param payloadType 类型，可设置的值为5或者[100..254]范围区间，如果设置5，则在内容前面会有一个16字节的UUID
+ * @return 0:success  非0:failure
+ * @note 注：当前SDK暂时只支持在livePushMode = AlivcLivePushInteractiveMode 模式下生效，AlivcLivePushBasicMode模式下暂时不支持设置payloadType
+ */
+
+/****
+ * @brief Set a custom SEI message
+ * @param msg The message
+ * @param count The number of repetitions
+ * @param time The latency. Unit: millisecond
+ * @param isKeyFrame Whether to send only keyframes，This parameter only supports setting in livePushMode = AlivcLivePushBasicMode mode, and temporarily does not support setting in AlivcLivePushInteractiveMode mode, , Pass false in interactive mode
+ * @param payloadType payloadType type, the settable value is 5 or the range  [100..254]. If 5 is set, there will be a 16-byte UUID in front of the content.
+ * @return
+ *  0:success
+ *  != 0:failure
+ * @note The current SDK only supports the livePushMode = AlivcLivePushInteractiveMode mode. Setting the payloadType in the AlivcLivePushBasicMode mode is temporarily not supported.
+ */
+- (int)sendMessage:(NSString *)msg repeatCount:(int)count delayTime:(int)time KeyFrameOnly:(bool)isKeyFrame payloadType:(int)payloadType;
+
+/**
+ * @brief 开启SEI视频流，内部将使用16x16全黑图片流/20fps
+ * @note 在互动模式下，如果把摄像头采集关闭(调用enableLocalCamera接口)，纯音频场景，默认不会发送视频，
+ * 但是如果后续调用了sendMessage接口发送SEI信息，SDK内部默认会发送16x16全黑图片流/20fps的视频流来承载SEI信息，
+ * 可以通过调用enableSEIVideoStream来关闭SDK默认的推送16x16全黑图片逻辑，关闭后纯音频场景将发送不了SEI信息
+ * @param enable true=开启 false=关闭
+ * @return
+ * - 0: 成功
+ * - 非0: 失败
+ */
+-(int)enableSEIVideoStream:(bool)enable;
 
 /**
  * @brief 获取是否正在推流
  * @return YES:正在推流 NO:未推流
+ * @note 可以用该方法判断是否在推流
  */
 
 /****
@@ -1556,9 +1633,10 @@ AlivcLivePusherAudioSampleDelegate;
  * - 1: 打开本地人声检测
  * - 0: 关闭本地人声检测
  * @return
- * - 0: 成功
- * - <0: 失败
- * @note 设置之后，音频音量和说话人uid会分别通过 onMicrophoneVolumeUpdate和  onPlayoutVolumeUpdate 回调
+ *  - 0: 成功
+ *  - <0: 失败
+ * @note 设置之后，音频音量和说话人uid会分别通过 {@link AlivcLivePusherInfoDelegate::onMicrophoneVolumeUpdate:volume: }回调
+ * @note 可以通过调用该接口及相关回调，可以实现声音波纹效果
  */
 - (int)enableAudioVolumeIndication:(int)interval smooth:(int)smooth reportVad:(int)reportVad;
 
@@ -1597,6 +1675,7 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  * @brief 启动屏幕分享
+ * @note 直播连麦场景开启第二路视频推送，可以通过setExternalVideoSource设置外部视频源，通过pushExternalVideoFrame向第二路视频通道输入视频数据
  * @return
  * - 0：成功
  * - 非0：失败
@@ -1612,6 +1691,7 @@ AlivcLivePusherAudioSampleDelegate;
 
 /**
  * @brief 停止屏幕分享
+ * @note 停止第二路视频推送
  * @return
  * - 0：成功
  * - 非0：失败
@@ -1625,6 +1705,39 @@ AlivcLivePusherAudioSampleDelegate;
 */
 - (int)stopScreenShare;
 
+/**
+ * @brief 开启第二路音频流推送
+ * @note 开启后第二路音频流推送后，可以调用addExternalAudioStream添加音频数据源，使用pushExternalAudioStream向第二路音频通道输入音频数据基础
+ * @note 直播连麦场景使用，基础直播不可用
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Enable the second audio stream push
+ * @note After the second audio stream is turned on and pushed, you can call addExternalAudioStream to add an audio data source, and use pushExternalAudioStream to input audio data to the second audio channel.
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+- (int)startLocalDualAudioStream;
+
+/**
+ * @brief 停止第二路音频流推送
+ * @note 直播连麦场景使用，基础直播不可用
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Stop pushing the second audio stream
+ * @return
+ * - YES: success
+ * - NO: failure
+ */
+- (int)stopLocalDualAudioStream;
 
 /**
  * @brief 设置音频profile
@@ -1646,70 +1759,11 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (int)setAudioProfile:(AlivcLiveAudioProfile)audio_profile;
 
-/**
- * @brief 设置变调参数
- * @param value 变调参数，范围：[0.5, 2.0]，1.0表示音调不变，小于1.0表示音调降低，大于1.0表示音调升高，默认1.0
- * @return
- * - 0：成功
- * - 非0：失败
- */
 
-/****
- * @brief Set audio pitch parameters
- * @param value  audio pitch parameters，value：[0.5, 2.0]，1.0 means the pitch remains unchanged, less than 1.0 means the pitch decreases, greater than 1.0 means the pitch increases, the default is 1.0
- * @return
- * - YES: success
- * - NO: failure
- */
-- (int)setAudioEffectPitchValue:(double)value;
 
-/**
- * @brief 设置美声音效模式
- * @param mode 参考 AliLiveAudioEffectBeautifyMode 对应的美声模式
- * @return
- * - 0：成功
- * - 非0：失败
- */
 
-/****
- * @brief Set the sound mode
- * @param mode see AliLiveAudioEffectBeautifyMode
- * @return
- * - YES: success
- * - NO: failure
- */
-- (int)setAudioEffectBeautifyMode:(AliLiveAudioEffectBeautifyMode)mode;
 
-/**
- * @brief 设置均衡器参数
- * @param bandIndex 均衡器段数[0,9]  center frequency [31,62,125,250,500,1000,2000,4000,8000,16000] Hz AliLiveAudioEffectEqualizationBandFrequency
- * @param gain 均衡器增益db   [-15,15]  default 0
- * @return
- * - 0：成功
- * - 非0：失败
- * @note 需要在 setAudioEffectBeautifyMode 之后调用
- */
-- (int)setAudioEffectEqualizationParam:(AliLiveAudioEffectEqualizationBandFrequency)bandIndex gain:(float)gain;
 
-/**
- * @brief 设置混响音效类型
- * @param type 参考AliLiveAudioEffectReverbParamType 对应的混响类型
- * @param value 混响参数值，不同混响类型的取值范围参考 AliLiveAudioEffectReverbParamType中取值说明
- * @return
- * - 0：成功
- * - 非0：失败
- * @note 需要在 setAudioEffectReverbMode之后调用
- */
-
-/****
- * @brief Set the reverb sound effect type
- * @param type see  AliLiveAudioEffectReverbParamType
- * @param value
- * @return
- * - YES: success
- * - NO: failure
- */
-- (int)setAudioEffectReverbParamType:(AliLiveAudioEffectReverbParamType)type value:(float)value;
 
 /**
  * @brief 获取当前视频编码格式
@@ -1726,37 +1780,41 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (AlivcLivePushVideoEncoderModeHardCodec)getVideoCodecType;
 
-/**
- * @brief 更新本地摄像头的预览画面
- * @param view 预览view
- */
-
-/****
- * @brief Update local camera preview
- * @param view camera preview view
- */
-- (void)updateLocalView:(UIView *)view;
 
 /**
  * @brief 关闭音频采集
  * @note 调用此接口后，采集设备关闭
+ * @note 调用此接口，关闭音频采集，不再占用系统麦克风权限，且不再发送音频数据
+ * @note 如果调用此接口后系统仍显示有麦克风权限的占用，请检查是否由其它功能引起
+ * @note 开启音频采集，对应接口：{@link AlivcLivePusher::startAudioCapture:}
+ * @note 如果只需要静音，不关闭音频采集，请参考以下接口：{@link AlivcLivePusher::setMute: }
  */
 
 /****
  * @brief Stop microphone capture
  * @note After calling this interface, the  microphone device is closed
+ * @note Call this interface to turn off audio collection, no longer occupy system microphone permissions, and no longer send audio data
+ * @note If the system still shows microphone permission occupied after calling this interface, please check if it is caused by other functions
+ * @note startAudioCapture, corresponding to the interface: {@link AlivcLivePusher::startAudioCapture:}
+ * @note If you only need to mute without turning off audio capture, please refer to the following interfaces: {@link AlivcLivePusher::setMute:  }
  */
 - (void)stopAudioCapture;
 
 /**
  * @brief 开启音频采集
  * @param keepAlive YES: 停止推流后麦克风采集设备保持开启状态；NO: 停止推流后麦克风采集设备关闭
+ * @note 调用此接口，开始采集音频数据并发送，将会占用系统麦克风权限
+ * @note 关闭音频采集，对应接口：{@link AlivcLivePusher::stopAudioCapture }
+ * @note 如果只需要静音，不关闭音频采集，请参考以下接口：{@link AlivcLivePusher::setMute: }
  */
 
 /****
  * @brief Start microphone capture
  * @param keepAlive YES:
  The microphone  device remains on after stopping push ；NO: The microphone  device is turned off after stopping push
+ * @note Calling this interface to start audio capture and transmission, it will occupy system microphone permissions
+ * @note stopAudioCapture, corresponding to the interface: {@link AlivcLivePusher::stopAudioCapture}
+ * @note If you only need to mute without turning off audio capture, please refer to the following interfaces: {@link AlivcLivePusher::setMute:  }
  */
 - (void)startAudioCapture:(BOOL)keepAlive;
 
@@ -2007,14 +2065,416 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (int)removeExternalAudioStream:(int)streamId;
 
+/**
+ * @brief 设置视频自定义分辨率(直播连麦场景可用，基础直播不可用)
+ * @param videoSize 视频宽高
+ * @return
+ * - <0: 表示失败;
+ * - 0: 表示成功;
+ */
+- (int)setCustomVideoResolution:(CGSize)videoSize;
+
+/**
+ * @brief 设置音频回调参数
+ * @param enable 是否允许数据回调
+ * @param audioSource 回调数据源类型，详见 AliLiveAudioSource
+ * @param config 回调参数设置，详见AliLiveAudioFrameObserverConfig, null时默认参数为48000，1，ReadOnly
+ * @details
+ *  - AliLiveAudioSourcePub、AliLiveAudioSourceMixedAll只支持ReadOnly模式
+ *  - AliLiveAudioSourceRemoteUser不支持修改采样率、通道数
+ * @return 0: sucess
+ *
+ */
+- (int)enableAudioFrameObserver:(bool)enable audioSource: (AliLiveAudioSource)audioSource config:(AliLiveAudioFrameObserverConfig*_Nullable)config;
+
+#pragma mark - "音乐伴奏音效"
+/**
+ * @brief 设置变调参数
+ * @param value 变调参数，范围：[0.5, 2.0]，1.0表示音调不变，小于1.0表示音调降低，大于1.0表示音调升高，默认1.0
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Set audio pitch parameters
+ * @param value  audio pitch parameters，value：[0.5, 2.0]，1.0 means the pitch remains unchanged, less than 1.0 means the pitch decreases, greater than 1.0 means the pitch increases, the default is 1.0
+ * @return
+ * - YES: success
+ * - NO: failure
+ */
+- (int)setAudioEffectPitchValue:(double)value;
+
+/**
+ * @brief 设置变声音效模式
+ * @param mode 参考AlivcLivePushAudioEffectVoiceChangerMode对应的变声音效模式值
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ * @note 推流前和推流过程中调用都生效
+ */
+
+/****
+ * @brief Set the voice change mode
+ * @param mode Reference  AlivcLivePushAudioEffectVoiceChangerMode Values that specify the voice change effects.
+ * @return
+ *  0:success
+ *  != 0:failure
+ * @note You can call this method before or during live push.
+ */
+- (int)setAudioEffectVoiceChangeMode:(AlivcLivePushAudioEffectVoiceChangeMode)mode;
+
+/**
+ * @brief 设置混响音效模式
+ * @param mode 参考AlivcLivePushAudioEffectReverbMode 对应的混响模式
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ * @note 推流前和推流过程中调用都生效
+ */
+
+/****
+ * @brief Set the reverberation mode
+ * @param mode Reference AlivcLivePushAudioEffectReverbMode Values that specify the reverberation effects.
+ * @return
+ *  0:success
+ *  != 0:failure
+ * @note You can call this method before or during live push.
+ */
+- (int)setAudioEffectReverbMode:(AlivcLivePushAudioEffectReverbMode)mode;
+
+/**
+ * @brief 设置美声音效模式
+ * @param mode 参考 AliLiveAudioEffectBeautifyMode 对应的美声模式
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Set the sound mode
+ * @param mode see AliLiveAudioEffectBeautifyMode
+ * @return
+ * - YES: success
+ * - NO: failure
+ */
+- (int)setAudioEffectBeautifyMode:(AliLiveAudioEffectBeautifyMode)mode;
+
+/**
+ * @brief 设置混响音效类型
+ * @param type 参考AliLiveAudioEffectReverbParamType 对应的混响类型
+ * @param value 混响参数值，不同混响类型的取值范围参考 AliLiveAudioEffectReverbParamType中取值说明
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ * @note 需要在 setAudioEffectReverbMode之后调用
+ */
+
+/****
+ * @brief Set the reverb audio effect type
+ * @param type see  AliLiveAudioEffectReverbParamType
+ * @param value
+ * @return
+ * - YES: success
+ * - NO: failure
+ */
+- (int)setAudioEffectReverbParamType:(AliLiveAudioEffectReverbParamType)type value:(float)value;
+
+/**
+ * @brief 设置均衡器参数
+ * @param bandIndex 均衡器段数[0,9]  center frequency [31,62,125,250,500,1000,2000,4000,8000,16000] Hz AliLiveAudioEffectEqualizationBandFrequency
+ * @param gain 均衡器增益db   [-15,15]  default 0
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ * @note 需要在 setAudioEffectBeautifyMode 之后调用
+ */
+- (int)setAudioEffectEqualizationParam:(AliLiveAudioEffectEqualizationBandFrequency)bandIndex gain:(float)gain;
+
+
+/**
+ * @brief 预加载音效文件
+ * @param soundId 用户给该音效文件分配的ID
+ * @param filePath 音效文件路径，支持本地文件和网络url
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ * @note 音效相关接口为同步接口, 建议使用本地文件
+ */
+
+/****
+ * @brief Preload audio effect files
+ * @param soundId The ID assigned by the user to the audio effect file
+ * @param filePath audio effect file path, supports local files and network URLs
+ * @return
+ * - 0：success
+ * - 非0：failure
+ * @note The audio effect related interface is a synchronous interface. It is recommended to use local files.
+ */
+- (int)preloadAudioEffectWithSoundId:(NSInteger)soundId filePath:(NSString *_Nonnull)filePath;
+
+/**
+ * @brief 删除预加载的音效文件
+ * @param soundId 用户给该音效文件分配的ID
+ * @return
+ * - 0：成功
+ * - !=0：失败
+ * @note 音效soundId应与预加载 {@link preloadAudioEffectWithSoundId:filePath:} 时传入的ID相同
+ */
+
+/****
+ * @brief Delete preloaded audio effect files
+ * @param soundId The ID assigned by the user to the audio effect file
+ * @return
+ * - 0：success
+ * - !=0：failure
+ * @note The audio effect soundId should be the same as the ID passed in when preloading {@link preloadAudioEffectWithSoundId:filePath:}
+ */
+- (int)unloadAudioEffectWithSoundId:(NSInteger)soundId;
+
+/**
+ * @brief 开始播放音效
+ * @details 开始播放音效接口，可以多次调用该方法传入不同的soundId和filePath，同时播放多个音效文件，音效文件播放结束后，SDK 会触发 {@link onAudioEffectFinished:} 回调
+ * @param soundId 用户给该音效文件分配的ID，每个音效均有唯一的ID，如果你已通过 {@link preloadAudioEffectWithSoundId:filePath:} 将音效加载至内存，确保这里的soundId与 {@link preloadAudioEffectWithSoundId:filePath:} 设置的soundId相同
+ * @param filePath 文件路径，支持本地文件和网络url
+ * @param config 音效播放配置，详见{@link AliLiveAudioEffectConfig}
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Start playing audio effects
+ * @details Start playing the audio effect interface. You can call this method multiple times to pass in different soundId and filePath to play multiple audio effect files at the same time. After the audio effect file is played, the SDK will trigger the {@link onAudioEffectFinished:} callback.
+ * @param soundId The ID assigned by the user to the audio effect file. Each audio effect has a unique ID. If you have loaded the audio effect into memory through {@link preloadAudioEffectWithSoundId:filePath:}, make sure the soundId here is set with {@link preloadAudioEffectWithSoundId:filePath:} The soundId is the same
+ * @param filePath File path, supports local files and network URLs
+ * @param config Audio effect playback configuration, see {@link AliLiveAudioEffectConfig} for details
+ * @return
+ * - 0：success
+ * - !=0：failure
+ */
+
+- (int)playAudioEffectWithSoundId:(NSInteger)soundId filePath:(NSString *_Nonnull)filePath config:(AliLiveAudioEffectConfig *_Nonnull)config;
+
+
+/**
+ * @brief 停止播放音效
+ * @param soundId 用户给该音效文件分配的ID，每个音效均有唯一的ID，如果你已通过 {@link preloadAudioEffectWithSoundId:filePath:} 将音效加载至内存，确保这里的soundId与 {@link preloadAudioEffectWithSoundId:filePath:} 设置的soundId相同
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Stop playing audio effects
+ * @param soundId The ID assigned by the user to the audio effect file. Each audio effect has a unique ID. If you have loaded the audio effect into memory through {@link preloadAudioEffectWithSoundId:filePath:}, make sure the soundId here is set with {@link preloadAudioEffectWithSoundId:filePath:} The soundId is the same
+ * @return
+ * - 0：success
+ * - !=0：failure
+ */
+- (int)stopAudioEffectWithSoundId:(NSInteger)soundId;
+
+/**
+ * @brief 停止播放所有音效
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Stop playing all audio effect
+ * @return
+ * - 0：success
+ * - !=0：failure
+ */
+- (int)stopAllAudioEffects;
+
+/**
+ * @brief 设置音效推流混音音量
+ * @param soundId 用户给该音效文件分配的ID
+ * @param volume 推流混音音量，范围是：[0, 100]，默认值：50
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ * @note 该方法需要在 {@link playAudioEffectWithSoundId:filePath:config:} 后调用
+ */
+
+/****
+ * @brief Set audio effect push mixing volume
+ * @param soundId The ID assigned by the user to the audio effect file
+ * @param volume Push mix volume, range is: [0, 100], default value: 50
+ * @return
+ * - 0：success
+ * - !=0：failure
+ * @note This method needs to be called after {@link playAudioEffectWithSoundId:filePath:config:}
+ */
+- (int)setAudioEffectPublishVolumeWithSoundId:(NSInteger)soundId volume:(NSInteger)volume;
+
+/**
+ * @brief 获取音效推流混音音量
+ * @param soundId 用户给该音效文件分配的ID
+ * @return
+ * - [0, 100]：音效推流混音音量
+ * - 其他：错误值
+ * @note 音效推流混音音量有效范围为：[0, 100]，该方法需要在  {@link playAudioEffectWithSoundId:filePath:config:} 后调用
+ */
+
+/****
+ * @brief Get the audio effect push mixing volume
+ * @param soundId The ID assigned by the user to the audio effect file
+ * @return
+ * - [0, 100]：audio effect push mixing volume
+ * - Other: error value
+ * @note The valid range of audio effect push mixing volume is: [0, 100]. This method needs to be called after {@link playAudioEffectWithSoundId:filePath:config:}
+ */
+- (int)getAudioEffectPublishVolumeWithSoundId:(NSInteger)soundId;
+
+/**
+ * @brief 设置音效本地播放音量
+ * @param soundId 用户给该音效文件分配的ID
+ * @param volume 音效本地播放音量，范围：[0, 100]，默认值：50
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ * @note 该方法需要在 {@link playAudioEffectWithSoundId:filePath:cycles:publish:} 后调用
+ */
+
+/****
+ * @brief Set the local playback volume of audio effects
+ * @param soundId The ID assigned by the user to the audio effect file
+ * @param volume playback mix volume, range is: [0, 100], default value: 50
+ * @return
+ * - 0：success
+ * - !=0：failure
+ * @note This method needs to be called after {@link playAudioEffectWithSoundId:filePath:config:}
+ */
+- (int)setAudioEffectPlayoutVolumeWithSoundId:(NSInteger)soundId volume:(NSInteger)volume;
+
+/**
+ * @brief 获取音效本地播放音量
+ * @param soundId 用户给该音效文件分配的ID
+ * @return
+ * - [0, 100]：音效本地播放音量
+ * - 其他：错误值
+ * @note 音效本地播放音量有效范围为：[0, 100]，该方法需要在 {@link playAudioEffectWithSoundId:filePath:cycles:publish:} 后调用
+ */
+
+/****
+ * @brief Get the local playback volume of audio effects
+ * @param soundId The ID assigned by the user to the audio effect file
+ * @return
+ * - [0, 100]：audio effect push mixing volume
+ * - Other: error value
+ * @note The valid range of audio effect push mixing volume is: [0, 100]. This method needs to be called after {@link playAudioEffectWithSoundId:filePath:config:}
+ */
+- (int)getAudioEffectPlayoutVolumeWithSoundId:(NSInteger)soundId;
+
+/**
+ * @brief 设置所有音效本地播音量
+ * @param volume 音效本地播放音量，范围：[0, 100]，默认值：50
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Set the local playback volume of all audio effects
+ * @param volume Audio effect local playback volume, range: [0, 100], default value: 50
+ * @return
+ * - 0：success
+ * - !=0：failure
+ */
+- (int)setAllAudioEffectsPlayoutVolume:(NSInteger)volume;
+
+/**
+ * @brief 设置所有音效推流混音音量
+ * @param volume 推流混音音量，范围是：[0, 100]，默认值：50
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Set the mixing volume of all audio effects push streaming
+ * @param volume Push mix volume, range is: [0, 100], default value: 50
+ * @return
+ * - 0：success
+ * - !=0：failure
+ */
+- (int)setAllAudioEffectsPublishVolume:(NSInteger)volume;
+
+/**
+ * @brief 暂停音效
+ * @param soundId 用户给该音效文件分配的ID
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Pause specified audio effect files
+ * @param soundId The ID assigned by the user to the audio effect file
+ * @return
+ * - 0：success
+ * - !=0：failure
+ */
+- (int)pauseAudioEffectWithSoundId:(NSInteger)soundId;
+
+/**
+ * @brief 暂停所有音效
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Pause all audio effects
+ * @return
+ * - 0：success
+ * - !=0：failure
+ */
+- (int)pauseAllAudioEffects;
+
+/**
+ * @brief 恢复指定音效文件
+ * @param soundId 用户给该音效文件分配的ID
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Resume specified audio effect files
+ * @param soundId The ID assigned by the user to the audio effect file
+ * @return
+ * - 0：success
+ * - !=0：failure
+ */
+- (int)resumeAudioEffectWithSoundId:(NSInteger)soundId;
+
+/**
+ * @brief 恢复所有音效文件
+ * @return
+ * - 0：成功
+ * - 非0：失败
+ */
+
+/****
+ * @brief Resume all audio effect files
+ * @return
+ * - 0：success
+ * - !=0：failure
+ */
+- (int)resumeAllAudioEffects;
+
 #pragma mark - "网络测试"
 
 /**
  * @brief 开始网络质量探测
  * @param config 网络探测配置，AliLiveNetworkQualityProbeConfig
  * @details 网络质量探测需要在未推流 startPush之前调用，探测结果，开始推流后不能调用startLastmileDetect
- * - 在3s左右，粗略的结果会在  onLastmileDetectResultWithQuality 中回调
- * - 在30s左右，更多的结果会在 onLastmileDetectResultWithBandWidth 中回调
+ * @note 在3s左右，粗略的结果会在  {@link AlivcLivePusherNetworkDelegate::onLastmileDetectResultWithQuality:networkQuality:} 中回调
+ * @note 在30s左右，更多的结果会在 {@link AlivcLivePusherNetworkDelegate::onLastmileDetectResultWithBandWidth:code:result:} 中回调
  * @return
  * - 0: 成功
  * - <0: 失败
@@ -2024,8 +2484,8 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief Start network quality detection
  * @param config Network detection configuration，AliLiveNetworkQualityProbeConfig
  * @details Network quality detection needs to be called before startPush. As a result of the detection, startLastmileDetect cannot be called after startPush
- * - In about 3s, the rough result will be called back in onLastmileDetectResultWithQuality
- * - In about 30s, more results will be called back in onLastmileDetectResultWithBandWidth
+ * @note In about 3s, the rough result will be called back in {@link AlivcLivePusherNetworkDelegate::onLastmileDetectResultWithQuality:networkQuality:}
+ * - In about 30s, more results will be called back in  {@link AlivcLivePusherNetworkDelegate::onLastmileDetectResultWithBandWidth:code:result:}
  * @return
  *  0:success
  *  != 0:failure
@@ -2128,9 +2588,10 @@ AlivcLivePusherAudioSampleDelegate;
 @required
 
 /**
- * @brief 系统错误回调
+ * @brief 系统设备异常回调
  * @param pusher 推流引擎对象
- * @param error 错误信息，{@link AlivcLivePushError}
+ * @param error 错误信息，参考 AlivcPusherErrorCode
+ * @note 系统设备异常回调，需要销毁引擎重新尝试(stopPush & destory)。
  */
 
 /****
@@ -2341,7 +2802,7 @@ AlivcLivePusherAudioSampleDelegate;
  * @param pusher pusher 推流引擎对象
  * @param upQuality  上行网络质量
  * @param downQuality 下行网络质量
- * @note 当对端网络质量发生变化时触发, 此回调只在互动模式下生效
+ * @note 当本端网络质量发生变化时触发, 此回调只在互动模式下生效
  */
 
 /****
@@ -2692,19 +3153,70 @@ AlivcLivePusherAudioSampleDelegate;
 - (void)onMediaRecordEvent:(AlivcLivePusher *)pusher event:(AlivcLiveRecordMediaEventCode)event recoderStoragePath:(NSString *_Nullable)storagePath;
 
 /**
- * @brief 发送共享流推送状态回调
+ * @brief 音频推流变更回调
  * 注：此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
  * @param pusher 推流引擎对象
- * @param isPushing 推流状态：YES表示开始推流，NO表示停止推流
+ * @param oldState 之前的推流状态，详见  AliLivePublishState
+ * @param newState 当前的推流状态，详见 AliLivePublishState
+ */
+
+/****
+ * @brief The callback for the  audio frame being sent
+ * Note: This callback is available only when livePushMode is set to AlivcLivePushInteractiveMode, that is, when Push SDK is working in interactive mode.
+ * @param pusher The live pusher engine object
+ * @param oldState Previous push status，See  AliLivePublishState
+ * @param newState Current push status，See AliLivePublishState
+ */
+- (void)onAudioPublishStateChanged:(AlivcLivePusher *)pusher oldState:(AliLivePublishState)oldState newState:(AliLivePublishState)newState;
+
+/**
+ * @brief 视频推流变更回调
+ * 注：此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
+ * @param pusher 推流引擎对象
+ * @param oldState 之前的推流状态，详见  AliLivePublishState
+ * @param newState 当前的推流状态，详见 AliLivePublishState
+ */
+
+/****
+ * @brief The callback for the  video frame being sent
+ * Note: This callback is available only when livePushMode is set to AlivcLivePushInteractiveMode, that is, when Push SDK is working in interactive mode.
+ * @param pusher The live pusher engine object
+ * @param oldState Previous push status，See  AliLivePublishState
+ * @param newState Current push status，See AliLivePublishState
+ */
+- (void)onVideoPublishStateChanged:(AlivcLivePusher *)pusher oldState:(AliLivePublishState)oldState newState:(AliLivePublishState)newState;
+
+/**
+ * @brief 屏幕分享推流变更回调
+ * 注：此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
+ * @param pusher 推流引擎对象
+ * @param oldState 之前的推流状态，详见  AliLivePublishState
+ * @param newState 当前的推流状态，详见 AliLivePublishState
  */
 
 /****
  * @brief The callback for the  screen frame being sent
  * Note: This callback is available only when livePushMode is set to AlivcLivePushInteractiveMode, that is, when Push SDK is working in interactive mode.
  * @param pusher The live pusher engine object
+ * @param oldState Previous push status，See  AliLivePublishState
+ * @param newState Current push status，See AliLivePublishState
+ */
+- (void)onScreenSharePublishStateChanged:(AlivcLivePusher *)pusher oldState:(AliLivePublishState)oldState newState:(AliLivePublishState)newState;
+
+/**
+ * @brief 发送第二路音频推送状态回调
+ * 注：此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
+ * @param pusher 推流引擎对象
+ * @param isPushing 推流状态：YES表示开始推流，NO表示停止推流
+ */
+
+/****
+ * @brief The callback for the  the second audio stream push state
+ * Note: This callback is available only when livePushMode is set to AlivcLivePushInteractiveMode, that is, when Push SDK is working in interactive mode.
+ * @param pusher The live pusher engine object
  * @param isPushing push state：YES start pushing，NO stop push
  */
-- (void)onScreenFramePushState:(AlivcLivePusher *)pusher state:(BOOL)isPushing;
+- (void)onLocalDualAudioStreamPushState:(AlivcLivePusher *)pusher state:(BOOL)isPushing;
 @end
 
 /**
@@ -2818,6 +3330,16 @@ AlivcLivePusherAudioSampleDelegate;
 - (void)onDownloadTimeout:(AlivcLivePusher *)pusher;
 
 
+/**
+ * @brief 本地音效播放结束回调
+ * @param soundId 用户给该音效文件分配的唯一ID
+ */
+
+/****
+ * @brief Local audio effect playback end callback
+ * @param soundId The unique ID assigned by the user to the audio effect file
+ */
+- (void)onAudioEffectFinished:(int)soundId;
 @end
 
 /**
@@ -2867,6 +3389,12 @@ AlivcLivePusherAudioSampleDelegate;
  * @brief 通知外置滤镜处理回调，当前版本SDK在互动模式下默认回抛CVPixelBuffer，需要使用onProcessVideoSampleBuffer处理美颜，如果想要回抛纹理ID，需要设置enableLocalVideoTexture
  * @param pusher 推流引擎对象
  * @param sampleBuffer 视频sample data {@link AlivcLiveVideoDataSample}
+ * @note 美颜SDK有两种处理方式：1.在SDK抛出的sampleBuffer.pixelBuffer上直接处理数据，不生成新的pixbuffer; 2.生成新的newPixelBuffer，在新的newPixelBuffer上处理美颜，这种情况需要将新生成的newPixelBuffer写会SDK，可以参考如下示例代码：
+ *  - (BOOL)onProcessVideoSampleBuffer:(AlivcLivePusher *)pusher sampleBuffer:(AlivcLiveVideoDataSample *)sampleBuffer{
+ *       CVPixelBufferRef newPixelBuffer = thirdparty_process(sampleBuffer.pixelBuffer);
+        sampleBuffer.pixelBuffer = newPixelBuffer;
+        return YES;
+ *  }
  * @return
  * - YES: 需要写回SDK
  * - NO: 不需要写回SDK
@@ -2989,17 +3517,120 @@ AlivcLivePusherAudioSampleDelegate;
  */
 @protocol AlivcLivePusherAudioSampleDelegate <NSObject>
 /**
- * @brief 设备采集的原始音频数据，支持修改
+ * @brief 设备采集的原始音频数据，支持修改，采集裸数据回调
+ * @details 默认关闭，需要通过enableAudioFrameObserver : YES audioSource: AliLiveAudioSourceCaptured 开启
+ *
+ *  - 该接口支持设置采样率、声道数
+ *  - 该接口支持读写模式
+ *
  * @param pusher 推流引擎对象
  * @param audioSample 音频数据sample, {@link AlivcLivePusherAudioDataSample}
+ * @note 请不要在此回调函数中做任何耗时操作，否则可能导致声音异常
  */
 
 /****
  * @brief The original audio data collected by the device, You can modify the data.
+ * @details It is turned off by default and needs to be turned on by enableAudioFrameObserver: YES audioSource: AliLiveAudioSourceCaptured
+ *  - This interface supports setting the sampling rate and number of channels
+ *  - This interface supports read and write modes
  * @param pusher The live pusher engine object
  * @param audioSample audio sample data {@link AlivcLivePusherAudioDataSample}
+ * @note Please do not do any time-consuming operations in this callback function, otherwise it may cause abnormal sound
  */
 - (void)onAudioSampleCallback:(AlivcLivePusher *)pusher audioSample:(AlivcLivePusherAudioDataSample*)audioSample;
+
+/**
+ * @brief 3A后数据回调
+ * @details 默认关闭，需要通过enableAudioFrameObserver : YES audioSource: AliLiveAudioSourceProcessCaptured 开启
+ *
+ *  - 该接口支持设置采样率、声道数
+ *  - 该接口支持读写模式
+ *
+ * @param pusher 推流引擎对象
+ * @param audioSample 音频数据sample, {@link AlivcLivePusherAudioDataSample}
+ * @note 请不要在此回调函数中做任何耗时操作，否则可能导致声音异常
+ */
+
+/****
+ * @brief Data callback after 3A
+ * @details It is turned off by default and needs to be turned on by enableAudioFrameObserver: YES audioSource: AliLiveAudioSourceProcessCaptured
+ *  - This interface supports setting the sampling rate and number of channels
+ *  - This interface supports read and write modes
+ * @param pusher The live pusher engine object
+ * @param audioSample audio sample data {@link AlivcLivePusherAudioDataSample}
+ * @note Please do not do any time-consuming operations in this callback function, otherwise it may cause abnormal sound
+ */
+- (void)onProcessAudioSampleCallback:(AlivcLivePusher *)pusher audioSample:(AlivcLivePusherAudioDataSample*)audioSample;
+
+/**
+ * @brief 推流数据回调
+ * @details 默认关闭，需要通过enableAudioFrameObserver : YES audioSource: AliLiveAudioSourcePub 开启
+ *
+ *  - 该接口支持设置采样率、声道数
+ *  - 该接口只支持只读模式
+ *
+ * @param pusher 推流引擎对象
+ * @param audioSample 音频数据sample, {@link AlivcLivePusherAudioDataSample}
+ * @note 请不要在此回调函数中做任何耗时操作，否则可能导致声音异常
+ */
+
+/****
+ * @brief Push data callback
+ * @details It is turned off by default and needs to be turned on by enableAudioFrameObserver: YES audioSource: AliLiveAudioSourcePub
+ *  - This interface supports setting the sampling rate and number of channels
+ *  - This interface supports read only modes
+ * @param pusher The live pusher engine object
+ * @param audioSample audio sample data {@link AlivcLivePusherAudioDataSample}
+ * @note Please do not do any time-consuming operations in this callback function, otherwise it may cause abnormal sound
+ */
+- (void)onPublishAudioSampleCallback:(AlivcLivePusher *)pusher audioSample:(AlivcLivePusherAudioDataSample*)audioSample;
+
+/**
+ * @brief 播放数据回调
+ * @details 默认关闭，需要通过enableAudioFrameObserver : YES audioSource: AliLiveAudioSourcePlayback 开启
+ *
+ *  - 该接口支持设置采样率、声道数
+ *  - 该接口只支持只读模式
+ *
+ * @param pusher 推流引擎对象
+ * @param audioSample 音频数据sample, {@link AlivcLivePusherAudioDataSample}
+ * @note 请不要在此回调函数中做任何耗时操作，否则可能导致声音异常
+ */
+
+/****
+ * @brief Play data callback
+ * @details It is turned off by default and needs to be turned on by enableAudioFrameObserver: YES audioSource: AliLiveAudioSourcePlayback
+ *  - This interface supports setting the sampling rate and number of channels
+ *  - This interface supports read only modes
+ * @param pusher The live pusher engine object
+ * @param audioSample audio sample data {@link AlivcLivePusherAudioDataSample}
+ * @note Please do not do any time-consuming operations in this callback function, otherwise it may cause abnormal sound
+ */
+- (void)onPlaybackAudioSampleCallback:(AlivcLivePusher *)pusher audioSample:(AlivcLivePusherAudioDataSample*)audioSample;
+
+/**
+ * @brief 推流数据和播放数据混音后回调
+ * @details 默认关闭，需要通过enableAudioFrameObserver : YES audioSource: AliLiveAudioSourceMixedAll 开启
+ *
+ *  - 该接口支持设置采样率、声道数
+ *  - 该接口只支持只读模式
+ *
+ * @param pusher 推流引擎对象
+ * @param audioSample 音频数据sample, {@link AlivcLivePusherAudioDataSample}
+ * @note 请不要在此回调函数中做任何耗时操作，否则可能导致声音异常
+ */
+
+/****
+ * @brief Callback after mixing of push data and playback data
+ * @details It is turned off by default and needs to be turned on by enableAudioFrameObserver: YES audioSource: AliLiveAudioSourceMixedAll
+ *  - This interface supports setting the sampling rate and number of channels
+ *  - This interface supports read only modes
+ * @param pusher The live pusher engine object
+ * @param audioSample audio sample data {@link AlivcLivePusherAudioDataSample}
+ * @note Please do not do any time-consuming operations in this callback function, otherwise it may cause abnormal sound
+ */
+- (void)onMixedAllAudioSampleCallback:(AlivcLivePusher *)pusher audioSample:(AlivcLivePusherAudioDataSample*)audioSample;
+
 
 @end
 

@@ -1199,6 +1199,27 @@ typedef NS_ENUM(NSInteger, AliLiveConnectionStatusChangeReason) {
 };
 
 /**
+ * @brief 推流状态
+*/
+typedef NS_ENUM(NSInteger, AliLivePublishState) {
+    /** 0: SDK初始推流状态
+     */
+    AliLiveStatsPublishIdle = 0,
+    /** 1: 未推流状态，可能是因为:
+     * - 已设置停止推送媒体流
+     * - 推送媒体流失败
+     */
+    AliLiveStatsNoPublish   = 1,
+    /** 2: 推流链接建立过程中
+     */
+    AliLiveStatsPublishing  = 2,
+    /** 3: 推流成功
+     */
+    AliLiveStatsPublished   = 3,
+};
+
+
+/**
  * @brief 订阅状态
  */
 typedef NS_ENUM(NSInteger, AliLiveSubscribeState) {
@@ -1238,4 +1259,55 @@ typedef NS_ENUM(NSInteger, AlivcLiveVideoCodecManufacturer) {
     AlivcLiveVideoCodecManufacturerVideoToolbox = 0x20,
     AlivcLiveVideoCodecManufacturerMediaCodec = 0x30,
     AlivcLiveVideoCodecManufacturerUnknown = 0xFFFF,
+};
+
+/**
+ * @brief 音频流类型
+ */
+typedef NS_ENUM(NSUInteger, AliLiveAudioStreamType) {
+    /** 暂位符，无意义 */
+    AliLiveAudioStreamTypeNo   = 0,
+    /** 麦克风 */
+    AliLiveAudioStreamTypeMic  = 1,
+    /** 第二流 */
+    AliLiveAudioStreamTypeDual = 2,
+    /** 麦克风 + 第二流 */
+    AliLiveAudioStreamTypeBoth = 3,
+};
+
+/**
+ * @brief 音频数据源类型
+ */
+typedef NS_ENUM(NSInteger, AliLiveAudioSource) {
+    /** 采集的音频数据 */
+    AliLiveAudioSourceCaptured = 0,
+    /** 3A后的音频数据 */
+    AliLiveAudioSourceProcessCaptured = 1,
+    /** 推流的音频数据 */
+    AliLiveAudioSourcePub = 2,
+    /** 播放的音频数据 */
+    AliLiveAudioSourcePlayback = 3,
+    /** 推流和播放混音后的音频数据 */
+    AliLiveAudioSourceMixedAll = 4,
+    /** 拉流的远端音频数据 */
+    AliLiveAudioSourceRemoteUser = 5,
+};
+
+/**
+ * @brief 音频数据回调模式
+ */
+typedef NS_ENUM(NSInteger, AliLiveAudioFrameObserverOperationMode) {
+    AliLiveAudioFrameObserverOperationModeReadOnly = 0,
+    AliLiveAudioFrameObserverOperationModeWriteOnly = 1,
+    AliLiveAudioFrameObserverOperationModeReadWrite = 2
+};
+
+/**
+ * @brief 音频数据回调自定义参数
+ */
+typedef NS_OPTIONS(NSInteger, AliLiveAudioFrameObserverUserDefinedInfoBitMask) {
+    /* onMixedAllAudioFrame回调混外部推流的音频 **/
+    AliLiveAudioFrameObserverUserDefinedInfoBitMaskMixExCapture = 1 << 0,
+    /* onMixedAllAudioFrame回调混外部渲染的音频 **/
+    AliLiveAudioFrameObserverUserDefinedInfoBitMaskMixExRender = 1 << 1,
 };

@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface AlivcLivePusherAudioDataSample : NSObject
 
 @property (nonatomic, assign) long dataPtr;//强制转换成(uint8_t*)dataPtr即为PCM数据buffer内存首地址 Forcefully converted to (uint8_t*)dataPtr, which is the memory address of the PCM data buffer
-@property (nonatomic, assign) int numOfSamples;//数据总大小为numOfSamples*bytesPerSample Total data size numOfSamples*bytesPerSample
+@property (nonatomic, assign) int numOfSamples;//数据总大小为numOfSamples*bytesPerSample*numOfChannels Total data size numOfSamples*bytesPerSample*numOfChannels
 @property (nonatomic, assign) int bytesPerSample;
 @property (nonatomic, assign) int numOfChannels;
 @property (nonatomic, assign) int samplesPerSec;
@@ -42,6 +42,21 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int publishVolume;
 /** 指定绑定的音频流 1-第二音频流，0-MIC流  默认值：0*/
 @property (nonatomic, assign) int publishStream;
+@end
+
+/**
+ * @brief 音频数据回调参数设置
+ *
+ */
+@interface AliLiveAudioFrameObserverConfig : NSObject
+/* 回调音频采样率 */
+@property (nonatomic, assign)AlivcLivePushAudioSampleRate sampleRate;
+/* 回调音频声道数 */
+@property (nonatomic, assign)AlivcLivePushAudioChannel channels;
+/* 回调模式 */
+@property (nonatomic, assign)AliLiveAudioFrameObserverOperationMode mode;
+/* 自定义参数 */
+@property (nonatomic, assign)AliLiveAudioFrameObserverUserDefinedInfoBitMask userDefinedInfo;
 @end
 
 /**
@@ -130,6 +145,31 @@ NS_ASSUME_NONNULL_BEGIN
  * default: AlivcLivePlayVideoStreamTypeCamera
  */
 @property (nonatomic, assign) AlivcLivePlayVideoStreamType videoStreamType;
+
+/**
+ * @brief 播放的音频流类型
+ * @note AliLiveAudioStreamTypeNo枚举无意义，不要设置该值
+ * default: AliLiveAudioStreamTypeMic 麦克风流
+ */
+
+/****
+ * @brief audio stream type
+ * default: AliLiveAudioStreamTypeMic microphone stream
+ */
+@property (nonatomic, assign) AliLiveAudioStreamType audioStreamType;
+
+/**
+ * @brief 远端用户退出房间后是否自动停止播放
+ * default：true
+ * @note 远端用户退出房间后，当前SDK是自动调用了停止播放(stopPlay)；如果不想要自动停止播放，可以将该开关设置成false，SDK将不在自动停止播放
+ */
+
+/****
+ * @brief Whether the remote user will automatically stop playing after leaving the room
+ * default：true
+ * @note After the remote user leave the room, the current SDK automatically calls stopPlay; if you do not want to automatically stop playback, you can set the switch to false, and the SDK will no longer automatically stop playback.
+ */
+@property (nonatomic, assign) BOOL autoStoppedPlayWhenUserLeaved;
 @end
 
 
@@ -211,6 +251,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) AlivcLiveMixSourceType sourceType;
 
+/**
+ * 子画面的背景图URL
+ *  当用户关闭摄像头或未进入房间时，会在布局位置填充为此图片。
+ */
+
+/****
+ * background image url
+ */
+@property (nonatomic, copy) NSString *backgroundImageUrl;
+
 @end
 
 /**
@@ -276,6 +326,23 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL onlyLocalPlay;
 /** 是否替换掉MIC，默认值：NO */
 @property (nonatomic, assign) BOOL replaceMic;
+/** 循环次数，可以设置-1(无限循环)或者>0的正整数次，其他值无效，默认值：-1 */
+@property (nonatomic, assign) int loopCycles;
+/** 起播位置，单位：ms，默认值：0 */
+@property (nonatomic, assign) NSInteger startPosMs;
+/** 推流音量，取值范围[0-100]，默认值：50 */
+@property (nonatomic, assign) int publishVolume;
+/** 播放音量，取值范围[0-100]，默认值：50 */
+@property (nonatomic, assign) int playoutVolume;
+
+@end
+
+/**
+ * @brief 音频音效播放配置
+ */
+@interface AliLiveAudioEffectConfig : NSObject
+/** 是否推流，默认值：NO */
+@property (nonatomic, assign) BOOL needPublish;
 /** 循环次数，可以设置-1(无限循环)或者>0的正整数次，其他值无效，默认值：-1 */
 @property (nonatomic, assign) int loopCycles;
 /** 起播位置，单位：ms，默认值：0 */
