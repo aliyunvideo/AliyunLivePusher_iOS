@@ -1311,3 +1311,17 @@ typedef NS_OPTIONS(NSInteger, AliLiveAudioFrameObserverUserDefinedInfoBitMask) {
     /* onMixedAllAudioFrame回调混外部渲染的音频 **/
     AliLiveAudioFrameObserverUserDefinedInfoBitMaskMixExRender = 1 << 1,
 };
+
+/**
+ * @brief 本地静音模式
+*/
+typedef NS_ENUM(NSInteger, AliLiveMuteLocalAudioMode) {
+    /** 默认模式(静音全部，包括麦克风及外部输入音频) */
+    AliLiveMuteAudioModeDefault = 0,
+    /** 静音全部(包括麦克风及外部输入音频) */
+    AliLiveMuteAllAudioMode,
+    /** 只静音麦克风 */
+    AliLiveMuteOnlyMicAudioMode,
+    /** 占位符，无意义 */
+    AliLiveMuteLocalAudioMax,
+};

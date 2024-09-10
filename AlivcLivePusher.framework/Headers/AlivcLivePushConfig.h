@@ -740,6 +740,16 @@
  */
 @property (nonatomic, assign) BOOL enableRemoteVideoFrameObserver;
 
+/**
+ * @brief 是否开启高清预览 （高清预览模式下，调整推流分辨率不重启采集）
+ * default : true
+ */
+
+/****
+ * @brief Whether to enable HD preview (In HD preview mode, adjusting the streaming resolution does not restart the collection)
+ * default : true
+ */
+@property (nonatomic, assign) BOOL enableHDPreview;
 
 /**
  * @brief 直播连麦场景透传RTC extra信息字段

@@ -631,6 +631,26 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (void)setMute:(bool)mute;
 
+/**
+ * @brief 停止/恢复本地音频数据发送
+ * @param mute  YES表示静音本地音频，发送静音帧; NO表示取消静音;
+ * @param mode  静音模式，静音模式分三种，详见 {@link AliLiveMuteLocalAudioMode}
+ * @return
+ * - 0: 成功
+ * - 非0: 失败
+ * @note 静音是指音频流发送静音帧,采集和编码模块仍然在工作，仍然占用系统麦克风权限
+ * @note 如果希望不再占用系统麦克风权限，即：关闭音频采集，可调用接口：{@link AlivcLivePusher::stopAudioCapture }
+ */
+
+/****
+ * @brief Mute the audio stream
+ * @param mute  true:mute false:Normal
+ * @param mode  mute mode. There are three types of mute modes. For details, see {@link AliLiveMuteLocalAudioMode}
+ * @note Call this interface to control whether the audio stream is muted; Even when muted, the system still occupies microphone permissions and sends muted audio data
+ * @note If you want to no longer occupy system microphone permissions, that is, turn off audio collection, please refer to the interface：{@link AlivcLivePusher::stopAudioCapture }
+ */
+- (void)setMute:(BOOL)mute mode:(AliLiveMuteLocalAudioMode)mode;
+
 
 /**
  * @brief 设置推流模式
@@ -1883,6 +1903,36 @@ AlivcLivePusherAudioSampleDelegate;
 - (int)startBGMWithMusicPathAsync:(NSString *)path config:(AlivcLiveBGMConfig *_Nonnull)config;
 
 /**
+ * @brief 获取伴奏文件时长, 单位为毫秒
+ * @return
+ * - >=0: 伴奏文件时长
+ * - <0: 返回错误码
+ */
+
+/****
+ * @brief Get the duration of the music file, in milliseconds
+ * @return
+ * - >=0: Music file duration
+ * - <0: Return error code
+ */
+- (int)getBGMDuration;
+
+/**
+ * @brief 获取伴奏文件播放进度，单位为毫秒
+ * @return
+ * - >=0: 伴奏文件播放进度
+ * - <0: 返回错误码
+ */
+
+/****
+ * @brief Get the music file playback progress, in milliseconds
+ * @return
+ * - >=0: Music file playback progress
+ * - <0: Return error code
+ */
+- (int)getBGMCurrentPosition;
+
+/**
  * @brief 启用外部视频输入源
  * @param enable
  * - YES 开启
@@ -2086,6 +2136,40 @@ AlivcLivePusherAudioSampleDelegate;
  *
  */
 - (int)enableAudioFrameObserver:(bool)enable audioSource: (AliLiveAudioSource)audioSource config:(AliLiveAudioFrameObserverConfig*_Nullable)config;
+
+
+/**
+ * @brief 设置相机流视频编码属性
+ * @details 该方法用于设置相机流视频编码属性对应的视频参数，如分辨率、帧率、码率等
+ * 所有设置的参数都有相应的范围限制，如果设置的参数不在有效范围内，SDK会自动调节
+ * @param config 预定义的编码属性，详见 {@link AliLiveVideoEncoderConfiguration}
+*/
+
+/****
+ * @brief Set the camera stream video encoding properties
+ * @details This method is used to set the video parameters corresponding to the camera stream video encoding properties, such as resolution, frame rate, bit rate, etc.
+ * All set parameters have corresponding range limits. If the set parameters are not within the valid range, the SDK will automatically adjust
+ * @param config Predefined encoding properties, see {@link AliLiveVideoEncoderConfiguration}
+*/
+- (void)setVideoEncoderConfiguration:(AliLiveVideoEncoderConfiguration* _Nonnull)config;
+
+/**
+ * @brief 设置自定义参数
+ * @param param   自定义参数
+ * @return
+ * - 0: 成功
+ * - 非0: 失败
+ */
+
+/****
+ * @brief Set custom parameters
+ * @param param   Custom parameters
+ * @return
+ *  0:success
+ *  != 0:failure
+ */
+- (int)setParameter:(NSString * _Nonnull)param;
+
 
 #pragma mark - "音乐伴奏音效"
 /**
