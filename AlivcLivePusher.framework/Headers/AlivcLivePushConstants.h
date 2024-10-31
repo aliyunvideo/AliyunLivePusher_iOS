@@ -739,7 +739,7 @@ typedef NS_ENUM(NSInteger, AlivcLiveBufferType) {
     AlivcLiveBufferType_Texture,
     /** CVPixelBuffer */
     AlivcLiveBufferType_CVPixelBuffer,
-    /** 文件路径 */
+    /** file path */
     AlivcLiveBufferType_File,
 };
 
@@ -1324,4 +1324,38 @@ typedef NS_ENUM(NSInteger, AliLiveMuteLocalAudioMode) {
     AliLiveMuteOnlyMicAudioMode,
     /** 占位符，无意义 */
     AliLiveMuteLocalAudioMax,
+};
+
+/**
+ * @brief 本地音频采集状态回调
+ */
+typedef NS_ENUM(NSInteger, AliLiveLocalAudioStateType) {
+    AliLiveLocalAudioStateTypeStarting = 0,
+    AliLiveLocalAudioStateTypeStarted = 1,
+    AliLiveLocalAudioStateTypeStopping = 2,
+    AliLiveLocalAudioStateTypeStopped = 3,
+};
+
+/**
+ * @brief 本地视频采集状态回调
+ */
+typedef NS_ENUM(NSInteger, AliLiveLocalVideoStateType) {
+    AliLiveLocalVideoStateTypeStarting = 0,
+    AliLiveLocalVideoStateTypeStarted = 1,
+    AliLiveLocalVideoStateTypeStopping = 2,
+    AliLiveLocalVideoStateTypeStopped = 3,
+};
+
+/**
+* @brief 镜像相关模式
+*/
+typedef NS_ENUM(NSUInteger, AliLiveVideoPipelineMirrorMode) {
+   /** 预览和编码均关闭镜像 */
+   AliLiveVideoPipelineMirrorModeNoMirror = 0,
+   /** 预览和编码均打开镜像 */
+   AliLiveVideoPipelineMirrorModeBothMirror = 1,
+   /** 仅预览打开镜像 */
+   AliLiveVideoPipelineMirrorModeOnlyPreviewMirror = 2,
+   /** 仅推流打开镜像 */
+   AliLiveVideoPipelineMirrorModeOnlyPublishMirror = 3,
 };

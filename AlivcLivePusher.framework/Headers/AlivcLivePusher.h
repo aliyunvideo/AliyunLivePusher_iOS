@@ -1839,6 +1839,28 @@ AlivcLivePusherAudioSampleDelegate;
 - (void)startAudioCapture:(BOOL)keepAlive;
 
 /**
+ * @brief 开启音频播放
+ * @note 此接口可以控制提前打开音频播放，如果不设置，则SDK会在订阅到音频流后自动打开音频播放
+ */
+
+/****
+ * @brief Enable audio playback
+ * @note This interface can control the opening of audio playback in advance. If not set, the SDK will automatically open audio playback after subscribing to the audio stream.
+ */
+- (void)startAudioPlayer;
+
+/**
+ * @brief 关闭音频播放
+ * @note 此接口可以控制关闭音频播放，与 {@link startAudioPlayer} 对应
+ */
+
+/****
+ * @brief Turn off audio playback
+ * @note This interface can control turning off audio playback, corresponding to {@link startAudioPlayer}
+ */
+- (void)stopAudioPlayer;
+
+/**
  * @brief 设置频道模式
  * @details 根据业务需求可以配置不同的频道模式，AliRTC会根据不用的频道模式模式采用不用的策略，目前主要提供通信模式(默认)、互动模式、低延迟互动直播模式
  *
@@ -1862,14 +1884,6 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (int)sendDataChannelMessage:(NSString *)message;
 
-/**
- * @brief 设置自定义参数
- * @param param   自定义参数
- * @return
- * - 0: 成功
- * - 非0: 失败
- */
-- (int)setParameter:(NSString *)param;
 
 /**
  * @brief 获取自定义参数
@@ -1995,6 +2009,27 @@ AlivcLivePusherAudioSampleDelegate;
  * @note If the return value is 0x01070102, it means that the current buffer queue is full and you need to wait before continuing to transmit data.
 */
 - (int)pushExternalVideoFrame:(AlivcLiveVideoDataSample *_Nonnull)frame sourceType:(AliLiveVideoSource)type;
+
+/**
+ * @brief 设置是否启用外部音频输入源
+ * @param enable YES:开启; NO:关闭
+ * @param sampleRate 采样率 16k, 48k...
+ * @param channelsPerFrame 声道数 1:单声道; 2:双声道
+ * @return
+ * - >=0: 成功
+ * - <0: 失败
+ */
+
+/****
+ * @brief Set whether to enable external audio input source
+ * @param enable YES: Enable; NO: Disable
+ * @param sampleRate samplerate 16k, 48k...
+ * @param channelsPerFrame Channels: 1: mono; 2:stereo
+ * @return
+ * - >=0: success
+ * - <0: failure
+ */
+- (int)setExternalAudioSource:(BOOL)enable withSampleRate:(NSUInteger)sampleRate channelsPerFrame:(NSUInteger)channelsPerFrame;
 
 /**
  * @brief 新增外部音频流
@@ -2170,6 +2205,41 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (int)setParameter:(NSString * _Nonnull)param;
 
+
+/**
+ * @brief 订阅视频数据
+*/
+- (void)registerVideoSampleObserver;
+
+/**
+ * @brief 取消订阅视频数据，调用后onProcessVideoSampleBuffer不回回调
+*/
+- (void)unregisterVideoSampleObserver;
+
+/**
+ * @brief 设置预览和推流镜像能力
+ * @param mirrorMode 设置镜像的模式
+ * @return
+ * - 0: 设置成功
+ * - <0: 设置失败
+ *
+ * @note
+ * - 此接口在入会前和入会后均可以动态设置，SDK内部会记录状态，并在可以操作预览及编码的时候对视频进行操作；
+ * - 此接口与setPreviewMirror & setPushMirror里面的mirror重合，使用时只要使用其中一个即可
+ */
+
+/****
+ * @brief Set up preview and pushing mirror
+ * @param mirrorMode mirror mode
+ * @return
+ *  0:success
+ *  != 0:failure
+ *
+ * @note
+ * - This interface can be dynamically set before and after joining the meeting. The SDK will record the status internally and operate the video when preview and encoding can be operated;
+ * - This interface overlaps with the mirror in setPreviewMirror & setPushMirror. You only need to use one of them when using it.
+ */
+- (int)setVideoMirrorMode:(AliLiveVideoPipelineMirrorMode)mirrorMode;
 
 #pragma mark - "音乐伴奏音效"
 /**
@@ -3155,6 +3225,30 @@ AlivcLivePusherAudioSampleDelegate;
  */
 - (void)onMicrophoneVolumeUpdate:(AlivcLivePusher *)pusher volume:(int)volume;
 
+
+/**
+ * @brief 加入频道回调
+ * @details 互动模式下调用startPushWithURL时，会先加入RTC频道，该回调表示成功/失败加入频道，并且返回频道加入的相关信息
+ * @param pusher 推流引擎对象
+ * @param result 加入频道结果
+ * - 0：成功
+ * - 非0：失败
+ * @param channel 加入频道名
+ * @param userId   用户ID
+ */
+
+/****
+ * @brief Join channel callback
+ * @details When startPushWithURL is called in interactive mode, the RTC channel will be added first. This callback indicates success/failure to join the channel and returns relevant information about channel joining
+ * @param pusher The live pusher engine object
+ * @param result Join channel results
+ *  0:success
+ *  != 0:failure
+ * @param channel channel id
+ * @param userId   user id
+ */
+- (void)onJoinChannelResult:(AlivcLivePusher *)pusher result:(int)result channel:(NSString *_Nonnull)channel userId:(NSString *_Nonnull)userId;
+
 /**
  * @brief 有用户加入房间回调(只针对直播连麦场景生效)
  * 注：此回调只在livePushMode为AlivcLivePushInteractiveMode，即只在直播SDK工作在互动模式下才可以使用
@@ -3301,6 +3395,36 @@ AlivcLivePusherAudioSampleDelegate;
  * @param isPushing push state：YES start pushing，NO stop push
  */
 - (void)onLocalDualAudioStreamPushState:(AlivcLivePusher *)pusher state:(BOOL)isPushing;
+
+/**
+ * @brief 本地音频采集设备状态回调
+ * @param pusher 推流引擎对象
+ * @param state  设备状态，AliLiveLocalAudioStateType类型
+ * @note startAudioCapture 和 stopAudioCapture的结果回调
+ */
+
+/****
+ * @brief Local audio record device status callback
+ * @param pusher The live pusher engine object
+ * @param state  Device status, AliLiveLocalAudioStateType type
+ * @note The result callbacks of startAudioCapture and stopAudioCapture
+ */
+- (void)onLocalAudioStateChanged:(AlivcLivePusher *)pusher state:(AliLiveLocalAudioStateType)state message:(NSString *_Nullable)msg;
+
+/**
+ * @brief 本地视频采集设备状态回调
+ * @param pusher 推流引擎对象
+ * @param state  设备状态，AliLiveLocalVideoStateType类型
+ * @note enableLocalCamera的结果回调
+ */
+
+/****
+ * @brief Local video capture device status callback
+ * @param pusher The live pusher engine object
+ * @param state  Device status, AliLiveLocalVideoStateType type
+ * @note  The result callbacks of enableLocalCamera
+ */
+- (void)onLocalVideoStateChanged:(AlivcLivePusher *)pusher state:(AliLiveLocalVideoStateType)state message:(NSString *_Nullable)msg;
 @end
 
 /**

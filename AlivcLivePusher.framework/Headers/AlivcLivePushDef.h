@@ -42,6 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int publishVolume;
 /** 指定绑定的音频流 1-第二音频流，0-MIC流  默认值：0*/
 @property (nonatomic, assign) int publishStream;
+/** 送入数据的时延控制，单位10ms */
+@property (nonatomic, assign) int pushBufferSize;
 @end
 
 /**
